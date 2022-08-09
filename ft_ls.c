@@ -6,41 +6,86 @@
 /*   By: rvuorenl <rvuorenl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/25 18:55:37 by rvuorenl          #+#    #+#             */
-/*   Updated: 2022/08/09 14:46:19 by rvuorenl         ###   ########.fr       */
+/*   Updated: 2022/08/09 16:00:14 by rvuorenl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
+void	error_notfound(char *filename)
+{
+	ft_printf("ls: %s: No such file or directory\n", filename);
+}
+
 void	exit_usage(void)
 {
-	ft_printf("usage: ls [-ABCFGHLOPRSTUWabcdefghiklmnopqrsuwx1] [file ...]\n")
+	ft_printf("usage: ls [-ABCFGHLOPRSTUWabcdefghiklmnopqrstuwx1] [file ...]\n")
 	exit(1);
 }
 
-void	read_options(char *argv, t_info *info)
+void	exit_illegal(void)
+{
+	ft_printf("ls: illegal option -- -\n");
+	exit_usage();
+}
+
+int	option_validity(char *str)
+{
+	int	i;
+	int	dash;
+
+	dash = 0;
+	i = -1;
+	while (str[++i])
+	{
+		if (str[i] == '-')
+			dash++;
+	}
+	if (dash > 1)
+		return (0);		//	too many '-', exit_illegal
+	return (1);			//	valid option
+}
+
+void	shift_options(char *argv, t_info *info)
+{
+	int	i;
+	int	j;
+
+	i = -1;
+	while (argv[++i])
+	{
+		j = -1;
+		while (OPTIONS[++j])	//	traverse the valid options
+		{
+			if (OPTIONS[j] == argv[i])	//	compare with the char in argv
+			{
+				if (info->options ^ (1 << j))	//	if not on already
+					info->options |= (1 << j);	//	turn the correct option on
+			}
+		}
+	}
+}
+
+void	read_options(int argc, char **argv, t_info *info)
 {
 	int	i;
 
-	i = 0;
-	if (argv[0] == '-' && argv[1] == '-')
+	i = 1;
+	while (i < argc && argv[i][0] == '-')
 	{
-		exit_usage();
+		if (argv[i][0] == '-' && argv[i][1] == '-' && argv[i][2] == '\0')
+		{
+			info->arguments = argc - i - 1;
+			return ;
+		}
+		else if (!(option_validity(argv[i])))
+			exit_illegal();
+		else
+			shift_options(&argv[i][1], info);	//	start from the next to '-'
+		i++;
 	}
-
-
-// // 	lRart
-// typedef	enum e_options
-// {
-// 	LONG = 1,			000001
-// 	RECURSIVE = 2,		000010
-// 	HIDDEN = 4,			000100
-// 	REVERSE = 8,		001000
-// 	SORT_TIME = 16		010000
-// 	/*
-// 	BONUS OPTIONS
-// 	*/
-// }t_options;
+	if (i < argc)
+		info->arguments = argc - i;
 }
 
 void	reset_info(t_info *info)
@@ -77,7 +122,8 @@ int main(int argc, char **argv)
 	t_info			info;
 
 	reset_info(&info);
-	read_options(argv[1], &info);
+	if (argc > 1)
+		read_options(argc, argv, &info);
 	ft_ls(argc, argv, &info);
 }
 

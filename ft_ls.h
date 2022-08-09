@@ -6,7 +6,7 @@
 /*   By: rvuorenl <rvuorenl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/25 19:01:47 by rvuorenl          #+#    #+#             */
-/*   Updated: 2022/08/09 14:44:10 by rvuorenl         ###   ########.fr       */
+/*   Updated: 2022/08/09 15:55:56 by rvuorenl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,22 +33,24 @@ typedef	struct	s_node
 	struct s_node	*prev;
 	struct s_node	*next;
 	int				type;	// 4 directory, 8 file, 0 other.
+	// int				found;
 }				t_node;
 
 typedef	struct	s_info
 {
 	uint16_t	options;
 	char		*path;
+	int			arguments;	// # of files/dirs to ls: ls author file1 file2 = 3
 
 }				t_info;
 
-typedef	struct	s_dirlist
-{
-	char			*name;
-	struct s_node	*prev;
-	struct s_node	*next;
-	int				type;	// 4 directory, 8 file, 0 other.
-}				t_dirlist;
+// typedef	struct	s_dirlist
+// {
+// 	char			*name;
+// 	struct s_node	*prev;
+// 	struct s_node	*next;
+// 	int				type;	// 4 directory, 8 file, 0 other.
+// }				t_dirlist;
 
 typedef	struct s_arguments
 {
@@ -69,11 +71,12 @@ typedef	enum e_options
 	*/
 }t_options;
 
-// void	arguments(int argc, char **argv, t_info *info);
-void	exit_usage(void);
-void	read_options(char *options, t_info *info);
-void	reset_info(t_info *info);
-void	ft_ls(int argc, char **argv, t_info *info);
+// void	error_notfound(char *filename);
+// void	exit_usage(void);
+// void	exit_illegal(void);
+// void	read_options(char *options, t_info *info);
+// void	reset_info(t_info *info);
+// void	ft_ls(int argc, char **argv, t_info *info);
 
 #endif
 

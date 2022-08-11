@@ -6,7 +6,7 @@
 /*   By: rvuorenl <rvuorenl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/25 19:01:47 by rvuorenl          #+#    #+#             */
-/*   Updated: 2022/08/09 15:55:56 by rvuorenl         ###   ########.fr       */
+/*   Updated: 2022/08/11 14:47:41 by rvuorenl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,43 +22,55 @@
 # include <sys/types.h> //getgrgid getpwuid
 # include <grp.h> // getgrgid
 # include <unistd.h> // readlink
-# include "./libft/libft.h"
+// # include "./libft/libft.h"
 # include <stdlib.h>		// --------------------	 DELETE ??	----------------
 
-# define OPTIONS lRart //ufgdG, bonus P
-
-typedef	struct	s_node
-{
-	char			*name;
-	struct s_node	*prev;
-	struct s_node	*next;
-	int				type;	// 4 directory, 8 file, 0 other.
-	// int				found;
-}				t_node;
-
-typedef	struct	s_info
-{
-	uint16_t	options;
-	char		*path;
-	int			arguments;	// # of files/dirs to ls: ls author file1 file2 = 3
-
-}				t_info;
+# define OPTIONS "lRart" //ufgdG, bonus P
 
 // typedef	struct	s_dirlist
 // {
 // 	char			*name;
 // 	struct s_node	*prev;
 // 	struct s_node	*next;
-// 	int				type;	// 4 directory, 8 file, 0 other.
+// 	int				type;	//	4 directory, 8 file, 10 soft link, 0 other.
 // }				t_dirlist;
 
-typedef	struct s_arguments
-{
-	struct s_arguments	*next;
-	char				*name;
-}				t_arguments;
+// typedef	struct		 s_arguments
+// {
+// 	struct s_arguments	*next;
+// 	char				*name;
+// }					t_arguments;
 
-// 	lRart
+// typedef	struct 		s_error
+// {
+// 	char			*name;
+// 	struct	s_error	*next;
+// }					t_error;
+
+// typedef	struct 		s_all
+// {
+// 	struct	s_error *head;
+// 	struct	s_info	*info;
+// 	struct	s_node	*head;
+// }					t_all;
+
+typedef	struct		s_node
+{
+	struct s_node	*prev;
+	struct s_node	*next;
+	char			*name;	//	name of file, if no path	MALLOC
+	char			*path;	//	path to the file	NEEDED ?
+	int				type;	//	4 directory, 8 file, 10 softlink, 0 error.
+}					t_node;
+
+typedef	struct	s_info
+{
+	uint16_t	options;	// 	options stored as a int (check enum)
+	char		*path;		// 	???
+	int			args;		// 	# of files/dirs to ls: ls author file1 file2 = 3
+
+}				t_info;
+
 typedef	enum e_options
 {
 	LONG = 1,
@@ -69,7 +81,7 @@ typedef	enum e_options
 	/*
 	BONUS OPTIONS
 	*/
-}t_options;
+}			t_options;
 
 // void	error_notfound(char *filename);
 // void	exit_usage(void);
@@ -83,6 +95,11 @@ typedef	enum e_options
 /*	exit codes
 
 1	exit_usage
+1	exit_illegal		//usage needed??
+2	exit_malloc_error
+3	exit_dup_error		// UNFINISHED
+4	error_dir
+
 
 */
 

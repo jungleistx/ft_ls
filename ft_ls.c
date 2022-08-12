@@ -6,7 +6,7 @@
 /*   By: rvuorenl <rvuorenl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/25 18:55:37 by rvuorenl          #+#    #+#             */
-/*   Updated: 2022/08/11 15:06:25 by rvuorenl         ###   ########.fr       */
+/*   Updated: 2022/08/12 15:59:01 by rvuorenl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	reset_info(t_info *info, t_node *head);
 int	option_validity(char *str);
 void	shift_options(char *argv, t_info *info);
 void	read_options(int argc, char **argv, t_info *info);
-void	print_list_errors(t_node *head, uint16_t options);
+void	print_list_errors(t_node *head);
 void	list_sort_add(t_node **head, t_node *node);
 void	delete_list(t_node *head);
 void	list_create_node(t_node **head, char *filename, int type);
@@ -76,17 +76,17 @@ size_t	ft_strlen(const char *s)
 		i++;
 	return (i);
 }
-//	libft
+//	/libft
 
-
+//	errors.c	---	---	---	---	---	---	---	---	---	---	---	---
 void	error_notfound(char *filename)
 {
-	printf("ls: %s: No such file or directory\n", filename);
+	printf("ft_ls: %s: No such file or directory\n", filename);
 }
 
 void	exit_usage(void)		//	NOT NEEDED ?
 {
-	printf("usage: ls [-ABCFGHLOPRSTUWabcdefghiklmnopqrstuwx1] [file ...]\n");
+	printf("usage: ft_ls [-ABCFGHLOPRSTUWabcdefghiklmnopqrstuwx1] [file ...]\n");
 	exit(1);
 }
 
@@ -115,7 +115,9 @@ void	error_dir(char *str)
 	perror(str);
 	exit(4);
 }
+//	/errors.c	---	---	---	---	---	---	---	---	---	---	---	---
 
+//	utilities.c	---	---	---	---	---	---	---	---	---	---	---	---
 void	reset_info(t_info *info, t_node *head)
 {
 	info->options = 0;
@@ -171,7 +173,7 @@ void	read_options(int argc, char **argv, t_info *info)
 		if (argv[i][0] == '-' && argv[i][1] == '-' && argv[i][2] == '\0')
 		{
 			info->args = argc - i - 1;
-			printf("read a\n");
+			// printf("read a\n");
 			return ;
 		}
 		else if (!(option_validity(argv[i])))
@@ -182,33 +184,27 @@ void	read_options(int argc, char **argv, t_info *info)
 	}
 	if (i < argc)
 		info->args = argc - i;
-	printf("read b\n");
+	// printf("read b\n");
 }
+//	/utilities.c	---	---	---	---	---	---	---	---	---	---	---	---
 
-//	---	---	---	---	---	---	---	---	---	---	---	---	---	---	---
-
-void	print_list_errors(t_node *head, uint16_t options)
+//	prints.c		---	---	---	---	---	---	---	---	---	---	---	---
+void	print_list_errors(t_node *head)
 {
 	t_node			*ptr;
 
 	ptr = head;
-	if (options & REVERSE)
-	{
-		while(ptr->next)
-			ptr = ptr->next;
-	}
 	while (ptr)
 	{
 		if (ptr->type == 0)
 			error_notfound(ptr->name);
-
-		if (options & REVERSE)
-			ptr = ptr->prev;
-		else
-			ptr = ptr->next;
+		ptr = ptr->next;
 	}
 }
 
+//	/prints.c		---	---	---	---	---	---	---	---	---	---	---	---
+
+//	lists.c		---	---	---	---	---	---	---	---	---	---	---	---
 void	list_sort_add(t_node **head, t_node *node)
 {
 	t_node	*tmp;
@@ -216,6 +212,7 @@ void	list_sort_add(t_node **head, t_node *node)
 
 	tmp = *head;
 	prev = NULL;
+	// printf("in list sort\n");
 	if (!tmp)
 	{
 		*head = node;
@@ -257,6 +254,25 @@ void	list_sort_add(t_node **head, t_node *node)
 	}
 }
 
+// void	delete_node(t_node *node, t_node *next, t_node *prev, t_node **head)
+void	delete_node(t_node *node, t_node **head)
+{
+	if (node->prev)
+	{
+		(node->next)->prev = node->prev;
+		(node->prev)->next = node->next;
+	}
+	else
+	{
+		(node->next)->prev = NULL;
+		*head = node->next;
+	}
+	node->next = NULL;
+	node->prev = NULL;
+	free(node->name);
+	free(node);
+}
+
 void	delete_list(t_node *head)
 {
 	t_node	*tmp;
@@ -277,25 +293,51 @@ void	list_create_node(t_node **head, char *filename, int type)
 {
 	t_node	*node;
 
-	printf("list create a\n");
+	// printf("list create a\n");
 	node = (t_node*)malloc(sizeof(t_node));
 	if (!node)
 		exit_malloc_error("list_add_file");
+	// printf("\tfirst\n");
 	node->type = type;
+	// printf("\tsec1\t%s\n", filename);
 	node->name = ft_strdup(filename);
+	// printf("\tsec2\n");
 	if (!node->name)
 		exit_dup_error("list_add_file");
+	// printf("\tsec3\n");
 	node->prev = NULL;
 	node->next = NULL;
 	// node->path = ????
 
+	// printf("list create b\n");
 	list_sort_add(head, node);
-	printf("list create b\n");
+	// printf("list create c\n");
 }
+
+void	list_add_current(t_node **head)
+{
+	DIR				*dir;
+	struct dirent	*dp;
+	struct stat		filestat;
+
+	// printf("list_add_curr\n");
+	dir = opendir(".");
+	if (!dir)
+		error_dir("list_add_current");		//	proper error code ???
+	dp = readdir(dir);
+	while (dp != NULL)
+	{
+		lstat(dp->d_name, &filestat);
+		dispatch_filetype(head, filestat, dp->d_name);
+		dp = readdir(dir);
+	}
+	closedir(dir);
+}
+//	/lists.c		---	---	---	---	---	---	---	---	---	---	---	---
 
 void	dispatch_filetype(t_node **head, struct stat filestat, char *filename)
 {
-	printf("dispatch a\n");
+	// printf("dispatch a\n");
 	if (S_ISDIR(filestat.st_mode))
 		list_create_node(head, filename, 4);
 	else if (S_ISREG(filestat.st_mode))
@@ -305,25 +347,7 @@ void	dispatch_filetype(t_node **head, struct stat filestat, char *filename)
 	else
 		list_create_node(head, filename, 0);
 		// need to check spesific error with new func?
-	printf("dispatch b\n");
-}
-
-void	list_add_current(t_node **head)
-{
-	DIR				*dir;
-	struct dirent	*dp;
-	struct stat	filestat;
-
-	printf("list_add_curr\n");
-	dir = opendir(".");
-	if (!dir)
-		error_dir("list_add_current");		//	proper error code ???
-	while ((dp = readdir(dir)) != NULL)
-	{
-		lstat(dp->d_name, &filestat);
-		dispatch_filetype(head, filestat, dp->d_name);
-	}
-	closedir(dir);
+	// printf("dispatch b\n");
 }
 
 void	read_arguments(t_node **head, int argc, char **argv, t_info *info)
@@ -334,16 +358,174 @@ void	read_arguments(t_node **head, int argc, char **argv, t_info *info)
 		list_add_current(head);
 	else
 	{
-		printf("read arg a\n");
-		printf("arg = %d, iargs = %d\n", argc, info->args);
+		// printf("read arg a\n");
+		// printf("arg = %d, iargs = %d\n", argc, info->args);
 		while (info->args > 0)
 		{
-			lstat(argv[argc - info->args + 1], &filestat);
-			dispatch_filetype(head, filestat, argv[argc - info->args + 1]);
+			lstat(argv[argc - info->args], &filestat);
+			dispatch_filetype(head, filestat, argv[argc - info->args]);
+			//	segfault
+			// lstat(argv[argc - info->args + 1], &filestat);
+			// dispatch_filetype(head, filestat, argv[argc - info->args + 1]);
 			info->args--;
 		}
 	}
-	printf("rea arg b\n");
+	// printf("rea arg b\n");
+}
+
+int	list_find_dir(t_node *head)
+{
+	t_node		*tmp;
+	struct stat	filestat;
+
+	tmp = head;
+	while (tmp)
+	{
+		stat(tmp->name, &filestat);
+		if (S_ISDIR(filestat.st_mode))
+			return (0);
+		tmp = tmp->next;
+	}
+	return (1);
+}
+
+
+// void	list_add_current(t_node **head)
+// {
+// 	DIR				*dir;
+// 	struct dirent	*dp;
+// 	struct stat		filestat;
+
+// 	// printf("list_add_curr\n");
+// 	dir = opendir(".");
+// 	if (!dir)
+// 		error_dir("list_add_current");		//	proper error code ???
+// 	dp = readdir(dir);
+// 	while (dp != NULL)
+// 	{
+// 		lstat(dp->d_name, &filestat);
+// 		dispatch_filetype(head, filestat, dp->d_name);
+// 		dp = readdir(dir);
+// 	}
+// 	closedir(dir);
+// }
+
+void	print_long(t_node *head)
+{
+	t_node	*tmp;
+
+	tmp = head;
+	while(tmp)
+	{
+		// print total
+		// print chmod
+		// print links
+		// print owner
+		// print year?
+		// print size
+		// print mod time
+		// print name
+		// if (options & DIRECTORY)		//	bonus
+		// 	printf("/");
+		printf("\n");
+		tmp = tmp->next;
+	}
+
+}
+void	print_long__reverse(t_node *head)
+{
+	t_node	*tmp;
+
+	tmp = head;
+	while(tmp->next)
+		tmp = tmp->next;
+	while(tmp)
+	{
+		// print total
+		// print chmod
+		// print links
+		// print owner
+		// print year?
+		// print size
+		// print mod time
+		// print name
+		// if (options & DIRECTORY)		//	bonus
+		// 	printf("/");
+		printf("\n");
+		tmp = tmp->prev;
+	}
+}
+
+void	list_sort_time(t_node **head)
+{
+	t_node	*tmp;
+	int		sorted;
+	t_node	*prev;
+
+	sorted = 0;
+	tmp = *head;
+	while (!sorted)
+	{
+		while (tmp->next)
+		{
+			prev = tmp->prev;
+			if (tmp->time > (tmp->next)->time)
+			{
+				// OK
+				prev->next = tmp->next;
+				(tmp->next)->prev = prev;
+
+				((tmp->next)->next)->prev = tmp;
+				(tmp->next)->next = tmp;
+				tmp->next = (tmp->next)->next;
+
+				sorted = 0;
+
+				if (tmp->prev = NULL)
+					*head = tmp;
+			}
+			tmp = tmp->next;
+		}
+		sorted = 1;
+		tmp = *head;
+	}
+}
+
+void	print_dispatch(t_node *head, int options)
+{
+	if (options & LONG && !(options & REVERSE))
+		//print_long(head);
+	else if (options & LONG && (options & REVERSE))
+		//print_long_reverse(head);
+	else if ()
+}
+
+void	print_directory(t_node *head, t_info *info)
+{
+	t_node			*newhead;
+	DIR				*dir;
+	struct dirent	*dp;
+	struct stat		filestat;
+
+	newhead = head;
+	dir = opendir(newhead->name);
+	if (!dir)
+		error_dir("print_directory");
+	dp = readdir(dir);
+	while (dp)
+	{
+		lstat(dp->d_name, &filestat);
+		dispatch_filetype(&newhead, filestat, dp->d_name);
+		dp = readdir(dir);
+	}
+	closedir(dir);
+
+	print_dispatch(newhead, info->options);
+
+	if ((!(info->options & RECURSIVE)) && (list_find_dir(newhead)))
+		delete_list(newhead);
+	else
+		// find and print the dirs inside recursively
 }
 
 void	print_reverse_list(t_node **head)
@@ -357,31 +539,67 @@ void	print_reverse_list(t_node **head)
 
 	while(tmp)
 	{
-		printf("%-*s %d\n", 20, tmp->name, tmp->type);
+		// printf("%-*s %d\n", 20, tmp->name, tmp->type);
+		printf("%s\n",tmp->name);
 
 		tmp = tmp->prev;
 	}
 }
 
+// void	ft_ls(t_node **head, t_info *info)
+// {
+// 	t_node	*tmp;
+
+// 	tmp = *head;
+// 	while(tmp)
+// 	{
+// 		printf("%s\n",tmp->name);
+// 		// printf("Name: '%-*s'Type: %-*d", 20, tmp->name, 5, tmp->type);
+// 		// if(tmp->type == 8)
+// 		// 	printf("'file'\n");
+// 		// else if(tmp->type == 4)
+// 		// 	printf("'directory'\n");
+// 		// else if(tmp->type == 10)
+// 		// 	printf("'symbolic link'\n");
+// 		// else
+// 		// 	printf("'other'\n");
+
+// 		// if (tmp->next)
+// 		// 	printf("****%s****\n", (tmp->next)->name);
+// 		tmp = tmp->next;
+// 	}
+// 	printf("\n");
+// 	print_reverse_list(head);
+// 	delete_list(*head);
+// }
 void	ft_ls(t_node **head, t_info *info)
 {
 	t_node	*tmp;
 
+	print_list_errors(*head);
 	tmp = *head;
-	while(tmp)
+	if (info->options & REVERSE)
 	{
-		printf("Name: '%-*s'Type: %-*d", 20, tmp->name, 5, tmp->type);
-		if(tmp->type == 8)
-			printf("'file'\n");
-		else if(tmp->type == 4)
-			printf("'directory'\n");
-		else if(tmp->type == 10)
-			printf("'symbolic link'\n");
-		else
-			printf("'other'\n");
-		tmp = tmp->next;
+		while (tmp->next)
+			tmp = tmp->next;
+		while(tmp)
+		{
+			// if (tmp->name[0] != '.')
+			{
+				printf("%s\n", tmp->name);
+			}
+			tmp = tmp->prev;
+		}
 	}
-	print_reverse_list(head);
+	else
+	{
+		while(tmp)
+		{
+			// if (tmp->name[0] != '.')
+				printf("%s\n", tmp->name);
+			tmp = tmp->next;
+		}
+	}
 	delete_list(*head);
 }
 

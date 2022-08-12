@@ -6,7 +6,7 @@
 /*   By: rvuorenl <rvuorenl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/25 19:01:47 by rvuorenl          #+#    #+#             */
-/*   Updated: 2022/08/11 14:47:41 by rvuorenl         ###   ########.fr       */
+/*   Updated: 2022/08/12 13:52:58 by rvuorenl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,13 +83,6 @@ typedef	enum e_options
 	*/
 }			t_options;
 
-// void	error_notfound(char *filename);
-// void	exit_usage(void);
-// void	exit_illegal(void);
-// void	read_options(char *options, t_info *info);
-// void	reset_info(t_info *info);
-// void	ft_ls(int argc, char **argv, t_info *info);
-
 #endif
 
 /*	exit codes
@@ -110,6 +103,10 @@ typedef	enum e_options
 	1100
 &	0101
 =	0100
+
+	101010101
+&	000010000
+		10000 > 0 = 0 int 24
 
 | (OR) takes two numbers, is 1 if any is 1
 	1100

@@ -6,7 +6,7 @@
 /*   By: rvuorenl <rvuorenl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/25 19:01:47 by rvuorenl          #+#    #+#             */
-/*   Updated: 2022/08/12 13:52:58 by rvuorenl         ###   ########.fr       */
+/*   Updated: 2022/08/16 15:32:31 by rvuorenl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,16 @@
 // 	struct	s_node	*head;
 // }					t_all;
 
+typedef struct		s_long
+{
+	char			permissions[11];
+	int				links;
+	char			*owner;
+	// int				year; 		// from where
+	int				size;
+	// time_t			mod_time; 	// from where
+}					t_long;
+
 typedef	struct		s_node
 {
 	struct s_node	*prev;
@@ -61,6 +71,7 @@ typedef	struct		s_node
 	char			*name;	//	name of file, if no path	MALLOC
 	char			*path;	//	path to the file	NEEDED ?
 	int				type;	//	4 directory, 8 file, 10 softlink, 0 error.
+	struct s_long	*l_opt;	//	if -l, malloc and assign struct
 }					t_node;
 
 typedef	struct	s_info

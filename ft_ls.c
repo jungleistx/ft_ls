@@ -6,7 +6,7 @@
 /*   By: rvuorenl <rvuorenl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/25 18:55:37 by rvuorenl          #+#    #+#             */
-/*   Updated: 2022/08/12 15:59:01 by rvuorenl         ###   ########.fr       */
+/*   Updated: 2022/08/16 15:38:04 by rvuorenl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	print_list_errors(t_node *head);
 void	list_sort_add(t_node **head, t_node *node);
 void	delete_list(t_node *head);
 void	list_create_node(t_node **head, char *filename, int type);
-void	dispatch_filetype(t_node **head, struct stat filestat, char *filename);
+void	dispatch_filetype(t_node **head, struct stat filestat, char *filename, int opts);
 void	list_add_current(t_node **head);
 void	read_arguments(t_node **head, int argc, char **argv, t_info *info);
 void	ft_ls(t_node **head, t_info *info);
@@ -173,7 +173,6 @@ void	read_options(int argc, char **argv, t_info *info)
 		if (argv[i][0] == '-' && argv[i][1] == '-' && argv[i][2] == '\0')
 		{
 			info->args = argc - i - 1;
-			// printf("read a\n");
 			return ;
 		}
 		else if (!(option_validity(argv[i])))
@@ -212,7 +211,6 @@ void	list_sort_add(t_node **head, t_node *node)
 
 	tmp = *head;
 	prev = NULL;
-	// printf("in list sort\n");
 	if (!tmp)
 	{
 		*head = node;
@@ -308,44 +306,46 @@ void	list_create_node(t_node **head, char *filename, int type)
 	node->prev = NULL;
 	node->next = NULL;
 	// node->path = ????
+	if (options & LONG)
+		list_add_long(head, filename);
 
 	// printf("list create b\n");
 	list_sort_add(head, node);
 	// printf("list create c\n");
 }
 
-void	list_add_current(t_node **head)
+void	list_add_current(t_node **head, char *path)
 {
 	DIR				*dir;
 	struct dirent	*dp;
 	struct stat		filestat;
 
 	// printf("list_add_curr\n");
-	dir = opendir(".");
+	dir = opendir(path);
 	if (!dir)
 		error_dir("list_add_current");		//	proper error code ???
 	dp = readdir(dir);
 	while (dp != NULL)
 	{
 		lstat(dp->d_name, &filestat);
-		dispatch_filetype(head, filestat, dp->d_name);
+		dispatch_filetype(head, filestat, dp->d_name, opts);
 		dp = readdir(dir);
 	}
 	closedir(dir);
 }
 //	/lists.c		---	---	---	---	---	---	---	---	---	---	---	---
 
-void	dispatch_filetype(t_node **head, struct stat filestat, char *filename)
+void	dispatch_filetype(t_node **head, struct stat filestat, char *filename, int opt)
 {
 	// printf("dispatch a\n");
 	if (S_ISDIR(filestat.st_mode))
-		list_create_node(head, filename, 4);
+		list_create_node(head, filename, 4, opt);
 	else if (S_ISREG(filestat.st_mode))
-		list_create_node(head, filename, 8);
+		list_create_node(head, filename, 8, opt);
 	else if (S_ISLNK(filestat.st_mode))
-		list_create_node(head, filename, 10);
+		list_create_node(head, filename, 10, opt);
 	else
-		list_create_node(head, filename, 0);
+		list_create_node(head, filename, 0, opt);
 		// need to check spesific error with new func?
 	// printf("dispatch b\n");
 }
@@ -355,7 +355,7 @@ void	read_arguments(t_node **head, int argc, char **argv, t_info *info)
 	struct stat	filestat;
 
 	if (info->args == 0)
-		list_add_current(head);
+		list_add_current(head, info->options);
 	else
 	{
 		// printf("read arg a\n");
@@ -363,7 +363,7 @@ void	read_arguments(t_node **head, int argc, char **argv, t_info *info)
 		while (info->args > 0)
 		{
 			lstat(argv[argc - info->args], &filestat);
-			dispatch_filetype(head, filestat, argv[argc - info->args]);
+			dispatch_filetype(head, filestat, argv[argc - info->args], info->options);
 			//	segfault
 			// lstat(argv[argc - info->args + 1], &filestat);
 			// dispatch_filetype(head, filestat, argv[argc - info->args + 1]);
@@ -373,7 +373,7 @@ void	read_arguments(t_node **head, int argc, char **argv, t_info *info)
 	// printf("rea arg b\n");
 }
 
-int	list_find_dir(t_node *head)
+int	list_find_dir(t_node *head)	// if recursive, check if list has dirs
 {
 	t_node		*tmp;
 	struct stat	filestat;
@@ -388,6 +388,37 @@ int	list_find_dir(t_node *head)
 	}
 	return (1);
 }
+
+void	list_print_dirs(t_node *head)
+{
+	t_node		*tmp;
+	t_node		*newlist;
+	struct stat	filestat;
+
+	tmp = head;
+	while (tmp)
+	{
+		printf("%s\n", tmp->name);	// only ls -no_options version
+		tmp = tmp->next;
+	}
+	tmp = head;
+	while (tmp)
+	{
+		stat(tmp->name, &filestat);
+		if (S_ISDIR(filestat.st_mode))
+		{
+			list_add_current(&newlist, tmp->name);
+			list
+		}
+		tmp = tmp->next;
+	}
+}
+
+// testing flow-monday
+// notes ---	----	----	--
+// if long option, malloc a struct for long information?
+
+
 
 
 // void	list_add_current(t_node **head)
@@ -432,16 +463,16 @@ void	print_long(t_node *head)
 	}
 
 }
-void	print_long__reverse(t_node *head)
+void	print_long_reverse(t_node *head)
 {
 	t_node	*tmp;
 
 	tmp = head;
 	while(tmp->next)
 		tmp = tmp->next;
+	// print total
 	while(tmp)
 	{
-		// print total
 		// print chmod
 		// print links
 		// print owner
@@ -493,11 +524,22 @@ void	list_sort_time(t_node **head)
 
 void	print_dispatch(t_node *head, int options)
 {
+	if (options & LONG)
+		print_dispatch_long(head, options);
+	else if (options & LONG && (options & REVERSE))
+		//print_long_reverse(head);
+	else if (options & RECURSIVE)
+	else if (options & RECURSIVE)
+}
+
+void	print_dispatch_long(t_node *head, int options)
+{
 	if (options & LONG && !(options & REVERSE))
 		//print_long(head);
 	else if (options & LONG && (options & REVERSE))
 		//print_long_reverse(head);
-	else if ()
+	else if (options & RECURSIVE)
+	else if (options & RECURSIVE)
 }
 
 void	print_directory(t_node *head, t_info *info)
@@ -515,7 +557,7 @@ void	print_directory(t_node *head, t_info *info)
 	while (dp)
 	{
 		lstat(dp->d_name, &filestat);
-		dispatch_filetype(&newhead, filestat, dp->d_name);
+		dispatch_filetype(&newhead, filestat, dp->d_name, info->options);
 		dp = readdir(dir);
 	}
 	closedir(dir);

@@ -6,7 +6,7 @@
 /*   By: rvuorenl <rvuorenl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/25 19:01:47 by rvuorenl          #+#    #+#             */
-/*   Updated: 2022/08/16 15:32:31 by rvuorenl         ###   ########.fr       */
+/*   Updated: 2022/08/17 15:16:28 by rvuorenl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,19 @@
 # include <stdlib.h>		// --------------------	 DELETE ??	----------------
 
 # define OPTIONS "lRart" //ufgdG, bonus P
+
+//	errors.c
+void	error_dir(char *str);
+void	error_notfound(char *filename);
+void	exit_dup_error(char *str);
+void	exit_illegal(void);
+void	exit_malloc_error(char *str);
+void	exit_usage(void);
+//	utilities.c
+int		option_validity(char *str);
+void	read_options(int argc, char **argv, t_info *info);
+void	reset_info(t_info *info, t_node *head);
+void	shift_options(char *argv, t_info *info);
 
 // typedef	struct	s_dirlist
 // {
@@ -58,20 +71,23 @@ typedef struct		s_long
 {
 	char			permissions[11];
 	int				links;
-	char			*owner;
-	// int				year; 		// from where
 	int				size;
-	// time_t			mod_time; 	// from where
+	// time_t			mod_time;
+	// MALLOC
+	char			*owner;
+	char			*group;
+	char			*mod_time;
 }					t_long;
 
 typedef	struct		s_node
 {
 	struct s_node	*prev;
 	struct s_node	*next;
-	char			*name;	//	name of file, if no path	MALLOC
-	char			*path;	//	path to the file	NEEDED ?
 	int				type;	//	4 directory, 8 file, 10 softlink, 0 error.
-	struct s_long	*l_opt;	//	if -l, malloc and assign struct
+	// char			*path;	//	path to the file	NEEDED ?
+	//malloc
+	char			*name;	//	name of file, if no path
+	struct t_long	*l_opt;	//	if -l, malloc and assign struct
 }					t_node;
 
 typedef	struct	s_info

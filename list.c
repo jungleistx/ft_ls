@@ -6,7 +6,7 @@
 /*   By: rvuorenl <rvuorenl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/19 13:40:55 by rvuorenl          #+#    #+#             */
-/*   Updated: 2022/08/24 19:32:54 by rvuorenl         ###   ########.fr       */
+/*   Updated: 2022/08/25 19:11:52 by rvuorenl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,6 @@ void	list_find_spot(t_node **head, t_node *prev, t_node *node, t_node *tmp)
 {
 	while (tmp)
 	{
-		// printf("%s %s\n", node->name, tmp->name);
 		if (ft_strcmp((const char*)node->name, (const char*)tmp->name) < 0)
 		{
 			if (*head == tmp)
@@ -116,17 +115,3 @@ void	create_node(t_node **head, struct stat filestat, char *name, int opts)
 	// printf("\t'%s' %d '%s'\n", node->name, node->type, name);
 	list_sort_add(head, node, opts);
 }
-
-// char	*ft_strdup_exit(char *src)
-// {
-// 	char	*dest;
-
-// 	dest = ft_strdup((const char*)src);
-// 	if (!dest)
-// 	{
-// 		// strerror() // ?
-// 		exit_dup_error("ft_strdup_exit");
-// 	}
-// 	printf("src %s\tdest %s\n", src, dest);
-// 	return (dest);
-// }

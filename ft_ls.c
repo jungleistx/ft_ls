@@ -6,7 +6,7 @@
 /*   By: rvuorenl <rvuorenl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/25 18:55:37 by rvuorenl          #+#    #+#             */
-/*   Updated: 2022/08/25 14:01:44 by rvuorenl         ###   ########.fr       */
+/*   Updated: 2022/08/25 21:24:39 by rvuorenl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,6 +173,13 @@ int	ft_strcmp_case_insen(char *s1, char *s2)
 void print_test(t_node *head)
 {
 	t_node *tmp = head;
+	// int i = 0;
+	// while (i < 6)
+	// {
+	// 	printf("(%s)\n", head->name);
+	// 	tmp = tmp->next;
+	// 	i++;
+	// }
 	while (tmp)
 	{
 		printf("(%s %d) -> ", tmp->name, tmp->type);
@@ -194,35 +201,39 @@ void	list_add_directory(t_node **head, char *path, int options)
 	while (dp != NULL)
 	{
 		lstat(dp->d_name, &filestat);
-		// printf("before create'%s'\n", dp->d_name);
-		create_node(head, filestat, dp->d_name, options);
-		// printf("end create '%s'\n", dp->d_name);
-		// print_test(*head);
+		if (dp->d_name[0] == '.')
+		{
+			if (options & HIDDEN)
+				create_node(head, filestat, dp->d_name, options);
+		}
+		else
+			create_node(head, filestat, dp->d_name, options);
 		dp = readdir(dir);
-
 	}
 	closedir(dir);
 }
 
-void	ft_ls(t_node **head, int options, int *ret_nr)
+void	ft_ls(t_node *head, int options, int *ret_nr)
 {
-	t_node	*tmp;
+	// t_node	*tmp;
 
-	tmp = *head;
+	// tmp = *head;
 	// printf("ls\n");
-	print_test(*head);
-	print_list_errors(*head, ret_nr);
-	print_list_files(*head, options);
+	// print_test(*head);
+	print_list_errors(head, ret_nr);
+	print_list_files(&head, options);
 	// if (options & RECURSIVE)
 	// 	print_dir_recursive(*head, options);
 	// else
-		// print_dir(*head, options);
-		printf("\n\n");
-	// printf("main --- %s\n", (*head)->name);
+		print_dir(*head, options);
+		printf("\n");
+	// printf("main --- %s\n", tmp->name);
 
-	print_test(*head);
-	free_list(head, options);
-	print_test(*head);
+	// printf("testing\n");
+	print_test(head);
+	// printf("testing\n");
+	free_list(&head, options);
+	print_test(head);
 }
 
 int main(int argc, char **argv)
@@ -234,7 +245,16 @@ int main(int argc, char **argv)
 	if (argc > 1)
 		read_options(argc, argv, &info);
 	read_arguments(&head, argc, argv, &info);
-	ft_ls(&head, info.options, &info.ret_nr);
+	ft_ls(head, info.options, &info.ret_nr);
 
 	return (info.ret_nr);
 }
+/*
+readdir(d)
+if d type == 4
+append list1
+if (R)
+append list2
+D1 F D2 F F D3 D4 F F D5 30000
+D1 D2 D3 D4 D5
+*/

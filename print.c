@@ -6,7 +6,7 @@
 /*   By: rvuorenl <rvuorenl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 15:04:00 by rvuorenl          #+#    #+#             */
-/*   Updated: 2022/08/25 14:00:46 by rvuorenl         ###   ########.fr       */
+/*   Updated: 2022/08/25 21:03:47 by rvuorenl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,11 +49,11 @@ void	print_long_list(t_node *head)
 	}
 }
 
-void	print_list_files(t_node *head, int options)
+void	print_list_files(t_node **head, int options)
 {
 	t_node	*tmp;
 
-	tmp = head;
+	tmp = *head;
 	while(tmp)
 	{
 		if (tmp->type != 4 && tmp->type != 0)
@@ -65,8 +65,11 @@ void	print_list_files(t_node *head, int options)
  		}
 		tmp = tmp->next;
 	}
-	print_test(head);
+	// print_test(*head);
 	free_file_nodes(head, options);
+	// print_test(*head);
+	// printf("sss\n");
+	// print_test(*head);
 }
 
 void	print_list_all(t_node *head, int opts)
@@ -79,7 +82,7 @@ void	print_list_all(t_node *head, int opts)
 		printf("%s\n", tmp->name);
 		tmp = tmp->next;
 	}
-	free_file_nodes(head, opts);
+	free_file_nodes(&head, opts);
 }
 
 void	print_list(t_node *head, int opts)

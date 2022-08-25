@@ -6,7 +6,7 @@
 /*   By: rvuorenl <rvuorenl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/19 13:34:34 by rvuorenl          #+#    #+#             */
-/*   Updated: 2022/08/23 15:04:13 by rvuorenl         ###   ########.fr       */
+/*   Updated: 2022/08/25 20:49:45 by rvuorenl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,9 @@ void	list_add_long_filetype(t_node *node, struct stat filestat, int a)
 		}
 	}
 	node->l_opt->permissions[10] = '\0';
+
+		// char *str = "----------"	INITIALIZE !!
+
 }
 
 // void	list_add_long(t_node *node, struct stat filestat)

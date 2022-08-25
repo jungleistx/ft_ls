@@ -6,7 +6,7 @@
 /*   By: rvuorenl <rvuorenl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/25 19:01:47 by rvuorenl          #+#    #+#             */
-/*   Updated: 2022/08/25 14:00:04 by rvuorenl         ###   ########.fr       */
+/*   Updated: 2022/08/25 18:22:56 by rvuorenl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,12 +130,12 @@ void	list_sort_time(t_node **head);
 void	list_sort_time_reverse(t_node **head);
 void	update_list_time(t_node *prev, t_node *node, t_node **head, int *sort);
 //	free.c
-void	free_file_nodes(t_node *head, int options);
+void	free_file_nodes(t_node **head, int options);
 void	free_list(t_node **head, int options);
 void	free_node(t_node *node, int options);
 //	print.c
 void	print_list_errors(t_node *head, int *ret_nr);
-void	print_list_files(t_node *head, int options);
+void	print_list_files(t_node **head, int options);
 void	print_dir_recursive(t_node *head, int opts);	// UNFINISHED
 void	print_dir(t_node *head, int opts);
 void	print_list(t_node *head, int opts);
@@ -147,7 +147,7 @@ void	print_long_list(t_node *head);
 //	ft_ls.c
 void print_test(t_node *head);
 int	ft_strcmp(const char *s1, const char *s2);
-void	ft_ls(t_node **head, int opts, int *ret_nr);
+void	ft_ls(t_node *head, int opts, int *ret_nr);
 char	*ft_strdup(const char *s1);
 size_t	ft_strlen(const char *s);
 char	*ft_strncpy(char *dst, const char *src, size_t len);

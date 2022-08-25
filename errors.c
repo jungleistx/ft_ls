@@ -6,7 +6,7 @@
 /*   By: rvuorenl <rvuorenl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/17 15:00:31 by rvuorenl          #+#    #+#             */
-/*   Updated: 2022/08/25 21:50:09 by rvuorenl         ###   ########.fr       */
+/*   Updated: 2022/08/25 23:41:33 by rvuorenl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,17 +17,18 @@ void	error_notfound(char *filename)
 	printf("ft_ls: %s: No such file or directory\n", filename);
 }
 
-void	exit_usage(void)		//	NOT NEEDED ?
-{
-	printf("usage: ft_ls [-ABCFGHLOPRSTUWabcdefghiklmnopqrstuwx1] [file ...]\n");
-	exit(1);
-}
+// void	exit_usage(void)		//	NOT NEEDED ?
+// {
+// 	printf("usage: ft_ls [-ABCFGHLOPRSTUWabcdefghiklmnopqrstuwx1] [file ...]\n");
+// 	exit(1);
+// }
 
 void	exit_illegal(void)
 {
 	printf("ft_ls: illegal option -- -\n");
 	// exit_usage();
-	printf("usage: ./ft_ls [-ABCFGHLOPRSTUWabcdefghiklmnopqrstuwx1] [file ...]\n");
+	printf("usage: ./ft_ls [-alrRt] [file ...]\n");
+	// update with BONUS options ?
 	exit(1);
 }
 

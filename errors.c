@@ -6,7 +6,7 @@
 /*   By: rvuorenl <rvuorenl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/17 15:00:31 by rvuorenl          #+#    #+#             */
-/*   Updated: 2022/08/25 14:15:33 by rvuorenl         ###   ########.fr       */
+/*   Updated: 2022/08/25 21:50:09 by rvuorenl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,12 +49,14 @@ void	error_dir(char *str)
 	exit(4);
 }
 
-void	ft_strdup_exit(char *src, t_node *node)
+char	*ft_strdup_exit(char *src)
 {
-	node->name = ft_strdup((const char*)src);
-	if (!node->name)
+	char	*ret;
+	ret = ft_strdup((const char*)src);
+	if (!ret)
 	{
 		// strerror() // ?
 		exit_dup_error("ft_strdup_exit");
 	}
+	return (ret);
 }

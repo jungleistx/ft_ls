@@ -6,7 +6,7 @@
 /*   By: rvuorenl <rvuorenl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/19 13:40:55 by rvuorenl          #+#    #+#             */
-/*   Updated: 2022/08/25 19:11:52 by rvuorenl         ###   ########.fr       */
+/*   Updated: 2022/08/25 21:59:50 by rvuorenl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,13 +105,12 @@ void	create_node(t_node **head, struct stat filestat, char *name, int opts)
 	if (!node)
 		exit_malloc_error("create_node");
 	node->type = node_filetype(filestat);
-	ft_strdup_exit(name, node);
-	// node->name = ft_strdup_exit(name);
+	node->name = ft_strdup_exit(name);
 	node->next = NULL;
 	node->sec = filestat.st_mtimespec.tv_sec;
 	node->n_sec = filestat.st_mtimespec.tv_nsec;
-	// if (opts & LONG)
-	// 	list_add_long(node, filestat);
+	if (opts & LONG)
+		list_add_long(node, filestat);
 	// printf("\t'%s' %d '%s'\n", node->name, node->type, name);
 	list_sort_add(head, node, opts);
 }

@@ -6,7 +6,7 @@
 /*   By: rvuorenl <rvuorenl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/19 13:34:34 by rvuorenl          #+#    #+#             */
-/*   Updated: 2022/08/25 20:49:45 by rvuorenl         ###   ########.fr       */
+/*   Updated: 2022/08/25 22:07:34 by rvuorenl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 void	list_add_long_filetype(t_node *node, struct stat filestat, int a)
 {
+	ft_memset((void*)node->l_opt->permissions, '-', 10);
 	if (node->type == 4)
 		node->l_opt->permissions[0] = 'd';
 	else if (node->type == 10)
@@ -35,29 +36,26 @@ void	list_add_long_filetype(t_node *node, struct stat filestat, int a)
 		}
 	}
 	node->l_opt->permissions[10] = '\0';
-
-		// char *str = "----------"	INITIALIZE !!
-
 }
 
-// void	list_add_long(t_node *node, struct stat filestat)
-// {
-// 	struct passwd	*user;
-// 	struct group	*g_id;
-// 	char			*date;
+void	list_add_long(t_node *node, struct stat filestat)
+{
+	struct passwd	*user;
+	struct group	*g_id;
+	char			*date;
 
-// 	node->l_opt = (t_long*)malloc(sizeof(t_long));
-// 	if (!node->l_opt)
-// 		error_dir("list_add_long malloc");
-// 	list_add_long_filetype(node, filestat, 9);
-// 	node->l_opt->size = (int)filestat.st_size;
-// 	node->l_opt->links = (int)filestat.st_nlink;
-// 	user = getpwuid(filestat.st_uid);
-// 	g_id = getgrgid(user->pw_gid);
-// 	ft_strdup_exit(user->pw_name, node->l_opt->owner);
-// 	ft_strdup_exit(g_id->gr_name, node->l_opt->group);
-// 	date = ctime(&filestat.st_ctimespec.tv_sec);
-// 	node->l_opt->year = ft_atoi((const char*)&date[20]);
-// 	ft_strncpy(node->l_opt->date, (const char*)&date[4], (size_t)15);
-// 	node->l_opt->date[15] = '\0';
-// }
+	node->l_opt = (t_long*)malloc(sizeof(t_long));
+	if (!node->l_opt)
+		error_dir("list_add_long malloc");
+	list_add_long_filetype(node, filestat, 9);
+	node->l_opt->size = (int)filestat.st_size;
+	node->l_opt->links = (int)filestat.st_nlink;
+	user = getpwuid(filestat.st_uid);
+	g_id = getgrgid(user->pw_gid);
+	node->l_opt->owner = ft_strdup_exit(user->pw_name);
+	node->l_opt->group = ft_strdup_exit(g_id->gr_name);
+	date = ctime(&filestat.st_ctimespec.tv_sec);
+	node->l_opt->year = ft_atoi((const char*)&date[20]);
+	ft_strncpy(node->l_opt->date, (const char*)&date[4], (size_t)12);
+	node->l_opt->date[12] = '\0';
+}

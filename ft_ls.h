@@ -6,7 +6,7 @@
 /*   By: rvuorenl <rvuorenl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/25 19:01:47 by rvuorenl          #+#    #+#             */
-/*   Updated: 2022/08/25 22:05:35 by rvuorenl         ###   ########.fr       */
+/*   Updated: 2022/08/25 23:07:31 by rvuorenl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,11 +91,16 @@ typedef	struct	s_info
 
 typedef	enum e_options
 {
-	LONG = 1,
-	RECURSIVE = 2,
-	HIDDEN = 4,
-	REVERSE = 8,
-	SORT_TIME = 16
+	LONG = 1 << 0,
+	RECURSIVE = 1 << 1,
+	HIDDEN = 1 << 2,
+	REVERSE = 1 << 3,
+	SORT_TIME = 1 << 4
+	// LONG = 1,
+	// RECURSIVE = 2,
+	// HIDDEN = 4,
+	// REVERSE = 8,
+	// SORT_TIME = 16
 	/*
 	BONUS OPTIONS
 	HUMAN_READ = 32
@@ -121,7 +126,7 @@ void	shift_options(char *argv, t_info *info);
 void	list_add_long(t_node *node, struct stat filestat);
 void	list_add_long_filetype(t_node *node, struct stat filestat, int a);
 //	list.c
-void	create_node(t_node **head, struct stat filestat, char *name, int opts);
+void	create_node(t_node **head, char *name, int opts);
 void	list_find_spot(t_node **head, t_node *prev, t_node *node, t_node *tmp);
 void	list_find_spot_r(t_node **head, t_node *prev, t_node *node, t_node *tmp);
 void	list_sort_add(t_node **head, t_node *node, int options);
@@ -140,7 +145,7 @@ void	print_list_files(t_node **head, int options);
 void	print_dir_recursive(t_node *head, int opts);	// UNFINISHED
 void	print_dir(t_node *head, int opts);
 void	print_list(t_node *head, int opts);
-void	print_list_all(t_node *head, int opts);
+void	print_list_all(t_node *head);
 void	print_long_list_node(t_node *node);
 void	print_long_list(t_node *head);
 //	recursion.c

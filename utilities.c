@@ -6,7 +6,7 @@
 /*   By: rvuorenl <rvuorenl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/17 15:03:32 by rvuorenl          #+#    #+#             */
-/*   Updated: 2022/08/25 21:24:16 by rvuorenl         ###   ########.fr       */
+/*   Updated: 2022/08/25 23:08:00 by rvuorenl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,18 +82,22 @@ void	read_options(int argc, char **argv, t_info *info)
 
 void	read_arguments(t_node **head, int argc, char **argv, t_info *info)
 {
-	struct stat	filestat;
+	// struct stat	filestat;
 
 	if (info->args == 0)
 	{
 		list_add_directory(head, ".", info->options);
+		print_list_errors(*head, &info->ret_nr);
+		print_list(*head, info->options);
+		free_list(head, info->options);
+		exit(info->ret_nr);
 	}
 	else
 	{
 		while (info->args > 0)
 		{
-			lstat(argv[argc - info->args], &filestat);
-			create_node(head, filestat, argv[argc - info->args], info->options);
+			// printf("--'%d'--\n",lstat(argv[argc - info->args], &filestat));
+			create_node(head, argv[argc - info->args], info->options);
 			info->args--;
 		}
 	}

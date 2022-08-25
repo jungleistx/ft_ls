@@ -6,7 +6,7 @@
 /*   By: rvuorenl <rvuorenl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/25 18:55:37 by rvuorenl          #+#    #+#             */
-/*   Updated: 2022/08/25 22:10:53 by rvuorenl         ###   ########.fr       */
+/*   Updated: 2022/08/25 23:07:38 by rvuorenl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -205,7 +205,7 @@ void	list_add_directory(t_node **head, char *path, int options)
 {
 	DIR				*dir;
 	struct dirent	*dp;
-	struct stat		filestat;
+	// struct stat		filestat;
 
 	dir = opendir(path);
 	if (!dir)
@@ -213,17 +213,21 @@ void	list_add_directory(t_node **head, char *path, int options)
 	dp = readdir(dir);
 	while (dp != NULL)
 	{
-		lstat(dp->d_name, &filestat);
+		// lstat(dp->d_name, &filestat);
 		if (dp->d_name[0] == '.')
 		{
 			if (options & HIDDEN)
-				create_node(head, filestat, dp->d_name, options);
+				create_node(head, dp->d_name, options);
 		}
 		else
-			create_node(head, filestat, dp->d_name, options);
+			create_node(head, dp->d_name, options);
 		dp = readdir(dir);
 	}
 	closedir(dir);
+	if (options & SORT_TIME && options & REVERSE)
+		list_sort_time_reverse(head);
+	else if (options & SORT_TIME)
+		list_sort_time(head);
 }
 
 void	ft_ls(t_node *head, int options, int *ret_nr)
@@ -239,14 +243,12 @@ void	ft_ls(t_node *head, int options, int *ret_nr)
 	// 	print_dir_recursive(*head, options);
 	// else
 		print_dir(head, options);
-		printf("\n");
-	// printf("main --- %s\n", tmp->name);
 
 	// printf("testing\n");
-	print_test(head);
+	// print_test(head);
 	// printf("testing\n");
 	free_list(&head, options);
-	print_test(head);
+	// print_test(head);
 }
 
 int main(int argc, char **argv)

@@ -6,7 +6,7 @@
 /*   By: rvuorenl <rvuorenl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/19 13:50:21 by rvuorenl          #+#    #+#             */
-/*   Updated: 2022/08/25 19:05:32 by rvuorenl         ###   ########.fr       */
+/*   Updated: 2022/08/25 23:21:21 by rvuorenl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,7 @@ void	list_sort_time_reverse(t_node **head)
 		tmp = *head;
 		while (tmp && tmp->next)
 		{
-			if (tmp->sec < tmp->next->sec && tmp->n_sec < tmp->next->n_sec &&
-			tmp->name < tmp->next->name)
+			if (tmp->sec > tmp->next->sec && tmp->n_sec > tmp->next->n_sec)
 				update_list_time(prev, tmp, head, &sorted);
 			else
 			{
@@ -68,8 +67,7 @@ void	list_sort_time(t_node **head)
 		tmp = *head;
 		while (tmp && tmp->next)
 		{
-			if (tmp->sec > tmp->next->sec && tmp->n_sec > tmp->next->n_sec &&
-			tmp->name > tmp->next->name)
+			if (tmp->sec < tmp->next->sec && tmp->n_sec < tmp->next->n_sec)
 				update_list_time(prev, tmp, head, &sorted);
 			else
 			{

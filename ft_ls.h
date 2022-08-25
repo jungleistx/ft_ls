@@ -6,7 +6,7 @@
 /*   By: rvuorenl <rvuorenl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/25 19:01:47 by rvuorenl          #+#    #+#             */
-/*   Updated: 2022/08/25 18:22:56 by rvuorenl         ###   ########.fr       */
+/*   Updated: 2022/08/25 22:05:35 by rvuorenl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@
 typedef struct		s_long
 {
 	char			permissions[11];
-	char			date[16];	// parse from mod_time
+	char			date[13];	// parse from mod_time
 	int				year;	// needed ? if mod_time > 6 months
 	int				links;
 	int				size;
@@ -109,7 +109,8 @@ void	exit_dup_error(char *str);
 void	exit_illegal(void);
 void	exit_malloc_error(char *str);
 void	exit_usage(void);
-void	ft_strdup_exit(char *src, t_node *node);
+char	*ft_strdup_exit(char *src);
+// void	ft_strdup_exit(char *src, t_node *node);
 //	utilities.c
 int		option_validity(char *str);
 void	read_arguments(t_node **head, int argc, char **argv, t_info *info);
@@ -154,6 +155,7 @@ char	*ft_strncpy(char *dst, const char *src, size_t len);
 int	ft_atoi(const char *str);
 void	list_add_directory(t_node **head, char *path, int options);
 void	ft_memdel(void **ap);
+void	*ft_memset(void *b, int c, size_t len);
 #endif
 
 /*	exit codes

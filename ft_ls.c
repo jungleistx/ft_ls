@@ -6,7 +6,7 @@
 /*   By: rvuorenl <rvuorenl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/25 18:55:37 by rvuorenl          #+#    #+#             */
-/*   Updated: 2022/08/25 21:24:39 by rvuorenl         ###   ########.fr       */
+/*   Updated: 2022/08/25 22:10:53 by rvuorenl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,20 @@ void	ft_memdel(void **ap)
 	free(*ap);
 	*ap = NULL;
 }
+void	*ft_memset(void *b, int c, size_t len)
+{
+	unsigned char	letter;
+	unsigned int	i;
 
+	letter = c;
+	i = 0;
+	while (i < len)
+	{
+		*(char *)&b[i] = letter;
+		i++;
+	}
+	return (b);
+}
 //	/libft
 
 //	needs the loop for the path and searching for the correct file
@@ -225,7 +238,7 @@ void	ft_ls(t_node *head, int options, int *ret_nr)
 	// if (options & RECURSIVE)
 	// 	print_dir_recursive(*head, options);
 	// else
-		print_dir(*head, options);
+		print_dir(head, options);
 		printf("\n");
 	// printf("main --- %s\n", tmp->name);
 

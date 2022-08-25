@@ -6,7 +6,7 @@
 /*   By: rvuorenl <rvuorenl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/19 13:50:21 by rvuorenl          #+#    #+#             */
-/*   Updated: 2022/08/25 23:28:21 by rvuorenl         ###   ########.fr       */
+/*   Updated: 2022/08/25 23:50:18 by rvuorenl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,4 +82,12 @@ void	list_sort_time(t_node **head)
 			return ;
 		sorted = 0;
 	}
+}
+
+void	list_sort_time_dispatch(t_node **head, int opts)
+{
+	if (opts & REVERSE)
+		list_sort_time_reverse(head);
+	else
+		list_sort_time(head);
 }

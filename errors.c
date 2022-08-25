@@ -6,7 +6,7 @@
 /*   By: rvuorenl <rvuorenl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/17 15:00:31 by rvuorenl          #+#    #+#             */
-/*   Updated: 2022/08/17 15:01:39 by rvuorenl         ###   ########.fr       */
+/*   Updated: 2022/08/24 19:33:08 by rvuorenl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,4 +47,18 @@ void	error_dir(char *str)
 {
 	perror(str);
 	exit(4);
+}
+
+void	ft_strdup_exit(char *src, t_node *node)
+{
+	// char	*dest;
+
+	node->name = ft_strdup((const char*)src);
+	if (!node->name)
+	{
+		// strerror() // ?
+		exit_dup_error("ft_strdup_exit");
+	}
+	// printf("after dub = src %s\tdest %s\n", src, node->name);
+	// return (dest);
 }

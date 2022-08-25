@@ -6,7 +6,7 @@
 /*   By: rvuorenl <rvuorenl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/25 19:01:47 by rvuorenl          #+#    #+#             */
-/*   Updated: 2022/08/17 15:16:28 by rvuorenl         ###   ########.fr       */
+/*   Updated: 2022/08/25 14:00:04 by rvuorenl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,19 +26,6 @@
 # include <stdlib.h>		// --------------------	 DELETE ??	----------------
 
 # define OPTIONS "lRart" //ufgdG, bonus P
-
-//	errors.c
-void	error_dir(char *str);
-void	error_notfound(char *filename);
-void	exit_dup_error(char *str);
-void	exit_illegal(void);
-void	exit_malloc_error(char *str);
-void	exit_usage(void);
-//	utilities.c
-int		option_validity(char *str);
-void	read_options(int argc, char **argv, t_info *info);
-void	reset_info(t_info *info, t_node *head);
-void	shift_options(char *argv, t_info *info);
 
 // typedef	struct	s_dirlist
 // {
@@ -70,30 +57,34 @@ void	shift_options(char *argv, t_info *info);
 typedef struct		s_long
 {
 	char			permissions[11];
+	char			date[16];	// parse from mod_time
+	int				year;	// needed ? if mod_time > 6 months
 	int				links;
 	int				size;
-	// time_t			mod_time;
+	// char			size_c[2];	//	BONUS
 	// MALLOC
 	char			*owner;
 	char			*group;
-	char			*mod_time;
 }					t_long;
 
 typedef	struct		s_node
 {
-	struct s_node	*prev;
-	struct s_node	*next;
-	int				type;	//	4 directory, 8 file, 10 softlink, 0 error.
 	// char			*path;	//	path to the file	NEEDED ?
-	//malloc
+	// struct s_node	*prev;
+	struct s_node	*next;
+	int				type;		//	4 directory, 8 file, 10 softlink, 0 error.
+	long			sec;		//	in seconds
+	long			n_sec;		//	in nanosecs
+	// malloc
 	char			*name;	//	name of file, if no path
-	struct t_long	*l_opt;	//	if -l, malloc and assign struct
+	struct s_long	*l_opt;	//	if -l, malloc and assign struct
 }					t_node;
 
 typedef	struct	s_info
 {
+	// char		*path;		// 	???
+	int			ret_nr;
 	uint16_t	options;	// 	options stored as a int (check enum)
-	char		*path;		// 	???
 	int			args;		// 	# of files/dirs to ls: ls author file1 file2 = 3
 
 }				t_info;
@@ -107,9 +98,62 @@ typedef	enum e_options
 	SORT_TIME = 16
 	/*
 	BONUS OPTIONS
+	HUMAN_READ = 32
 	*/
 }			t_options;
 
+//	errors.c
+void	error_dir(char *str);
+void	error_notfound(char *filename);
+void	exit_dup_error(char *str);
+void	exit_illegal(void);
+void	exit_malloc_error(char *str);
+void	exit_usage(void);
+void	ft_strdup_exit(char *src, t_node *node);
+//	utilities.c
+int		option_validity(char *str);
+void	read_arguments(t_node **head, int argc, char **argv, t_info *info);
+void	read_options(int argc, char **argv, t_info *info);
+void	reset_info(t_info *info, t_node **head);
+void	shift_options(char *argv, t_info *info);
+//	list_long.c
+void	list_add_long(t_node *node, struct stat filestat);
+void	list_add_long_filetype(t_node *node, struct stat filestat, int a);
+//	list.c
+void	create_node(t_node **head, struct stat filestat, char *name, int opts);
+void	list_find_spot(t_node **head, t_node *prev, t_node *node, t_node *tmp);
+void	list_find_spot_r(t_node **head, t_node *prev, t_node *node, t_node *tmp);
+void	list_sort_add(t_node **head, t_node *node, int options);
+int	node_filetype(struct stat filestat);
+//	list_sort.c
+void	list_sort_time(t_node **head);
+void	list_sort_time_reverse(t_node **head);
+void	update_list_time(t_node *prev, t_node *node, t_node **head, int *sort);
+//	free.c
+void	free_file_nodes(t_node *head, int options);
+void	free_list(t_node **head, int options);
+void	free_node(t_node *node, int options);
+//	print.c
+void	print_list_errors(t_node *head, int *ret_nr);
+void	print_list_files(t_node *head, int options);
+void	print_dir_recursive(t_node *head, int opts);	// UNFINISHED
+void	print_dir(t_node *head, int opts);
+void	print_list(t_node *head, int opts);
+void	print_list_all(t_node *head, int opts);
+void	print_long_list_node(t_node *node);
+void	print_long_list(t_node *head);
+//	recursion.c
+
+//	ft_ls.c
+void print_test(t_node *head);
+int	ft_strcmp(const char *s1, const char *s2);
+void	ft_ls(t_node **head, int opts, int *ret_nr);
+char	*ft_strdup(const char *s1);
+size_t	ft_strlen(const char *s);
+char	*ft_strncpy(char *dst, const char *src, size_t len);
+int	ft_atoi(const char *str);
+void	list_add_directory(t_node **head, char *path, int options);
+void	ft_memdel(void **ap);
 #endif
 
 /*	exit codes
@@ -120,9 +164,7 @@ typedef	enum e_options
 3	exit_dup_error		// UNFINISHED
 4	error_dir
 
-
 */
-
 
 /*	bitwise operators
 

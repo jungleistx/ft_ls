@@ -6,7 +6,7 @@
 /*   By: rvuorenl <rvuorenl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/17 15:03:32 by rvuorenl          #+#    #+#             */
-/*   Updated: 2022/08/25 23:14:34 by rvuorenl         ###   ########.fr       */
+/*   Updated: 2022/08/25 23:53:23 by rvuorenl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,27 +82,26 @@ void	read_options(int argc, char **argv, t_info *info)
 
 void	read_arguments(t_node **head, int argc, char **argv, t_info *info)
 {
-	// struct stat	filestat;
-
 	if (info->args == 0)
 	{
 		list_add_directory(head, ".", info->options);
-		print_list_errors(*head, &info->ret_nr);
+		if (info->options & SORT_TIME)
+			list_sort_time_dispatch(head, info->options);
 		print_list(*head, info->options);
 		free_list(head, info->options);
-		exit(info->ret_nr);
+		exit(0);
+		// exit(info->ret_nr);	// no errors should be around
 	}
 	else
 	{
 		while (info->args > 0)
-		{
-			// printf("--'%d'--\n",lstat(argv[argc - info->args], &filestat));
-			create_node(head, argv[argc - info->args], info->options);
-			info->args--;
-		}
-		if (info->options & SORT_TIME && info->options & REVERSE)
-			list_sort_time_reverse(head);
-		else if (info->options & SORT_TIME)
-			list_sort_time(head);
+			create_node(head, argv[argc - info->args--], info->options);
+		// while (info->args > 0)
+		// {
+		// 	create_node(head, argv[argc - info->args], info->options);
+		// 	info->args--;
+		// }
+		if (info->options & SORT_TIME)
+			list_sort_time_dispatch(head, info->options);
 	}
 }

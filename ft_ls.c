@@ -6,7 +6,7 @@
 /*   By: rvuorenl <rvuorenl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/25 18:55:37 by rvuorenl          #+#    #+#             */
-/*   Updated: 2022/08/25 23:07:38 by rvuorenl         ###   ########.fr       */
+/*   Updated: 2022/08/25 23:44:32 by rvuorenl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -186,13 +186,6 @@ int	ft_strcmp_case_insen(char *s1, char *s2)
 void print_test(t_node *head)
 {
 	t_node *tmp = head;
-	// int i = 0;
-	// while (i < 6)
-	// {
-	// 	printf("(%s)\n", head->name);
-	// 	tmp = tmp->next;
-	// 	i++;
-	// }
 	while (tmp)
 	{
 		printf("(%s %d) -> ", tmp->name, tmp->type);
@@ -201,11 +194,10 @@ void print_test(t_node *head)
 	printf("(NULL)\n");
 }
 
-void	list_add_directory(t_node **head, char *path, int options)
+void	list_add_directory(t_node **head, char *path, int opts)
 {
 	DIR				*dir;
 	struct dirent	*dp;
-	// struct stat		filestat;
 
 	dir = opendir(path);
 	if (!dir)
@@ -213,20 +205,14 @@ void	list_add_directory(t_node **head, char *path, int options)
 	dp = readdir(dir);
 	while (dp != NULL)
 	{
-		// lstat(dp->d_name, &filestat);
-		if (dp->d_name[0] == '.')
-		{
-			if (options & HIDDEN)
-				create_node(head, dp->d_name, options);
-		}
-		else
-			create_node(head, dp->d_name, options);
+		if (dp->d_name[0] != '.' || (dp->d_name[0] == '.' && (opts & HIDDEN)))
+			create_node(head, dp->d_name, opts);
 		dp = readdir(dir);
 	}
 	closedir(dir);
-	if (options & SORT_TIME && options & REVERSE)
+	if (opts & SORT_TIME && opts & REVERSE)
 		list_sort_time_reverse(head);
-	else if (options & SORT_TIME)
+	else if (opts & SORT_TIME)
 		list_sort_time(head);
 }
 

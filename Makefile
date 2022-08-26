@@ -1,7 +1,7 @@
 FLAGS=-Wall -Wextra -Werror -O3 #allowed?
 
 SRC=ft_ls.c errors.c utilities.c list_long.c list.c list_sort.c free.c \
-	print.c
+	print.c recursion.c
 
 BIN_NAME=ft_ls
 

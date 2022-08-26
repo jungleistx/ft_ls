@@ -6,7 +6,7 @@
 /*   By: rvuorenl <rvuorenl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/19 13:40:55 by rvuorenl          #+#    #+#             */
-/*   Updated: 2022/08/25 23:07:14 by rvuorenl         ###   ########.fr       */
+/*   Updated: 2022/08/26 15:13:19 by rvuorenl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,10 @@ void	list_find_spot_r(t_node **head, t_node *prev, t_node *node, t_node *tmp)
 		}
 	}
 }
+
+// list_find_spot(head, prev, node, tmp);
+// tmp = traverse list
+// node = to add
 
 void	list_find_spot(t_node **head, t_node *prev, t_node *node, t_node *tmp)
 {
@@ -117,21 +121,3 @@ void	create_node(t_node **head, char *name, int opts)
 		list_add_long(node, filestat);
 	list_sort_add(head, node, opts);
 }
-
-			// 	version with filetype = 0 NOT WORKING
-// void	create_node(t_node **head, struct stat filestat, char *name, int opts)
-// {
-// 	t_node	*node;
-
-// 	node = (t_node*)malloc(sizeof(t_node));
-// 	if (!node)
-// 		exit_malloc_error("create_node");
-// 	node->type = node_filetype(filestat);
-// 	node->name = ft_strdup_exit(name);
-// 	node->next = NULL;
-// 	node->sec = filestat.st_mtimespec.tv_sec;
-// 	node->n_sec = filestat.st_mtimespec.tv_nsec;
-// 	if (opts & LONG)
-// 		list_add_long(node, filestat);
-// 	list_sort_add(head, node, opts);
-// }

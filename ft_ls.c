@@ -6,7 +6,7 @@
 /*   By: rvuorenl <rvuorenl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/25 18:55:37 by rvuorenl          #+#    #+#             */
-/*   Updated: 2022/08/25 23:44:32 by rvuorenl         ###   ########.fr       */
+/*   Updated: 2022/08/26 15:14:11 by rvuorenl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,33 +155,6 @@ int	ft_strcmp_case_insen(char *s1, char *s2)
 	return (1);
 }
 
-// int	longest_format(t_node *head)
-// {
-// 	t_node	*tmp;
-// 	int		longest_name;
-// 	int		longest_size;
-// 	int		longest_links;
-// 	int		longest_owner;
-
-// 	tmp = head;
-// 	longest_name = 0;
-// 	longest_owner = 0;
-// 	longest_size = 0;
-// 	longest_links = 0;
-// 	while (tmp)
-// 	{
-// 		if (ft_stren(tmp->name) > longest_name)
-// 			longest_name = ft_strlen(tmp->name);
-// 		if (ft_stren(tmp->l_opt->owner) > longest_owner)
-// 			longest_owner = ft_strlen(tmp->l_opt->owner);
-// 		if (tmp->l_opt->links > longest_links)
-// 			longest_links = tmp->l_opt->links;
-// 		if (tmp->l_opt->size > longest_size)
-// 			longest_size = tmp->l_opt->size;
-// 		tmp = tmp->next;
-// 	}
-// 	return (longest); //? struct
-// }
 
 void print_test(t_node *head)
 {
@@ -205,6 +178,7 @@ void	list_add_directory(t_node **head, char *path, int opts)
 	dp = readdir(dir);
 	while (dp != NULL)
 	{
+		// printf("\t%s\n", dp->d_name);
 		if (dp->d_name[0] != '.' || (dp->d_name[0] == '.' && (opts & HIDDEN)))
 			create_node(head, dp->d_name, opts);
 		dp = readdir(dir);
@@ -226,14 +200,24 @@ void	ft_ls(t_node *head, int options, int *ret_nr)
 	print_list_errors(head, ret_nr);
 	print_list_files(&head, options);
 	// if (options & RECURSIVE)
-	// 	print_dir_recursive(*head, options);
+	// 	print_dir_recursive(head, options);
 	// else
+	// print_test(head);
 		print_dir(head, options);
+
+/*		TODO
+
+dir content_list doesnt reverse with -r
+
+
+
+*/
 
 	// printf("testing\n");
 	// print_test(head);
 	// printf("testing\n");
-	free_list(&head, options);
+	if (head)
+		free_list(&head, options);
 	// print_test(head);
 }
 
@@ -250,6 +234,7 @@ int main(int argc, char **argv)
 
 	return (info.ret_nr);
 }
+
 /*
 readdir(d)
 if d type == 4

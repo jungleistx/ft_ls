@@ -6,7 +6,7 @@
 /*   By: rvuorenl <rvuorenl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/25 19:01:47 by rvuorenl          #+#    #+#             */
-/*   Updated: 2022/08/25 23:58:26 by rvuorenl         ###   ########.fr       */
+/*   Updated: 2022/08/26 15:04:40 by rvuorenl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,14 +143,14 @@ void	free_node(t_node *node, int options);
 //	print.c
 void	print_list_errors(t_node *head, int *ret_nr);
 void	print_list_files(t_node **head, int options);
-void	print_dir_recursive(t_node *head, int opts);	// UNFINISHED
+void	print_dir_recursive(t_node **head, int opts);	// UNFINISHED
 void	print_dir(t_node *head, int opts);
 void	print_list(t_node *head, int opts);
 void	print_list_all(t_node *head);
 void	print_long_list_node(t_node *node);
 void	print_long_list(t_node *head);
 //	recursion.c
-
+t_node	*print_list_find_dir(t_node *head, int opts);
 //	ft_ls.c
 void print_test(t_node *head);
 int	ft_strcmp(const char *s1, const char *s2);

@@ -6,7 +6,7 @@
 /*   By: rvuorenl <rvuorenl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 15:04:00 by rvuorenl          #+#    #+#             */
-/*   Updated: 2022/08/26 14:58:27 by rvuorenl         ###   ########.fr       */
+/*   Updated: 2022/08/26 15:08:08 by rvuorenl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,7 @@ void	print_list_files(t_node **head, int options)
 	// print_test(*head);
 	// printf("sss\n");
 	// print_test(*head);
+	// printf("\n");
 }
 
 void	print_list_all(t_node *head)
@@ -113,6 +114,7 @@ void	print_list(t_node *head, int opts)
 		print_list_all(head);
 }
 
+// void	print_dir_content(t_node *head, int opts)
 void	print_dir(t_node *head, int opts)
 {
 	t_node	*tmp;
@@ -139,7 +141,7 @@ void	print_dir_recursive(t_node **head, int opts)
 
 	rec_head = NULL;
 	newhead = NULL;
-	tmp = head;
+	tmp = *head;
 	while (tmp)
 	{
 		printf("\n%s:\n", tmp->name);
@@ -150,6 +152,7 @@ void	print_dir_recursive(t_node **head, int opts)
 		tmp = tmp->next;
 		free_list(&newhead, opts);
 	}
+	free_list(head, opts);
 }
 
 /*

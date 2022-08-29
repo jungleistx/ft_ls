@@ -6,7 +6,7 @@
 /*   By: rvuorenl <rvuorenl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/25 19:01:47 by rvuorenl          #+#    #+#             */
-/*   Updated: 2022/08/26 15:04:40 by rvuorenl         ###   ########.fr       */
+/*   Updated: 2022/08/29 18:05:47 by rvuorenl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,7 +134,7 @@ int	node_filetype(struct stat filestat);
 //	list_sort.c
 void	list_sort_time(t_node **head);
 void	list_sort_time_reverse(t_node **head);
-void	update_list_time(t_node *prev, t_node *node, t_node **head, int *sort);
+void	update_list_time(t_node **prev, t_node *node, t_node **head, int *sort);
 void	list_sort_time_dispatch(t_node **head, int opts);
 //	free.c
 void	free_file_nodes(t_node **head, int options);

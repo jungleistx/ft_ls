@@ -6,14 +6,13 @@
 /*   By: rvuorenl <rvuorenl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/25 18:55:37 by rvuorenl          #+#    #+#             */
-/*   Updated: 2022/08/26 15:14:11 by rvuorenl         ###   ########.fr       */
+/*   Updated: 2022/08/29 18:03:13 by rvuorenl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
 //	change printf -> ft_printf	!!!!
-
 
 //	libft
 int	ft_strcmp(const char *s1, const char *s2)
@@ -155,13 +154,15 @@ int	ft_strcmp_case_insen(char *s1, char *s2)
 	return (1);
 }
 
-
 void print_test(t_node *head)
 {
 	t_node *tmp = head;
+	printf("main:\n");
 	while (tmp)
 	{
-		printf("(%s %d) -> ", tmp->name, tmp->type);
+		// printf("(%s %d) (%ld %ld) -> \n", tmp->name, tmp->type,
+		// 	tmp->sec, tmp->n_sec);
+		printf("(%s) -> ", tmp->name);
 		tmp = tmp->next;
 	}
 	printf("(NULL)\n");
@@ -209,8 +210,6 @@ void	ft_ls(t_node *head, int options, int *ret_nr)
 
 dir content_list doesnt reverse with -r
 
-
-
 */
 
 	// printf("testing\n");
@@ -230,7 +229,7 @@ int main(int argc, char **argv)
 	if (argc > 1)
 		read_options(argc, argv, &info);
 	read_arguments(&head, argc, argv, &info);
-	ft_ls(head, info.options, &info.ret_nr);
+	// ft_ls(head, info.options, &info.ret_nr);
 
 	return (info.ret_nr);
 }

@@ -6,25 +6,36 @@
 /*   By: rvuorenl <rvuorenl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/19 13:50:21 by rvuorenl          #+#    #+#             */
-/*   Updated: 2022/08/25 23:50:18 by rvuorenl         ###   ########.fr       */
+/*   Updated: 2022/08/29 18:06:12 by rvuorenl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-void	update_list_time(t_node *prev, t_node *node, t_node **head, int *sort)
+void print_test2(t_node *head)
+{
+	t_node *tmp = head;
+	while (tmp)
+	{
+		printf("(%s) -> ", tmp->name);
+		tmp = tmp->next;
+	}
+	printf("(NULL)\n");
+}
+void	update_list_time(t_node **prev, t_node *node, t_node **head, int *sort)
 {
 	t_node	*tmp;
 
 	(*sort)++;
-	if (prev)
-		prev->next = node->next;
+	if (*prev)
+		(*prev)->next = node->next;
 	else
 		*head = node->next;
-	prev = node->next;
+	*prev = node->next;
 	tmp = node->next->next;
 	node->next->next = node;
 	node->next = tmp;
+	print_test2(*head);
 }
 
 //	first node is smallest number (newest)
@@ -41,10 +52,10 @@ void	list_sort_time_reverse(t_node **head)
 		while (tmp && tmp->next)
 		{
 			if (tmp->sec > tmp->next->sec && tmp->n_sec > tmp->next->n_sec)
-				update_list_time(prev, tmp, head, &sorted);
+				update_list_time(&prev, tmp, head, &sorted);
 			else if (tmp->sec == tmp->next->sec && tmp->n_sec ==
 				tmp->next->n_sec && tmp->name < tmp->next->name)
-				update_list_time(prev, tmp, head, &sorted);
+				update_list_time(&prev, tmp, head, &sorted);
 			else
 			{
 				prev = tmp;
@@ -57,6 +68,11 @@ void	list_sort_time_reverse(t_node **head)
 	}
 }
 
+// newest
+// error
+// link
+// author
+
 // first node is biggest number (oldest)
 void	list_sort_time(t_node **head)
 {
@@ -67,11 +83,20 @@ void	list_sort_time(t_node **head)
 	sorted = 0;
 	while (!sorted)
 	{
+		prev = NULL;
 		tmp = *head;
 		while (tmp && tmp->next)
 		{
-			if (tmp->sec < tmp->next->sec && tmp->n_sec < tmp->next->n_sec)
-				update_list_time(prev, tmp, head, &sorted);
+			if ((tmp->sec < tmp->next->sec) || (tmp->sec == tmp->next->sec &&
+				tmp->n_sec < tmp->next->n_sec))
+				{
+					printf("head = %s, tmp = %s", (*head)->name,
+					tmp->name);
+					if (prev)
+						printf("prev = %s", prev->name);
+					printf("\n");
+				update_list_time(&prev, tmp, head, &sorted);
+				}
 			else
 			{
 				prev = tmp;

@@ -6,7 +6,7 @@
 /*   By: rvuorenl <rvuorenl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/19 13:50:21 by rvuorenl          #+#    #+#             */
-/*   Updated: 2022/08/29 18:06:12 by rvuorenl         ###   ########.fr       */
+/*   Updated: 2022/08/30 13:37:56 by rvuorenl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ void	update_list_time(t_node **prev, t_node *node, t_node **head, int *sort)
 	tmp = node->next->next;
 	node->next->next = node;
 	node->next = tmp;
-	print_test2(*head);
 }
 
 //	first node is smallest number (newest)
@@ -49,12 +48,11 @@ void	list_sort_time_reverse(t_node **head)
 	while (!sorted)
 	{
 		tmp = *head;
+		prev = NULL;
 		while (tmp && tmp->next)
 		{
-			if (tmp->sec > tmp->next->sec && tmp->n_sec > tmp->next->n_sec)
-				update_list_time(&prev, tmp, head, &sorted);
-			else if (tmp->sec == tmp->next->sec && tmp->n_sec ==
-				tmp->next->n_sec && tmp->name < tmp->next->name)
+			if ((tmp->sec > tmp->next->sec) || (tmp->sec == tmp->next->sec &&
+				tmp->n_sec > tmp->next->n_sec))
 				update_list_time(&prev, tmp, head, &sorted);
 			else
 			{
@@ -90,11 +88,11 @@ void	list_sort_time(t_node **head)
 			if ((tmp->sec < tmp->next->sec) || (tmp->sec == tmp->next->sec &&
 				tmp->n_sec < tmp->next->n_sec))
 				{
-					printf("head = %s, tmp = %s", (*head)->name,
-					tmp->name);
-					if (prev)
-						printf("prev = %s", prev->name);
-					printf("\n");
+					// printf("head = %s, tmp = %s", (*head)->name,
+					// tmp->name);
+					// if (prev)
+					// 	printf("prev = %s", prev->name);
+					// printf("\n");
 				update_list_time(&prev, tmp, head, &sorted);
 				}
 			else

@@ -6,7 +6,7 @@
 /*   By: rvuorenl <rvuorenl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/25 18:55:37 by rvuorenl          #+#    #+#             */
-/*   Updated: 2022/08/29 18:03:13 by rvuorenl         ###   ########.fr       */
+/*   Updated: 2022/08/30 13:38:11 by rvuorenl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,7 +157,6 @@ int	ft_strcmp_case_insen(char *s1, char *s2)
 void print_test(t_node *head)
 {
 	t_node *tmp = head;
-	printf("main:\n");
 	while (tmp)
 	{
 		// printf("(%s %d) (%ld %ld) -> \n", tmp->name, tmp->type,
@@ -229,7 +228,7 @@ int main(int argc, char **argv)
 	if (argc > 1)
 		read_options(argc, argv, &info);
 	read_arguments(&head, argc, argv, &info);
-	// ft_ls(head, info.options, &info.ret_nr);
+	ft_ls(head, info.options, &info.ret_nr);
 
 	return (info.ret_nr);
 }

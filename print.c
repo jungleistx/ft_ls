@@ -6,7 +6,7 @@
 /*   By: rvuorenl <rvuorenl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 15:04:00 by rvuorenl          #+#    #+#             */
-/*   Updated: 2022/08/26 15:08:08 by rvuorenl         ###   ########.fr       */
+/*   Updated: 2022/08/29 16:19:36 by rvuorenl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ void	print_list_all(t_node *head)
 	tmp = head;
 	while (tmp)
 	{
-		printf("%s\t", tmp->name);
+		printf("%s\n", tmp->name);
 		tmp = tmp->next;
 	}
 	printf("\n");

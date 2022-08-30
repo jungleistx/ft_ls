@@ -6,7 +6,7 @@
 /*   By: rvuorenl <rvuorenl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/17 15:03:32 by rvuorenl          #+#    #+#             */
-/*   Updated: 2022/08/25 23:53:23 by rvuorenl         ###   ########.fr       */
+/*   Updated: 2022/08/30 13:38:15 by rvuorenl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,9 @@ void	read_arguments(t_node **head, int argc, char **argv, t_info *info)
 		// 	create_node(head, argv[argc - info->args], info->options);
 		// 	info->args--;
 		// }
+		// print_test(*head);
 		if (info->options & SORT_TIME)
 			list_sort_time_dispatch(head, info->options);
+		// print_test(*head);
 	}
 }

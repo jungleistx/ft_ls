@@ -6,7 +6,7 @@
 /*   By: rvuorenl <rvuorenl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 15:04:00 by rvuorenl          #+#    #+#             */
-/*   Updated: 2022/08/29 16:19:36 by rvuorenl         ###   ########.fr       */
+/*   Updated: 2022/08/30 15:11:54 by rvuorenl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,13 +33,13 @@ void	print_long_list_node(t_node *node)
 	// printf("%s %*d %s  %s %*d %s %s\n",node->l_opt->permissions, 3,
 	// 	node->l_opt->links, node->l_opt->owner, node->l_opt->group, 8,
 	// 	node->l_opt->size, node->l_opt->date, node->name);// 8?
-	printf("%s   ", node->l_opt->permissions);
-	printf("%d   ", node->l_opt->links);
-	printf("%s   ", node->l_opt->owner);
-	printf("%s   ", node->l_opt->group);
-	printf("%d   ", node->l_opt->size);
-	printf("%s   ", node->l_opt->date);
-	printf("%s \n", node->name);
+	printf("%s ", node->l_opt->permissions);
+	printf("%*d ", 3, node->l_opt->links);
+	printf("%-*s", 12, node->l_opt->owner);
+	printf("%-*s", 8, node->l_opt->group);
+	printf("%*d ", 7, node->l_opt->size);
+	printf("%s ", node->l_opt->date);
+	printf("%s\n", node->name);
 	// printf("%s %d %s %s %d %s %s\n", node->l_opt->permissions,
 	// 	node->l_opt->links, node->l_opt->owner, node->l_opt->group,
 	// 	node->l_opt->size, node->l_opt->date, node->name);

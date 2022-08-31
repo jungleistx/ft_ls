@@ -6,7 +6,7 @@
 /*   By: rvuorenl <rvuorenl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/19 13:40:55 by rvuorenl          #+#    #+#             */
-/*   Updated: 2022/08/26 15:13:19 by rvuorenl         ###   ########.fr       */
+/*   Updated: 2022/08/31 15:45:59 by rvuorenl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,63 @@ void	create_node(t_node **head, char *name, int opts)
 		node->type = 0;
 	else
 		node->type = node_filetype(filestat);
+	node->name = ft_strdup_exit(name);
+	node->next = NULL;
+	node->sec = filestat.st_mtimespec.tv_sec;
+	node->n_sec = filestat.st_mtimespec.tv_nsec;
+	if (opts & LONG)
+		list_add_long(node, filestat);
+	list_sort_add(head, node, opts);
+}
+
+char	*get_full_path(char *name, char *path)
+{
+	size_t	total;
+	char	*full_path;
+
+	total = ft_strlen(name) + ft_strlen(path) + 2;
+	full_path = (char*)malloc(total);
+	if (!full_path)
+		exit_malloc_error("get_full_path");
+
+
+	full_path = ft_strcpy(full_path, path);
+	full_path = ft_strcat(full_path, "/");
+	// path = libft 5
+	// mid = '/'	1
+	// name = abc	3
+	// 0 1 2 3 4 5 6 7 8 9
+	// l i b f t / a b c \0
+	full_path = ft_strcat(full_path, name);
+
+	// printf("in get_path: path = '%s', name = '%s'\n", path, name);
+	// printf("in get_path: full = '%s'\n", full_path);
+	return (full_path);
+}
+
+//name = filename
+//full = path to filename
+void	create_node_fullpath(t_node **head, char *name, int opts, char *path)
+{
+	t_node		*node;
+	struct stat	filestat;
+	char		*full_path;
+
+	node = (t_node*)malloc(sizeof(t_node));
+	if (!node)
+		exit_malloc_error("create_node");
+
+//
+	// printf("\nin create_node: path = '%s', name = '%s'\n", path, name);
+	full_path = get_full_path(name, path);
+	// printf("in create_node after: full_path = '%s'\n", full_path);
+	if (lstat(full_path, &filestat) == -1)
+		node->type = 0;
+	else
+		node->type = node_filetype(filestat);
+	free(full_path);
+//
+
 	node->name = ft_strdup_exit(name);
 	node->next = NULL;
 	node->sec = filestat.st_mtimespec.tv_sec;

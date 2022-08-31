@@ -6,7 +6,7 @@
 /*   By: rvuorenl <rvuorenl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/25 19:01:47 by rvuorenl          #+#    #+#             */
-/*   Updated: 2022/08/29 18:05:47 by rvuorenl         ###   ########.fr       */
+/*   Updated: 2022/08/31 16:25:07 by rvuorenl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ typedef	struct		s_node
 	// struct s_node	*prev;
 	struct s_node	*next;
 	int				type;		//	4 directory, 8 file, 10 softlink, 0 error.
+								//  add S,s,t,b,p....?
 	long			sec;		//	in seconds
 	long			n_sec;		//	in nanosecs
 	// malloc
@@ -107,61 +108,57 @@ typedef	enum e_options
 	*/
 }			t_options;
 
-//	errors.c
+int		ft_atoi(const char *str);
+void	ft_memdel(void **ap);
+void	*ft_memset(void *b, int c, size_t len);
+char	*ft_strcpy(char *dst, const char *src);
+char	*ft_strdup(const char *s1);
+char	*ft_strcat(char *s1, const char *s2);
+int		ft_strcmp(const char *s1, const char *s2);
+size_t	ft_strlen(const char *s);
+char	*ft_strncpy(char *dst, const char *src, size_t len);
+
+char	*ft_strdup_exit(char *src);
+void	create_node_fullpath(t_node **head, char *name, int opts, char *full);
+void	create_node(t_node **head, char *name, int opts);
 void	error_dir(char *str);
 void	error_notfound(char *filename);
 void	exit_dup_error(char *str);
 void	exit_illegal(void);
 void	exit_malloc_error(char *str);
 void	exit_usage(void);
-char	*ft_strdup_exit(char *src);
-// void	ft_strdup_exit(char *src, t_node *node);
-//	utilities.c
+void	free_file_nodes(t_node **head, int options);
+void	free_list(t_node **head, int options);
+void	free_node(t_node *node, int options);
+void	ft_ls(t_node *head, int opts, int *ret_nr);
+char	*get_full_path(char *name, char *path);
+void	list_add_directory(t_node **head, char *path, int opts, int full);
+void	list_add_long_filetype(t_node *node, struct stat filestat, int a);
+void	list_add_long(t_node *node, struct stat filestat);
+void	list_find_spot(t_node **head, t_node *prev, t_node *node, t_node *tmp);
+void	list_find_spot_r(t_node **head, t_node *prev, t_node *node, t_node *tmp);
+void	list_sort_add(t_node **head, t_node *node, int options);
+void	list_sort_time_dispatch(t_node **head, int opts);
+void	list_sort_time_reverse(t_node **head);
+void	list_sort_time(t_node **head);
+int		node_filetype(struct stat filestat);
 int		option_validity(char *str);
+void	print_dir_recursive(t_node **head, int opts);	// UNFINISHED
+void	print_dir(t_node *head, int opts);
+void	print_list_all(t_node *head);
+void	print_list_errors(t_node *head, int *ret_nr);
+void	print_list_files(t_node **head, int options);
+void	print_list(t_node *head, int opts);
+t_node	*print_list_find_dir(t_node *head, int opts);
+void	print_long_list_node(t_node *node);
+void	print_long_list(t_node *head);
+void 	print_test(t_node *head);
 void	read_arguments(t_node **head, int argc, char **argv, t_info *info);
 void	read_options(int argc, char **argv, t_info *info);
 void	reset_info(t_info *info, t_node **head);
 void	shift_options(char *argv, t_info *info);
-//	list_long.c
-void	list_add_long(t_node *node, struct stat filestat);
-void	list_add_long_filetype(t_node *node, struct stat filestat, int a);
-//	list.c
-void	create_node(t_node **head, char *name, int opts);
-void	list_find_spot(t_node **head, t_node *prev, t_node *node, t_node *tmp);
-void	list_find_spot_r(t_node **head, t_node *prev, t_node *node, t_node *tmp);
-void	list_sort_add(t_node **head, t_node *node, int options);
-int	node_filetype(struct stat filestat);
-//	list_sort.c
-void	list_sort_time(t_node **head);
-void	list_sort_time_reverse(t_node **head);
 void	update_list_time(t_node **prev, t_node *node, t_node **head, int *sort);
-void	list_sort_time_dispatch(t_node **head, int opts);
-//	free.c
-void	free_file_nodes(t_node **head, int options);
-void	free_list(t_node **head, int options);
-void	free_node(t_node *node, int options);
-//	print.c
-void	print_list_errors(t_node *head, int *ret_nr);
-void	print_list_files(t_node **head, int options);
-void	print_dir_recursive(t_node **head, int opts);	// UNFINISHED
-void	print_dir(t_node *head, int opts);
-void	print_list(t_node *head, int opts);
-void	print_list_all(t_node *head);
-void	print_long_list_node(t_node *node);
-void	print_long_list(t_node *head);
-//	recursion.c
-t_node	*print_list_find_dir(t_node *head, int opts);
-//	ft_ls.c
-void print_test(t_node *head);
-int	ft_strcmp(const char *s1, const char *s2);
-void	ft_ls(t_node *head, int opts, int *ret_nr);
-char	*ft_strdup(const char *s1);
-size_t	ft_strlen(const char *s);
-char	*ft_strncpy(char *dst, const char *src, size_t len);
-int	ft_atoi(const char *str);
-void	list_add_directory(t_node **head, char *path, int options);
-void	ft_memdel(void **ap);
-void	*ft_memset(void *b, int c, size_t len);
+
 #endif
 
 /*	exit codes

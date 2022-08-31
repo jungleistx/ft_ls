@@ -6,7 +6,7 @@
 /*   By: rvuorenl <rvuorenl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/25 18:55:37 by rvuorenl          #+#    #+#             */
-/*   Updated: 2022/08/30 13:38:11 by rvuorenl         ###   ########.fr       */
+/*   Updated: 2022/08/31 15:38:29 by rvuorenl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,19 @@ size_t	ft_strlen(const char *s)
 		i++;
 	return (i);
 }
+char	*ft_strcpy(char *dst, const char *src)
+{
+	int	i;
 
+	i = 0;
+	while (src[i])
+	{
+		dst[i] = src[i];
+		i++;
+	}
+	dst[i] = '\0';
+	return (dst);
+}
 char	*ft_strncpy(char *dst, const char *src, size_t len)
 {
 	unsigned int	size;
@@ -103,6 +115,24 @@ int	ft_atoi(const char *str)
 			return (0);
 	}
 	return (num * (negative));
+}
+char	*ft_strcat(char *s1, const char *s2)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (s1[i])
+		i++;
+	j = 0;
+	while (s2[j])
+	{
+		s1[i] = s2[j];
+		j++;
+		i++;
+	}
+	s1[i] = '\0';
+	return (s1);
 }
 void	ft_memdel(void **ap)
 {
@@ -167,7 +197,7 @@ void print_test(t_node *head)
 	printf("(NULL)\n");
 }
 
-void	list_add_directory(t_node **head, char *path, int opts)
+void	list_add_directory(t_node **head, char *path, int opts, int full)
 {
 	DIR				*dir;
 	struct dirent	*dp;
@@ -178,9 +208,13 @@ void	list_add_directory(t_node **head, char *path, int opts)
 	dp = readdir(dir);
 	while (dp != NULL)
 	{
-		// printf("\t%s\n", dp->d_name);
 		if (dp->d_name[0] != '.' || (dp->d_name[0] == '.' && (opts & HIDDEN)))
-			create_node(head, dp->d_name, opts);
+		{
+			if (full)
+				create_node_fullpath(head, dp->d_name, opts, path);
+			else
+				create_node(head, dp->d_name, opts);
+		}
 		dp = readdir(dir);
 	}
 	closedir(dir);
@@ -229,7 +263,6 @@ int main(int argc, char **argv)
 		read_options(argc, argv, &info);
 	read_arguments(&head, argc, argv, &info);
 	ft_ls(head, info.options, &info.ret_nr);
-
 	return (info.ret_nr);
 }
 

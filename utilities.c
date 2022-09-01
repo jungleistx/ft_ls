@@ -6,7 +6,7 @@
 /*   By: rvuorenl <rvuorenl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/17 15:03:32 by rvuorenl          #+#    #+#             */
-/*   Updated: 2022/08/30 13:38:15 by rvuorenl         ###   ########.fr       */
+/*   Updated: 2022/08/31 15:35:46 by rvuorenl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ void	read_arguments(t_node **head, int argc, char **argv, t_info *info)
 {
 	if (info->args == 0)
 	{
-		list_add_directory(head, ".", info->options);
+		list_add_directory(head, ".", info->options, 0);
 		if (info->options & SORT_TIME)
 			list_sort_time_dispatch(head, info->options);
 		print_list(*head, info->options);
@@ -96,11 +96,7 @@ void	read_arguments(t_node **head, int argc, char **argv, t_info *info)
 	{
 		while (info->args > 0)
 			create_node(head, argv[argc - info->args--], info->options);
-		// while (info->args > 0)
-		// {
-		// 	create_node(head, argv[argc - info->args], info->options);
-		// 	info->args--;
-		// }
+
 		// print_test(*head);
 		if (info->options & SORT_TIME)
 			list_sort_time_dispatch(head, info->options);

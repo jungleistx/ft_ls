@@ -6,7 +6,7 @@
 /*   By: rvuorenl <rvuorenl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 15:04:00 by rvuorenl          #+#    #+#             */
-/*   Updated: 2022/08/30 15:11:54 by rvuorenl         ###   ########.fr       */
+/*   Updated: 2022/09/01 19:14:28 by rvuorenl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,19 +30,16 @@ void	print_list_errors(t_node *head, int *ret_nr)
 
 void	print_long_list_node(t_node *node)
 {
-	// printf("%s %*d %s  %s %*d %s %s\n",node->l_opt->permissions, 3,
-	// 	node->l_opt->links, node->l_opt->owner, node->l_opt->group, 8,
-	// 	node->l_opt->size, node->l_opt->date, node->name);// 8?
 	printf("%s ", node->l_opt->permissions);
 	printf("%*d ", 3, node->l_opt->links);
 	printf("%-*s", 12, node->l_opt->owner);
 	printf("%-*s", 8, node->l_opt->group);
-	printf("%*d ", 7, node->l_opt->size);
+	printf("%-*d ", 7, node->l_opt->size);
 	printf("%s ", node->l_opt->date);
-	printf("%s\n", node->name);
-	// printf("%s %d %s %s %d %s %s\n", node->l_opt->permissions,
-	// 	node->l_opt->links, node->l_opt->owner, node->l_opt->group,
-	// 	node->l_opt->size, node->l_opt->date, node->name);
+	printf("%s", node->name);
+	if (node->type == 10)
+		printf(" -> %s", node->l_opt->sym_link);
+	printf("\n");
 }
 
 void	print_long_list(t_node *head)
@@ -52,19 +49,16 @@ void	print_long_list(t_node *head)
 	tmp = head;
 	while (tmp)
 	{
-		printf("%s   ", tmp->l_opt->permissions);
-		printf("%d   ", tmp->l_opt->links);
-		printf("%s   ", tmp->l_opt->owner);
-		printf("%s   ", tmp->l_opt->group);
-		printf("%d   ", tmp->l_opt->size);
-		printf("%s   ", tmp->l_opt->date);
-		printf("%s \n", tmp->name);
-		// printf("%s %d %s %s %d %s %s\n", tmp->l_opt->permissions,
-		// 	tmp->l_opt->links, tmp->l_opt->owner, tmp->l_opt->group,
-		// 	tmp->l_opt->size, tmp->l_opt->date, tmp->name);
-		// printf("%s %*d %s  %s %*d %s %s\n",tmp->l_opt->permissions, 3,
-		// 	tmp->l_opt->links, tmp->l_opt->owner, tmp->l_opt->group, 8,
-		// 	tmp->l_opt->size, tmp->l_opt->date, tmp->name);// 8?
+		printf("%s ", tmp->l_opt->permissions);
+		printf("%*d ", 3, tmp->l_opt->links);
+		printf("%-*s", 12, tmp->l_opt->owner);
+		printf("%-*s", 8, tmp->l_opt->group);
+		printf("%*d ", 7, tmp->l_opt->size);
+		printf("%s ", tmp->l_opt->date);
+		printf("%s", tmp->name);
+		if (tmp->type == 10)
+			printf(" -> %s", tmp->l_opt->sym_link);
+		printf("\n");
 		tmp = tmp->next;
 	}
 }
@@ -114,6 +108,28 @@ void	print_list(t_node *head, int opts)
 		print_list_all(head);
 }
 
+// void	list_add_dir_path(t_node **head, char *path, int opts, char *full)
+// {
+// 	DIR				*dir;
+// 	struct dirent	*dp;
+
+// 	dir = opendir(path);
+// 	if (!dir)
+// 		error_dir("list_add_directory");		//	proper error code ???
+// 	dp = readdir(dir);
+// 	while (dp != NULL)
+// 	{
+// 		if (dp->d_name[0] != '.' || (dp->d_name[0] == '.' && (opts & HIDDEN)))
+// 			create_node_fullpath(head, dp->d_name, opts, );
+// 		dp = readdir(dir);
+// 	}
+// 	closedir(dir);
+// 	if (opts & SORT_TIME && opts & REVERSE)
+// 		list_sort_time_reverse(head);
+// 	else if (opts & SORT_TIME)
+// 		list_sort_time(head);
+// }
+
 // void	print_dir_content(t_node *head, int opts)
 void	print_dir(t_node *head, int opts)
 {
@@ -125,8 +141,10 @@ void	print_dir(t_node *head, int opts)
 	while (tmp)
 	{
 		printf("\n%s:\n", tmp->name);
-		list_add_directory(&newhead, tmp->name, opts);
+
+		list_add_directory(&newhead, tmp->name, opts, 1);
 		// tmp->name works as a path, UNTESTED
+
 		print_list(newhead, opts);
 		tmp = tmp->next;
 		free_list(&newhead, opts);
@@ -145,7 +163,11 @@ void	print_dir_recursive(t_node **head, int opts)
 	while (tmp)
 	{
 		printf("\n%s:\n", tmp->name);
-		list_add_directory(&newhead, tmp->name, opts);
+		list_add_directory(&newhead, tmp->name, opts, 1);
+
+		// recursive -> save the name of first dir as a "path"
+		// tmp->name / dir_name ...
+
 		rec_head = print_list_find_dir(newhead, opts);
 		if (rec_head)
 			print_dir_recursive(&rec_head, opts);

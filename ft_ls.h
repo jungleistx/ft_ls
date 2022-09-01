@@ -6,7 +6,7 @@
 /*   By: rvuorenl <rvuorenl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/25 19:01:47 by rvuorenl          #+#    #+#             */
-/*   Updated: 2022/08/31 16:25:07 by rvuorenl         ###   ########.fr       */
+/*   Updated: 2022/09/01 19:09:25 by rvuorenl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,35 +24,9 @@
 # include <unistd.h> // readlink
 // # include "./libft/libft.h"
 # include <stdlib.h>		// --------------------	 DELETE ??	----------------
+# include <sys/ioctl.h> // formatting
 
 # define OPTIONS "lRart" //ufgdG, bonus P
-
-// typedef	struct	s_dirlist
-// {
-// 	char			*name;
-// 	struct s_node	*prev;
-// 	struct s_node	*next;
-// 	int				type;	//	4 directory, 8 file, 10 soft link, 0 other.
-// }				t_dirlist;
-
-// typedef	struct		 s_arguments
-// {
-// 	struct s_arguments	*next;
-// 	char				*name;
-// }					t_arguments;
-
-// typedef	struct 		s_error
-// {
-// 	char			*name;
-// 	struct	s_error	*next;
-// }					t_error;
-
-// typedef	struct 		s_all
-// {
-// 	struct	s_error *head;
-// 	struct	s_info	*info;
-// 	struct	s_node	*head;
-// }					t_all;
 
 typedef struct		s_long
 {
@@ -63,6 +37,7 @@ typedef struct		s_long
 	int				size;
 	// char			size_c[2];	//	BONUS
 	// MALLOC
+	char			*sym_link;
 	char			*owner;
 	char			*group;
 }					t_long;

@@ -6,7 +6,7 @@
 /*   By: rvuorenl <rvuorenl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/19 13:50:21 by rvuorenl          #+#    #+#             */
-/*   Updated: 2022/08/30 13:37:56 by rvuorenl         ###   ########.fr       */
+/*   Updated: 2022/09/01 13:26:47 by rvuorenl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,8 @@ void	list_sort_time_reverse(t_node **head)
 		prev = NULL;
 		while (tmp && tmp->next)
 		{
-			if ((tmp->sec > tmp->next->sec) || (tmp->sec == tmp->next->sec &&
-				tmp->n_sec > tmp->next->n_sec))
+			if (((tmp->sec > tmp->next->sec) || (tmp->sec == tmp->next->sec &&
+				tmp->n_sec > tmp->next->n_sec)) && tmp->type != 0)
 				update_list_time(&prev, tmp, head, &sorted);
 			else
 			{
@@ -85,8 +85,8 @@ void	list_sort_time(t_node **head)
 		tmp = *head;
 		while (tmp && tmp->next)
 		{
-			if ((tmp->sec < tmp->next->sec) || (tmp->sec == tmp->next->sec &&
-				tmp->n_sec < tmp->next->n_sec))
+			if (((tmp->sec < tmp->next->sec) || (tmp->sec == tmp->next->sec &&
+				tmp->n_sec < tmp->next->n_sec)) && tmp->type != 0)
 				{
 					// printf("head = %s, tmp = %s", (*head)->name,
 					// tmp->name);

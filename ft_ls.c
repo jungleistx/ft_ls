@@ -6,7 +6,7 @@
 /*   By: rvuorenl <rvuorenl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/25 18:55:37 by rvuorenl          #+#    #+#             */
-/*   Updated: 2022/09/02 13:57:24 by rvuorenl         ###   ########.fr       */
+/*   Updated: 2022/09/02 14:02:50 by rvuorenl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -219,10 +219,10 @@ void	list_add_directory(t_node **head, char *path, int opts)
 		dp = readdir(dir);
 	}
 	closedir(dir);
-	if (opts & SORT_TIME && opts & REVERSE)
-		list_sort_time_reverse(head);
-	else if (opts & SORT_TIME)
-		list_sort_time(head);
+	// if (opts & SORT_TIME && opts & REVERSE)
+	// 	list_sort_time_reverse(head);
+	// else if (opts & SORT_TIME)
+	// 	list_sort_time(head);
 }
 
 void	ft_ls(t_node *head, int options, int *ret_nr)

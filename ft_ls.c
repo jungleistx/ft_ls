@@ -6,7 +6,7 @@
 /*   By: rvuorenl <rvuorenl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/25 18:55:37 by rvuorenl          #+#    #+#             */
-/*   Updated: 2022/08/31 15:38:29 by rvuorenl         ###   ########.fr       */
+/*   Updated: 2022/09/02 13:57:24 by rvuorenl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -197,7 +197,8 @@ void print_test(t_node *head)
 	printf("(NULL)\n");
 }
 
-void	list_add_directory(t_node **head, char *path, int opts, int full)
+// 		list_add_directory(head, ".", info->options, 0);
+void	list_add_directory(t_node **head, char *path, int opts)
 {
 	DIR				*dir;
 	struct dirent	*dp;
@@ -210,10 +211,10 @@ void	list_add_directory(t_node **head, char *path, int opts, int full)
 	{
 		if (dp->d_name[0] != '.' || (dp->d_name[0] == '.' && (opts & HIDDEN)))
 		{
-			if (full)
-				create_node_fullpath(head, dp->d_name, opts, path);
-			else
-				create_node(head, dp->d_name, opts);
+			// if (full)
+			// 	create_node_fullpath(head, dp->d_name, opts, path);
+			// else
+				create_node(head, dp->d_name, opts, path);
 		}
 		dp = readdir(dir);
 	}

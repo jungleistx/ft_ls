@@ -6,7 +6,7 @@
 /*   By: rvuorenl <rvuorenl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/25 19:01:47 by rvuorenl          #+#    #+#             */
-/*   Updated: 2022/09/01 19:09:25 by rvuorenl         ###   ########.fr       */
+/*   Updated: 2022/09/02 13:39:55 by rvuorenl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ typedef struct		s_long
 
 typedef	struct		s_node
 {
-	// char			*path;	//	path to the file	NEEDED ?
 	// struct s_node	*prev;
 	struct s_node	*next;
 	int				type;		//	4 directory, 8 file, 10 softlink, 0 error.
@@ -52,6 +51,7 @@ typedef	struct		s_node
 	long			sec;		//	in seconds
 	long			n_sec;		//	in nanosecs
 	// malloc
+	char			*path;	//	path to the file
 	char			*name;	//	name of file, if no path
 	struct s_long	*l_opt;	//	if -l, malloc and assign struct
 }					t_node;
@@ -94,7 +94,8 @@ size_t	ft_strlen(const char *s);
 char	*ft_strncpy(char *dst, const char *src, size_t len);
 
 char	*ft_strdup_exit(char *src);
-void	create_node_fullpath(t_node **head, char *name, int opts, char *full);
+// void	create_node_fullpath(t_node **head, char *name, int opts, char *full);
+	// not needed if create_node saves the path always
 void	create_node(t_node **head, char *name, int opts);
 void	error_dir(char *str);
 void	error_notfound(char *filename);
@@ -107,7 +108,7 @@ void	free_list(t_node **head, int options);
 void	free_node(t_node *node, int options);
 void	ft_ls(t_node *head, int opts, int *ret_nr);
 char	*get_full_path(char *name, char *path);
-void	list_add_directory(t_node **head, char *path, int opts, int full);
+void	list_add_directory(t_node **head, char *path, int opts);
 void	list_add_long_filetype(t_node *node, struct stat filestat, int a);
 void	list_add_long(t_node *node, struct stat filestat);
 void	list_find_spot(t_node **head, t_node *prev, t_node *node, t_node *tmp);
@@ -143,6 +144,7 @@ void	update_list_time(t_node **prev, t_node *node, t_node **head, int *sort);
 2	exit_malloc_error
 3	exit_dup_error		// UNFINISHED
 4	error_dir
+5	exit_readlink_error
 
 */
 

@@ -6,7 +6,7 @@
 /*   By: rvuorenl <rvuorenl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/19 13:40:55 by rvuorenl          #+#    #+#             */
-/*   Updated: 2022/08/31 15:45:59 by rvuorenl         ###   ########.fr       */
+/*   Updated: 2022/09/02 13:57:39 by rvuorenl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,18 @@ void	list_sort_add(t_node **head, t_node *node, int options)
 	prev = NULL;
 	if (!tmp)
 		*head = node;
+	// else if (options & SORT_TIME && options & REVERSE && node->type != 0)
+	// 	list_sort_time_reverse(head);
+	// else if (options & SORT_TIME && node->type != 0)
+	// 	list_sort_time(head);
+	// else
+	// {
+	// 	if ((options & REVERSE) && (node->type != 0))	//	errors go to front of the list, in ascii order
+	// 		list_find_spot_r(head, prev, node, tmp);
+	// 	else
+	// 		list_find_spot(head, prev, node, tmp);
+	// }
+	// 		OLD VERSION AFTER IF
 	else
 	{
 		if ((options & REVERSE) && (node->type != 0))	//	errors go to front of the list, in ascii order
@@ -101,18 +113,24 @@ void	list_sort_add(t_node **head, t_node *node, int options)
 	}
 }
 
-void	create_node(t_node **head, char *name, int opts)
+void	create_node(t_node **head, char *name, int opts, char *path)
 {
 	t_node		*node;
 	struct stat	filestat;
+	char		*full_path;
 
 	node = (t_node*)malloc(sizeof(t_node));
 	if (!node)
 		exit_malloc_error("create_node");
-	if (lstat(name, &filestat) == -1)
+
+	full_path = get_full_path(name, path);
+
+	if (lstat(full_path, &filestat) == -1)
 		node->type = 0;
 	else
 		node->type = node_filetype(filestat);
+	node->path = ft_strdup_exit(full_path);
+	free(full_path);
 	node->name = ft_strdup_exit(name);
 	node->next = NULL;
 	node->sec = filestat.st_mtimespec.tv_sec;

@@ -6,7 +6,7 @@
 /*   By: rvuorenl <rvuorenl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/19 13:40:55 by rvuorenl          #+#    #+#             */
-/*   Updated: 2022/09/02 14:03:05 by rvuorenl         ###   ########.fr       */
+/*   Updated: 2022/09/02 14:25:24 by rvuorenl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,13 +96,26 @@ void	list_sort_add(t_node **head, t_node *node, int options)
 		list_sort_time_reverse(head);
 	else if (options & SORT_TIME && node->type != 0)
 		list_sort_time(head);
+	else if (options & REVERSE && node->type != 0)	//	errors go to front of the list
+		list_find_spot_r(head, prev, node, tmp);
 	else
-	{
-		if ((options & REVERSE) && (node->type != 0))	//	errors go to front of the list, in ascii order
-			list_find_spot_r(head, prev, node, tmp);
-		else
-			list_find_spot(head, prev, node, tmp);
-	}
+		list_find_spot(head, prev, node, tmp);
+
+	//			V2 - longer but more readable?
+	// else if (node->type != 0)
+	// {
+	// 	if (options & SORT_TIME && options & REVERSE)
+	// 		list_sort_time_reverse(head);
+	// 	else if (options & SORT_TIME)
+	// 		list_sort_time(head);
+	// 	else if (options & REVERSE)
+	// 		list_find_spot_r(head, prev, node, tmp);
+	// 	else
+	// 		list_find_spot(head, prev, node, tmp);
+	// }
+	// else
+	// 	list_find_spot(head, prev, node, tmp);
+
 	// 		OLD VERSION AFTER IF
 	// else
 	// {

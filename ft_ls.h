@@ -6,7 +6,7 @@
 /*   By: rvuorenl <rvuorenl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/25 19:01:47 by rvuorenl          #+#    #+#             */
-/*   Updated: 2022/09/02 13:39:55 by rvuorenl         ###   ########.fr       */
+/*   Updated: 2022/09/06 13:50:30 by rvuorenl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ char	*ft_strncpy(char *dst, const char *src, size_t len);
 char	*ft_strdup_exit(char *src);
 // void	create_node_fullpath(t_node **head, char *name, int opts, char *full);
 	// not needed if create_node saves the path always
-void	create_node(t_node **head, char *name, int opts);
+void	create_node(t_node **head, char *name, int opts, char *path);
 void	error_dir(char *str);
 void	error_notfound(char *filename);
 void	exit_dup_error(char *str);
@@ -108,6 +108,7 @@ void	free_list(t_node **head, int options);
 void	free_node(t_node *node, int options);
 void	ft_ls(t_node *head, int opts, int *ret_nr);
 char	*get_full_path(char *name, char *path);
+// char	*get_full_path(char *name, char *path, t_node *node);
 void	list_add_directory(t_node **head, char *path, int opts);
 void	list_add_long_filetype(t_node *node, struct stat filestat, int a);
 void	list_add_long(t_node *node, struct stat filestat);

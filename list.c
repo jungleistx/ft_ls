@@ -6,7 +6,7 @@
 /*   By: rvuorenl <rvuorenl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/19 13:40:55 by rvuorenl          #+#    #+#             */
-/*   Updated: 2022/09/02 14:25:24 by rvuorenl         ###   ########.fr       */
+/*   Updated: 2022/09/07 13:28:28 by rvuorenl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,20 +130,22 @@ void	create_node(t_node **head, char *name, int opts, char *path)
 {
 	t_node		*node;
 	struct stat	filestat;
-	char		*full_path;
+	// char		*full_path;
 
 	node = (t_node*)malloc(sizeof(t_node));
 	if (!node)
 		exit_malloc_error("create_node");
 
-	full_path = get_full_path(name, path);
+	// full_path = get_full_path(name, path);
+	node->path = get_full_path(name, path);
 
-	if (lstat(full_path, &filestat) == -1)
+	// if (lstat(full_path, &filestat) == -1)
+	if (lstat(node->path, &filestat) == -1)
 		node->type = 0;
 	else
 		node->type = node_filetype(filestat);
-	node->path = ft_strdup_exit(full_path);
-	free(full_path);
+	// node->path = ft_strdup_exit(full_path); // remove the node->name ?
+	// free(full_path);
 	node->name = ft_strdup_exit(name);
 	node->next = NULL;
 	node->sec = filestat.st_mtimespec.tv_sec;
@@ -172,6 +174,7 @@ char	*get_full_path(char *name, char *path)
 	// 0 1 2 3 4 5 6 7 8 9
 	// l i b f t / a b c \0
 	full_path = ft_strcat(full_path, name);
+	// free(path);
 
 	// printf("in get_path: path = '%s', name = '%s'\n", path, name);
 	// printf("in get_path: full = '%s'\n", full_path);

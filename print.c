@@ -6,7 +6,7 @@
 /*   By: rvuorenl <rvuorenl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 15:04:00 by rvuorenl          #+#    #+#             */
-/*   Updated: 2022/09/01 19:14:28 by rvuorenl         ###   ########.fr       */
+/*   Updated: 2022/09/07 13:37:02 by rvuorenl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,7 +142,7 @@ void	print_dir(t_node *head, int opts)
 	{
 		printf("\n%s:\n", tmp->name);
 
-		list_add_directory(&newhead, tmp->name, opts, 1);
+		list_add_directory(&newhead, tmp->name, opts);
 		// tmp->name works as a path, UNTESTED
 
 		print_list(newhead, opts);
@@ -162,17 +162,22 @@ void	print_dir_recursive(t_node **head, int opts)
 	tmp = *head;
 	while (tmp)
 	{
-		printf("\n%s:\n", tmp->name);
-		list_add_directory(&newhead, tmp->name, opts, 1);
+		if (tmp->name[0] != '.')
+		{
+			tmp->name = get_full_path(tmp->name, tmp->path);
+			// free(tmp->path);
+			printf("\n%s:\n", tmp->name);
+			list_add_directory(&newhead, tmp->name, opts);
 
-		// recursive -> save the name of first dir as a "path"
-		// tmp->name / dir_name ...
+			// recursive -> save the name of first dir as a "path"
+			// tmp->name / dir_name ...
 
-		rec_head = print_list_find_dir(newhead, opts);
-		if (rec_head)
-			print_dir_recursive(&rec_head, opts);
+			rec_head = print_list_find_dir(newhead, opts);
+			if (rec_head)
+				print_dir_recursive(&rec_head, opts);
+			free_list(&newhead, opts);
+		}
 		tmp = tmp->next;
-		free_list(&newhead, opts);
 	}
 	free_list(head, opts);
 }

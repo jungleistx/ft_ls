@@ -6,7 +6,7 @@
 /*   By: rvuorenl <rvuorenl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/19 13:34:34 by rvuorenl          #+#    #+#             */
-/*   Updated: 2022/09/02 13:26:42 by rvuorenl         ###   ########.fr       */
+/*   Updated: 2022/09/07 13:31:58 by rvuorenl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ char	*add_symbolic_link(t_node *node)
 	buf = (char*)malloc(sizeof(char) * 256);
 	if (!buf)
 		exit_malloc_error("add_symbolic_link");
-    if (readlink("", buf, 256) == -1)
+    if (readlink(node->path, buf, 256) == -1)
 		exit_readlink_error();
 	return (buf);
 }
@@ -74,7 +74,7 @@ void	list_add_long(t_node *node, struct stat filestat)
 	node->l_opt->group = ft_strdup_exit(g_id->gr_name);
 	date = ctime(&filestat.st_ctimespec.tv_sec);
 	node->l_opt->year = ft_atoi((const char*)&date[20]);
-	printf("date = '%s'\n", date);
+	// printf("date = '%s'\n", date);
 	ft_strncpy(node->l_opt->date, (const char*)&date[4], (size_t)12);
 	node->l_opt->date[12] = '\0';
 	if (node->type == 10)

@@ -6,7 +6,7 @@
 /*   By: rvuorenl <rvuorenl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/25 19:01:47 by rvuorenl          #+#    #+#             */
-/*   Updated: 2022/09/06 13:50:30 by rvuorenl         ###   ########.fr       */
+/*   Updated: 2022/09/12 16:21:24 by rvuorenl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ typedef	struct	s_info
 	int			ret_nr;
 	uint16_t	options;	// 	options stored as a int (check enum)
 	int			args;		// 	# of files/dirs to ls: ls author file1 file2 = 3
+	long		total;		//  total
 
 }				t_info;
 
@@ -96,7 +97,7 @@ char	*ft_strncpy(char *dst, const char *src, size_t len);
 char	*ft_strdup_exit(char *src);
 // void	create_node_fullpath(t_node **head, char *name, int opts, char *full);
 	// not needed if create_node saves the path always
-void	create_node(t_node **head, char *name, int opts, char *path);
+void	create_node(t_node **head, char *name, t_info *info, char *path);
 void	error_dir(char *str);
 void	error_notfound(char *filename);
 void	exit_dup_error(char *str);
@@ -106,12 +107,12 @@ void	exit_usage(void);
 void	free_file_nodes(t_node **head, int options);
 void	free_list(t_node **head, int options);
 void	free_node(t_node *node, int options);
-void	ft_ls(t_node *head, int opts, int *ret_nr);
+void	ft_ls(t_node *head, t_info *info);
 char	*get_full_path(char *name, char *path);
 // char	*get_full_path(char *name, char *path, t_node *node);
-void	list_add_directory(t_node **head, char *path, int opts);
+void	list_add_directory(t_node **head, char *path, t_info *info);
 void	list_add_long_filetype(t_node *node, struct stat filestat, int a);
-void	list_add_long(t_node *node, struct stat filestat);
+void	list_add_long(t_node *node, struct stat filestat, t_info *info);
 void	list_find_spot(t_node **head, t_node *prev, t_node *node, t_node *tmp);
 void	list_find_spot_r(t_node **head, t_node *prev, t_node *node, t_node *tmp);
 void	list_sort_add(t_node **head, t_node *node, int options);
@@ -120,12 +121,12 @@ void	list_sort_time_reverse(t_node **head);
 void	list_sort_time(t_node **head);
 int		node_filetype(struct stat filestat);
 int		option_validity(char *str);
-void	print_dir_recursive(t_node **head, int opts);	// UNFINISHED
-void	print_dir(t_node *head, int opts);
+void	print_dir_recursive(t_node **head, t_info *info);
+void	print_dir(t_node *head, t_info *info);
 void	print_list_all(t_node *head);
 void	print_list_errors(t_node *head, int *ret_nr);
 void	print_list_files(t_node **head, int options);
-void	print_list(t_node *head, int opts);
+void	print_list(t_node **head, int opts);
 t_node	*print_list_find_dir(t_node *head, int opts);
 void	print_long_list_node(t_node *node);
 void	print_long_list(t_node *head);

@@ -6,7 +6,7 @@
 /*   By: rvuorenl <rvuorenl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/19 13:40:55 by rvuorenl          #+#    #+#             */
-/*   Updated: 2022/09/07 13:28:28 by rvuorenl         ###   ########.fr       */
+/*   Updated: 2022/09/12 16:22:48 by rvuorenl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,8 @@ void	list_sort_add(t_node **head, t_node *node, int options)
 	// }
 }
 
-void	create_node(t_node **head, char *name, int opts, char *path)
+// void	create_node(t_node **head, char *name, int opts, char *path)
+void	create_node(t_node **head, char *name, t_info *info, char *path)
 {
 	t_node		*node;
 	struct stat	filestat;
@@ -150,9 +151,9 @@ void	create_node(t_node **head, char *name, int opts, char *path)
 	node->next = NULL;
 	node->sec = filestat.st_mtimespec.tv_sec;
 	node->n_sec = filestat.st_mtimespec.tv_nsec;
-	if (opts & LONG)
-		list_add_long(node, filestat);
-	list_sort_add(head, node, opts);
+	if (info->options & LONG)
+		list_add_long(node, filestat, info);
+	list_sort_add(head, node, info->options);
 }
 
 char	*get_full_path(char *name, char *path)
@@ -183,7 +184,7 @@ char	*get_full_path(char *name, char *path)
 
 //name = filename
 //full = path to filename
-void	create_node_fullpath(t_node **head, char *name, int opts, char *path)
+void	create_node_fullpath(t_node **head, char *name, t_info *i, char *path)
 {
 	t_node		*node;
 	struct stat	filestat;
@@ -208,7 +209,7 @@ void	create_node_fullpath(t_node **head, char *name, int opts, char *path)
 	node->next = NULL;
 	node->sec = filestat.st_mtimespec.tv_sec;
 	node->n_sec = filestat.st_mtimespec.tv_nsec;
-	if (opts & LONG)
-		list_add_long(node, filestat);
-	list_sort_add(head, node, opts);
+	if (i->options & LONG)
+		list_add_long(node, filestat, i);
+	list_sort_add(head, node, i->options);
 }

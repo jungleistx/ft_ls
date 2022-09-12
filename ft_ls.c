@@ -6,7 +6,7 @@
 /*   By: rvuorenl <rvuorenl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/25 18:55:37 by rvuorenl          #+#    #+#             */
-/*   Updated: 2022/09/02 14:25:59 by rvuorenl         ###   ########.fr       */
+/*   Updated: 2022/09/12 16:19:32 by rvuorenl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -198,7 +198,8 @@ void print_test(t_node *head)
 }
 
 // 		list_add_directory(head, ".", info->options, 0);
-void	list_add_directory(t_node **head, char *path, int opts)
+// void	list_add_directory(t_node **head, char *path, int opts)
+void	list_add_directory(t_node **head, char *path, t_info *info)
 {
 	DIR				*dir;
 	struct dirent	*dp;
@@ -209,9 +210,10 @@ void	list_add_directory(t_node **head, char *path, int opts)
 	dp = readdir(dir);
 	while (dp != NULL)
 	{
-		if (dp->d_name[0] != '.' || (dp->d_name[0] == '.' && (opts & HIDDEN)))
+		if (dp->d_name[0] != '.' ||
+		(dp->d_name[0] == '.' && (info->options & HIDDEN)))
 		{
-				create_node(head, dp->d_name, opts, path);
+				create_node(head, dp->d_name, info, path);
 		}
 		dp = readdir(dir);
 	}
@@ -222,20 +224,20 @@ void	list_add_directory(t_node **head, char *path, int opts)
 	// 	list_sort_time(head);
 }
 
-void	ft_ls(t_node *head, int options, int *ret_nr)
+void	ft_ls(t_node *head, t_info *info)
 {
 	// t_node	*tmp;
 
 	// tmp = *head;
 	// printf("ls\n");
 	// print_test(*head);
-	print_list_errors(head, ret_nr);
-	print_list_files(&head, options);
+	print_list_errors(head, &info->ret_nr);
+	print_list_files(&head, info->options);
 	// if (options & RECURSIVE)
 	// 	print_dir_recursive(head, options);
 	// else
 	// print_test(head);
-		print_dir(head, options);
+		print_dir(head, info);
 
 /*		TODO
 
@@ -247,7 +249,7 @@ dir content_list doesnt reverse with -r
 	// print_test(head);
 	// printf("testing\n");
 	if (head)
-		free_list(&head, options);
+		free_list(&head, info->options);
 	// print_test(head);
 }
 
@@ -260,7 +262,7 @@ int main(int argc, char **argv)
 	if (argc > 1)
 		read_options(argc, argv, &info);
 	read_arguments(&head, argc, argv, &info);
-	ft_ls(head, info.options, &info.ret_nr);
+	ft_ls(head, &info);
 	return (info.ret_nr);
 }
 

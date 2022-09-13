@@ -6,7 +6,7 @@
 /*   By: rvuorenl <rvuorenl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/25 18:55:37 by rvuorenl          #+#    #+#             */
-/*   Updated: 2022/09/13 11:56:22 by rvuorenl         ###   ########.fr       */
+/*   Updated: 2022/09/13 21:11:22 by rvuorenl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -206,7 +206,7 @@ void	list_add_directory(t_node **head, char *path, t_info *info)
 
 	dir = opendir(path);
 	if (!dir)
-		error_dir("list_add_directory");		//	proper error code ???
+		error_dir(path);		//	proper error code ???
 	info->total = 0;
 	dp = readdir(dir);
 	while (dp != NULL)
@@ -214,6 +214,8 @@ void	list_add_directory(t_node **head, char *path, t_info *info)
 		if (dp->d_name[0] != '.' ||
 		(dp->d_name[0] == '.' && (info->options & HIDDEN)))
 		{
+			if (path[0] == '/')
+				info->options |= ADD_SLASH;
 			create_node(head, dp->d_name, info, path);
 		}
 		dp = readdir(dir);
@@ -234,7 +236,7 @@ void	ft_ls(t_node **head, t_info *info)
 		print_dir_recursive(head, info);
 	else
 	// print_test(head);
-		print_dir(head, info);
+		print_dir(*head, info);
 
 /*		TODO
 
@@ -246,7 +248,7 @@ dir content_list doesnt reverse with -r
 	// print_test(head);
 	// printf("testing\n");
 	if (head)
-		free_list(&head, info->options);
+		free_list(head, info->options);
 	// print_test(head);
 }
 

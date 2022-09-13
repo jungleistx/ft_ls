@@ -6,7 +6,7 @@
 /*   By: rvuorenl <rvuorenl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/19 13:40:55 by rvuorenl          #+#    #+#             */
-/*   Updated: 2022/09/12 16:22:48 by rvuorenl         ###   ########.fr       */
+/*   Updated: 2022/09/13 21:37:49 by rvuorenl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,19 +88,37 @@ void	list_sort_add(t_node **head, t_node *node, int options)
 	t_node	*tmp;
 	t_node	*prev;
 
+	// printf("---\n");
+	// print_test(*head);
+	// printf("---\n");
+
 	tmp = *head;
 	prev = NULL;
 	if (!tmp)
 		*head = node;
-	else if (options & SORT_TIME && options & REVERSE && node->type != 0)
-		list_sort_time_reverse(head);
-	else if (options & SORT_TIME && node->type != 0)
-		list_sort_time(head);
+	// else if (options & SORT_TIME && options & REVERSE && node->type != 0)
+	// 	list_sort_time_reverse(head);
+	// else if (options & SORT_TIME && node->type != 0)
+	// 	list_sort_time(head);
+	// else if (options & REVERSE && node->type != 0)	//	errors go to front of the list
+	// 	list_find_spot_r(head, prev, node, tmp);
+	// else
+	// 	list_find_spot(head, prev, node, tmp);
+
 	else if (options & REVERSE && node->type != 0)	//	errors go to front of the list
 		list_find_spot_r(head, prev, node, tmp);
 	else
 		list_find_spot(head, prev, node, tmp);
 
+	if (node->type != 0 && options & SORT_TIME && options & REVERSE)
+		list_sort_time_reverse(head);
+	else if (node->type != 0 && options & SORT_TIME)
+		list_sort_time(head);
+
+
+
+
+	// print_test(*head);
 	//			V2 - longer but more readable?
 	// else if (node->type != 0)
 	// {
@@ -168,7 +186,8 @@ char	*get_full_path(char *name, char *path)
 
 
 	full_path = ft_strcpy(full_path, path);
-	full_path = ft_strcat(full_path, "/");
+	if (name[0] != '/')
+		full_path = ft_strcat(full_path, "/");
 	// path = libft 5
 	// mid = '/'	1
 	// name = abc	3
@@ -176,7 +195,7 @@ char	*get_full_path(char *name, char *path)
 	// l i b f t / a b c \0
 	full_path = ft_strcat(full_path, name);
 	// free(path);
-
+	// printf("IN GET PATH, path %s, name %s\n", path, name);
 	// printf("in get_path: path = '%s', name = '%s'\n", path, name);
 	// printf("in get_path: full = '%s'\n", full_path);
 	return (full_path);

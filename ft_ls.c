@@ -6,7 +6,7 @@
 /*   By: rvuorenl <rvuorenl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/25 18:55:37 by rvuorenl          #+#    #+#             */
-/*   Updated: 2022/09/12 16:19:32 by rvuorenl         ###   ########.fr       */
+/*   Updated: 2022/09/13 11:56:22 by rvuorenl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -207,35 +207,32 @@ void	list_add_directory(t_node **head, char *path, t_info *info)
 	dir = opendir(path);
 	if (!dir)
 		error_dir("list_add_directory");		//	proper error code ???
+	info->total = 0;
 	dp = readdir(dir);
 	while (dp != NULL)
 	{
 		if (dp->d_name[0] != '.' ||
 		(dp->d_name[0] == '.' && (info->options & HIDDEN)))
 		{
-				create_node(head, dp->d_name, info, path);
+			create_node(head, dp->d_name, info, path);
 		}
 		dp = readdir(dir);
 	}
 	closedir(dir);
-	// if (opts & SORT_TIME && opts & REVERSE)
-	// 	list_sort_time_reverse(head);
-	// else if (opts & SORT_TIME)
-	// 	list_sort_time(head);
 }
 
-void	ft_ls(t_node *head, t_info *info)
+void	ft_ls(t_node **head, t_info *info)
 {
 	// t_node	*tmp;
 
 	// tmp = *head;
 	// printf("ls\n");
 	// print_test(*head);
-	print_list_errors(head, &info->ret_nr);
-	print_list_files(&head, info->options);
-	// if (options & RECURSIVE)
-	// 	print_dir_recursive(head, options);
-	// else
+	print_list_errors(*head, info);
+	print_list_files(head, info);
+	if (info->options & RECURSIVE)
+		print_dir_recursive(head, info);
+	else
 	// print_test(head);
 		print_dir(head, info);
 
@@ -262,7 +259,7 @@ int main(int argc, char **argv)
 	if (argc > 1)
 		read_options(argc, argv, &info);
 	read_arguments(&head, argc, argv, &info);
-	ft_ls(head, &info);
+	ft_ls(&head, &info);
 	return (info.ret_nr);
 }
 

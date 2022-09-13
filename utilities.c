@@ -6,7 +6,7 @@
 /*   By: rvuorenl <rvuorenl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/17 15:03:32 by rvuorenl          #+#    #+#             */
-/*   Updated: 2022/09/12 16:19:54 by rvuorenl         ###   ########.fr       */
+/*   Updated: 2022/09/13 14:22:45 by rvuorenl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,10 @@ void	shift_options(char *argv, t_info *info)
 		while (OPTIONS[++j])	//	traverse the valid options
 		{
 			if (OPTIONS[j] == argv[i])	//	compare with the char in argv
-			{
-				if (info->options ^ (1 << j))	//	if not on already
+			// {
+				// if (info->options ^ (1 << j))	//	if not on already
 					info->options |= (1 << j);	//	turn the correct option on
-			}
+			// }
 		}
 	}
 }
@@ -95,8 +95,8 @@ void	read_arguments(t_node **head, int argc, char **argv, t_info *info)
 	}
 	else
 	{
-		// if (info->args > 1)
-		// 	info->options ^= DIR_NAME;
+		if (info->args > 1)
+			info->options |= DIR_NAME;
 		while (info->args > 0)
 			create_node(head, argv[argc - info->args--], info, ".");
 

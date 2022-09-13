@@ -6,7 +6,7 @@
 /*   By: rvuorenl <rvuorenl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/17 15:03:32 by rvuorenl          #+#    #+#             */
-/*   Updated: 2022/09/13 14:22:45 by rvuorenl         ###   ########.fr       */
+/*   Updated: 2022/09/13 16:27:54 by rvuorenl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,14 @@ void	read_arguments(t_node **head, int argc, char **argv, t_info *info)
 		if (info->args > 1)
 			info->options |= DIR_NAME;
 		while (info->args > 0)
-			create_node(head, argv[argc - info->args--], info, ".");
+		{
+			if (argv[argc - info->args][0] == '/' ||
+			argv[argc - info->args][0] == '~')
+				create_node(head, argv[argc - info->args], info, "");
+			else
+				create_node(head, argv[argc - info->args], info, ".");
+			info->args--;
+		}
 
 		// print_test(*head);
 		// if (info->options & SORT_TIME)

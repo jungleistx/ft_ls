@@ -6,7 +6,7 @@
 /*   By: rvuorenl <rvuorenl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/25 19:01:47 by rvuorenl          #+#    #+#             */
-/*   Updated: 2022/09/12 16:21:24 by rvuorenl         ###   ########.fr       */
+/*   Updated: 2022/09/13 11:56:36 by rvuorenl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,8 @@ typedef	enum e_options
 	RECURSIVE = 1 << 1,
 	HIDDEN = 1 << 2,
 	REVERSE = 1 << 3,
-	SORT_TIME = 1 << 4
+	SORT_TIME = 1 << 4,
+	DIR_NAME = 1 << 5
 	// LONG = 1,
 	// RECURSIVE = 2,
 	// HIDDEN = 4,
@@ -104,10 +105,11 @@ void	exit_dup_error(char *str);
 void	exit_illegal(void);
 void	exit_malloc_error(char *str);
 void	exit_usage(void);
+int		find_multiple_dirs(t_node *head);
 void	free_file_nodes(t_node **head, int options);
 void	free_list(t_node **head, int options);
 void	free_node(t_node *node, int options);
-void	ft_ls(t_node *head, t_info *info);
+void	ft_ls(t_node **head, t_info *info);
 char	*get_full_path(char *name, char *path);
 // char	*get_full_path(char *name, char *path, t_node *node);
 void	list_add_directory(t_node **head, char *path, t_info *info);
@@ -124,8 +126,8 @@ int		option_validity(char *str);
 void	print_dir_recursive(t_node **head, t_info *info);
 void	print_dir(t_node *head, t_info *info);
 void	print_list_all(t_node *head);
-void	print_list_errors(t_node *head, int *ret_nr);
-void	print_list_files(t_node **head, int options);
+void	print_list_errors(t_node *head, t_info *info);
+void	print_list_files(t_node **head, t_info *info);
 void	print_list(t_node **head, int opts);
 t_node	*print_list_find_dir(t_node *head, int opts);
 void	print_long_list_node(t_node *node);

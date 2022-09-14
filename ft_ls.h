@@ -6,7 +6,7 @@
 /*   By: rvuorenl <rvuorenl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/25 19:01:47 by rvuorenl          #+#    #+#             */
-/*   Updated: 2022/09/13 17:04:19 by rvuorenl         ###   ########.fr       */
+/*   Updated: 2022/09/14 12:29:06 by rvuorenl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,8 @@ typedef	enum e_options
 	HIDDEN = 1 << 2,
 	REVERSE = 1 << 3,
 	SORT_TIME = 1 << 4,
-	DIR_NAME = 1 << 5,
-	ADD_SLASH = 1 << 6
+	DIR_NAME = 1 << 5
+	// ADD_SLASH = 1 << 6
 	// LONG = 1,
 	// RECURSIVE = 2,
 	// HIDDEN = 4,
@@ -133,6 +133,7 @@ void	print_list(t_node **head, int opts);
 t_node	*print_list_find_dir(t_node *head, int opts);
 void	print_long_list_node(t_node *node);
 void	print_long_list(t_node *head);
+void	print_path(char *str);
 void 	print_test(t_node *head);
 void	read_arguments(t_node **head, int argc, char **argv, t_info *info);
 void	read_options(int argc, char **argv, t_info *info);

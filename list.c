@@ -6,7 +6,7 @@
 /*   By: rvuorenl <rvuorenl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/19 13:40:55 by rvuorenl          #+#    #+#             */
-/*   Updated: 2022/09/13 21:37:49 by rvuorenl         ###   ########.fr       */
+/*   Updated: 2022/09/13 21:59:00 by rvuorenl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,7 +169,7 @@ void	create_node(t_node **head, char *name, t_info *info, char *path)
 	node->next = NULL;
 	node->sec = filestat.st_mtimespec.tv_sec;
 	node->n_sec = filestat.st_mtimespec.tv_nsec;
-	if (info->options & LONG)
+	if (info->options & LONG && node->type != 0)
 		list_add_long(node, filestat, info);
 	list_sort_add(head, node, info->options);
 }
@@ -186,7 +186,7 @@ char	*get_full_path(char *name, char *path)
 
 
 	full_path = ft_strcpy(full_path, path);
-	if (name[0] != '/')
+	if (name[0] != '/' && name[0] != '~')
 		full_path = ft_strcat(full_path, "/");
 	// path = libft 5
 	// mid = '/'	1

@@ -6,7 +6,7 @@
 /*   By: rvuorenl <rvuorenl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 15:04:00 by rvuorenl          #+#    #+#             */
-/*   Updated: 2022/09/13 20:40:30 by rvuorenl         ###   ########.fr       */
+/*   Updated: 2022/09/14 12:26:46 by rvuorenl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,6 @@ void	print_list_all(t_node *head)
 		printf("%s\n", tmp->name);
 		tmp = tmp->next;
 	}
-	// printf("\n");
 }
 
 void	print_list(t_node **head, int opts)
@@ -188,14 +187,12 @@ int	find_multiple_dirs(t_node *head)
 	return (0);
 }
 
-void	print_path(char *str, t_info *info)
+void	print_path(char *str)
 {
-	// printf("PRINT_PATH '%s'\n", str);
-	if (info->options & ADD_SLASH)
-		printf("%s:\n", &str[0]);
+	if (str[0] == '/')
+		printf("%s:\n", str);
 	else
 		printf("%s:\n", &str[2]);
-	// info->options ^= ADD_SLASH;
 }
 
 // void	print_dir_recursive(t_node **head, int opts)
@@ -219,7 +216,7 @@ void	print_dir_recursive(t_node **head, t_info *info)
 
 			// if (info->options & DIR_NAME || find_multiple_dirs(newhead))
 			if (info->options & DIR_NAME)
-				print_path(tmp->path, info);
+				print_path(tmp->path);
 				// printf("%s:\n", &tmp->path[2]);
 			if (info->options & LONG && newhead != NULL)
 				printf("total %ld\n", info->total);
@@ -233,8 +230,9 @@ void	print_dir_recursive(t_node **head, t_info *info)
 			free_file_nodes(&newhead, info->options);
 			if (newhead)
 			{
-				if (tmp->path[0] == '/')
-					info->options |= ADD_SLASH;
+				// print_test(newhead);
+				// if (tmp->path[0] == '/')
+				// 	info->options |= ADD_SLASH;
 				info->options |= DIR_NAME;
 				print_dir_recursive(&newhead, info);
 			}
@@ -244,8 +242,8 @@ void	print_dir_recursive(t_node **head, t_info *info)
 			// 	print_dir_recursive(&rec_head, opts);
 			// free_list(&newhead, opts);
 		}
-		if (info->options & ADD_SLASH)
-			info->options ^= ADD_SLASH;
+		// if (info->options & ADD_SLASH)
+		// 	info->options ^= ADD_SLASH;
 		tmp = tmp->next;
 	}
 	free_list(head, info->options);

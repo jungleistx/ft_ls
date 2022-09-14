@@ -6,7 +6,7 @@
 /*   By: rvuorenl <rvuorenl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/17 15:03:32 by rvuorenl          #+#    #+#             */
-/*   Updated: 2022/09/13 18:19:32 by rvuorenl         ###   ########.fr       */
+/*   Updated: 2022/09/14 12:26:27 by rvuorenl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ void	read_arguments(t_node **head, int argc, char **argv, t_info *info)
 			if (argv[argc - info->args][0] == '/' ||
 			argv[argc - info->args][0] == '~')
 			{
-				info->options |= ADD_SLASH;
+				// info->options |= ADD_SLASH;
 				create_node(head, argv[argc - info->args], info, "");
 			}
 			else

@@ -6,7 +6,7 @@
 /*   By: rvuorenl <rvuorenl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 15:04:00 by rvuorenl          #+#    #+#             */
-/*   Updated: 2022/09/14 12:26:46 by rvuorenl         ###   ########.fr       */
+/*   Updated: 2022/09/14 21:41:21 by rvuorenl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,7 +189,9 @@ int	find_multiple_dirs(t_node *head)
 
 void	print_path(char *str)
 {
-	if (str[0] == '/')
+	if (str[0] == '/' && str[1] == '/')
+		printf("%s:\n", &str[1]);
+	else if (str[0] == '/')
 		printf("%s:\n", str);
 	else
 		printf("%s:\n", &str[2]);

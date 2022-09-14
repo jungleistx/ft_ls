@@ -6,7 +6,7 @@
 /*   By: rvuorenl <rvuorenl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/25 19:01:47 by rvuorenl          #+#    #+#             */
-/*   Updated: 2022/09/14 12:29:06 by rvuorenl         ###   ########.fr       */
+/*   Updated: 2022/09/14 20:52:22 by rvuorenl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,7 @@ void	error_notfound(char *filename);
 void	exit_dup_error(char *str);
 void	exit_illegal(void);
 void	exit_malloc_error(char *str);
+void	exit_readlink_error(char *str);
 void	exit_usage(void);
 int		find_multiple_dirs(t_node *head);
 void	free_file_nodes(t_node **head, int options);

@@ -6,22 +6,12 @@
 /*   By: rvuorenl <rvuorenl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/19 13:50:21 by rvuorenl          #+#    #+#             */
-/*   Updated: 2022/09/01 13:26:47 by rvuorenl         ###   ########.fr       */
+/*   Updated: 2022/09/15 14:04:24 by rvuorenl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-void print_test2(t_node *head)
-{
-	t_node *tmp = head;
-	while (tmp)
-	{
-		printf("(%s) -> ", tmp->name);
-		tmp = tmp->next;
-	}
-	printf("(NULL)\n");
-}
 void	update_list_time(t_node **prev, t_node *node, t_node **head, int *sort)
 {
 	t_node	*tmp;
@@ -37,7 +27,6 @@ void	update_list_time(t_node **prev, t_node *node, t_node **head, int *sort)
 	node->next = tmp;
 }
 
-//	first node is smallest number (newest)
 void	list_sort_time_reverse(t_node **head)
 {
 	t_node	*tmp;
@@ -51,8 +40,8 @@ void	list_sort_time_reverse(t_node **head)
 		prev = NULL;
 		while (tmp && tmp->next)
 		{
-			if (((tmp->sec > tmp->next->sec) || (tmp->sec == tmp->next->sec &&
-				tmp->n_sec > tmp->next->n_sec)) && tmp->type != 0)
+			if (((tmp->sec > tmp->next->sec) || (tmp->sec == tmp->next->sec
+						&& tmp->n_sec > tmp->next->n_sec)) && tmp->type != 0)
 				update_list_time(&prev, tmp, head, &sorted);
 			else
 			{
@@ -66,12 +55,6 @@ void	list_sort_time_reverse(t_node **head)
 	}
 }
 
-// newest
-// error
-// link
-// author
-
-// first node is biggest number (oldest)
 void	list_sort_time(t_node **head)
 {
 	t_node	*tmp;
@@ -85,16 +68,9 @@ void	list_sort_time(t_node **head)
 		tmp = *head;
 		while (tmp && tmp->next)
 		{
-			if (((tmp->sec < tmp->next->sec) || (tmp->sec == tmp->next->sec &&
-				tmp->n_sec < tmp->next->n_sec)) && tmp->type != 0)
-				{
-					// printf("head = %s, tmp = %s", (*head)->name,
-					// tmp->name);
-					// if (prev)
-					// 	printf("prev = %s", prev->name);
-					// printf("\n");
+			if (((tmp->sec < tmp->next->sec) || (tmp->sec == tmp->next->sec
+						&& tmp->n_sec < tmp->next->n_sec)) && tmp->type != 0)
 				update_list_time(&prev, tmp, head, &sorted);
-				}
 			else
 			{
 				prev = tmp;
@@ -105,12 +81,4 @@ void	list_sort_time(t_node **head)
 			return ;
 		sorted = 0;
 	}
-}
-
-void	list_sort_time_dispatch(t_node **head, int opts)
-{
-	if (opts & REVERSE)
-		list_sort_time_reverse(head);
-	else
-		list_sort_time(head);
 }

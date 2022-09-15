@@ -6,7 +6,7 @@
 /*   By: rvuorenl <rvuorenl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/19 13:34:34 by rvuorenl          #+#    #+#             */
-/*   Updated: 2022/09/12 16:08:34 by rvuorenl         ###   ########.fr       */
+/*   Updated: 2022/09/15 13:21:38 by rvuorenl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,11 @@
 
 void	list_add_long_filetype(t_node *node, struct stat filestat, int a)
 {
-	ft_memset((void*)node->l_opt->permissions, '-', 10);
+	ft_memset((void *)node->l_opt->permissions, '-', 10);
 	if (node->type == 4)
 		node->l_opt->permissions[0] = 'd';
 	else if (node->type == 10)
 		node->l_opt->permissions[0] = 'l';
-	// else if (node->type == 8)
-	// 	node->l_opt->permissions[0] = '-';
 	else
 		node->l_opt->permissions[0] = '-';
 	while (--a >= 0)
@@ -38,21 +36,21 @@ void	list_add_long_filetype(t_node *node, struct stat filestat, int a)
 	node->l_opt->permissions[10] = '\0';
 }
 
-void	exit_readlink_error(void)
+void	exit_readlink_error(char *str)
 {
-	perror("readlink_error");
+	perror(str);
 	exit (5);
 }
 
 char	*add_symbolic_link(t_node *node)
 {
-    char	*buf;
+	char	*buf;
 
-	buf = (char*)malloc(sizeof(char) * 256);
+	buf = (char *)malloc(sizeof(char) * 256);
 	if (!buf)
 		exit_malloc_error("add_symbolic_link");
-    if (readlink(node->path, buf, 256) == -1)
-		exit_readlink_error();
+	if (readlink(node->path, buf, 256) == -1)
+		exit_readlink_error(buf);
 	return (buf);
 }
 
@@ -62,7 +60,7 @@ void	list_add_long(t_node *node, struct stat filestat, t_info *info)
 	struct group	*g_id;
 	char			*date;
 
-	node->l_opt = (t_long*)malloc(sizeof(t_long));
+	node->l_opt = (t_long *)malloc(sizeof(t_long));
 	if (!node->l_opt)
 		error_dir("list_add_long malloc");
 	list_add_long_filetype(node, filestat, 9);
@@ -73,8 +71,8 @@ void	list_add_long(t_node *node, struct stat filestat, t_info *info)
 	node->l_opt->owner = ft_strdup_exit(user->pw_name);
 	node->l_opt->group = ft_strdup_exit(g_id->gr_name);
 	date = ctime(&filestat.st_ctimespec.tv_sec);
-	node->l_opt->year = ft_atoi((const char*)&date[20]);
-	ft_strncpy(node->l_opt->date, (const char*)&date[4], (size_t)12);
+	node->l_opt->year = ft_atoi((const char *)&date[20]);
+	ft_strncpy(node->l_opt->date, (const char *)&date[4], (size_t)12);
 	node->l_opt->date[12] = '\0';
 	if (node->type == 10)
 		node->l_opt->sym_link = add_symbolic_link(node);

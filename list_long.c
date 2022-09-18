@@ -6,7 +6,7 @@
 /*   By: rvuorenl <rvuorenl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/19 13:34:34 by rvuorenl          #+#    #+#             */
-/*   Updated: 2022/09/15 13:21:38 by rvuorenl         ###   ########.fr       */
+/*   Updated: 2022/09/16 20:48:38 by rvuorenl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,16 +42,53 @@ void	exit_readlink_error(char *str)
 	exit (5);
 }
 
-char	*add_symbolic_link(t_node *node)
+void	ft_bzero(void *s, size_t n)
 {
-	char	*buf;
+	size_t	i;
+	char	*ptr;
 
-	buf = (char *)malloc(sizeof(char) * 256);
-	if (!buf)
-		exit_malloc_error("add_symbolic_link");
+	ptr = (char *) s;
+	i = 0;
+	while (i < n)
+	{
+		ptr[i] = '\0';
+		i++;
+	}
+}
+
+void	print_sym_link(t_node *node, int opts)
+{
+	struct stat	filestat;
+	char		buf[257];
+
+	ft_bzero((void *)buf, (size_t)257);
 	if (readlink(node->path, buf, 256) == -1)
 		exit_readlink_error(buf);
-	return (buf);
+	lstat(buf, &filestat);
+	// printf("	sym --%s-- %d\n", buf, filestat.st_mode);
+	if (S_ISDIR(filestat.st_mode) && !(opendir(buf)) && !(opts & LONG))
+	{
+		if (opts & DIR_NAME)
+			printf("%s:\n", node->name);	// check whats needed, name || path ??
+		ft_putstr_fd("ft_ls: ", 2);
+		perror(node->name);
+	}
+	else
+	{
+		if (opts & LONG)
+			print_long_list_node(node);
+		else
+			printf("%s\n", node->name);
+	}
+}
+
+void	add_symbolic_link(t_node *node)
+{
+	node->l_opt->sym_link = (char *)malloc(sizeof(char) * 256);
+	if (!node->l_opt->sym_link)
+		exit_malloc_error("add_symbolic_link");
+	if (readlink(node->path, node->l_opt->sym_link, 256) == -1)
+		exit_readlink_error(node->l_opt->sym_link);
 }
 
 void	list_add_long(t_node *node, struct stat filestat, t_info *info)
@@ -75,6 +112,8 @@ void	list_add_long(t_node *node, struct stat filestat, t_info *info)
 	ft_strncpy(node->l_opt->date, (const char *)&date[4], (size_t)12);
 	node->l_opt->date[12] = '\0';
 	if (node->type == 10)
-		node->l_opt->sym_link = add_symbolic_link(node);
+		add_symbolic_link(node);
 	info->total += (long)filestat.st_blocks;
 }
+
+//	4 dir, 8 file, 10 link, 0 error, 1 perm

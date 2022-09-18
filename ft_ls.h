@@ -6,7 +6,7 @@
 /*   By: rvuorenl <rvuorenl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/25 19:01:47 by rvuorenl          #+#    #+#             */
-/*   Updated: 2022/09/14 20:52:22 by rvuorenl         ###   ########.fr       */
+/*   Updated: 2022/09/18 13:54:47 by rvuorenl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ typedef	struct		s_node
 {
 	// struct s_node	*prev;
 	struct s_node	*next;
-	int				type;		//	4 directory, 8 file, 10 softlink, 0 error.
+	int				type;	//	4 dir, 8 file, 10 link, 0 error, 1 perm
 								//  add S,s,t,b,p....?
 	long			sec;		//	in seconds
 	long			n_sec;		//	in nanosecs
@@ -73,13 +73,17 @@ typedef	enum e_options
 	HIDDEN = 1 << 2,
 	REVERSE = 1 << 3,
 	SORT_TIME = 1 << 4,
-	DIR_NAME = 1 << 5
+	DIR_NAME = 1 << 5,
+	SYM_LINK = 1 << 6
 	// ADD_SLASH = 1 << 6
+
 	// LONG = 1,
 	// RECURSIVE = 2,
 	// HIDDEN = 4,
 	// REVERSE = 8,
 	// SORT_TIME = 16
+	// DIR_NAME = 32
+
 	/*
 	BONUS OPTIONS
 	HUMAN_READ = 32
@@ -87,8 +91,10 @@ typedef	enum e_options
 }			t_options;
 
 int		ft_atoi(const char *str);
+void	ft_bzero(void *s, size_t n);
 void	ft_memdel(void **ap);
 void	*ft_memset(void *b, int c, size_t len);
+void	ft_putstr_fd(char const *s, int fd);
 char	*ft_strcpy(char *dst, const char *src);
 char	*ft_strdup(const char *s1);
 char	*ft_strcat(char *s1, const char *s2);
@@ -99,6 +105,8 @@ char	*ft_strncpy(char *dst, const char *src, size_t len);
 char	*ft_strdup_exit(char *src);
 // void	create_node_fullpath(t_node **head, char *name, int opts, char *full);
 	// not needed if create_node saves the path always
+void	add_symbolic_link(t_node *node);
+int		check_link_validity(t_node *node, int opts);
 void	create_node(t_node **head, char *name, t_info *info, char *path);
 void	error_dir(char *str);
 void	error_notfound(char *filename);
@@ -111,10 +119,11 @@ int		find_multiple_dirs(t_node *head);
 void	free_file_nodes(t_node **head, int options);
 void	free_list(t_node **head, int options);
 void	free_node(t_node *node, int options);
+void	free_non_dir_nodes(t_node **head, int options);
 void	ft_ls(t_node **head, t_info *info);
 char	*get_full_path(char *name, char *path);
 // char	*get_full_path(char *name, char *path, t_node *node);
-void	list_add_directory(t_node **head, char *path, t_info *info);
+void	list_add_directory(t_node **head, char *path, t_info *info, char *name);
 void	list_add_long_filetype(t_node *node, struct stat filestat, int a);
 void	list_add_long(t_node *node, struct stat filestat, t_info *info);
 void	list_find_spot(t_node **head, t_node *prev, t_node *node, t_node *tmp);
@@ -123,19 +132,23 @@ void	list_sort_add(t_node **head, t_node *node, int options);
 void	list_sort_time_dispatch(t_node **head, int opts);
 void	list_sort_time_reverse(t_node **head);
 void	list_sort_time(t_node **head);
-int		node_filetype(struct stat filestat);
+// int	node_filetype(struct stat filestat);
+int		node_filetype(struct stat filestat, t_node *node, int opts);
 int		option_validity(char *str);
 void	print_dir_recursive(t_node **head, t_info *info);
 void	print_dir(t_node *head, t_info *info);
-void	print_list_all(t_node *head);
+void	print_list_all(t_node *head, t_info *info);
 void	print_list_errors(t_node *head, t_info *info);
 void	print_list_files(t_node **head, t_info *info);
-void	print_list(t_node **head, int opts);
+void	print_list(t_node **head, t_info *info);
 t_node	*print_list_find_dir(t_node *head, int opts);
+void	print_list_node(t_node *node, int opts);
 void	print_long_list_node(t_node *node);
 void	print_long_list(t_node *head);
-void	print_path(char *str);
+void	print_path(char *str, int opts);
+void	print_sym_link(t_node *node, int opts);
 void 	print_test(t_node *head);
+void	print_test2(t_node *head);
 void	read_arguments(t_node **head, int argc, char **argv, t_info *info);
 void	read_options(int argc, char **argv, t_info *info);
 void	reset_info(t_info *info, t_node **head);

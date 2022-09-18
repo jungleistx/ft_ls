@@ -6,7 +6,7 @@
 /*   By: rvuorenl <rvuorenl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 15:04:00 by rvuorenl          #+#    #+#             */
-/*   Updated: 2022/09/14 21:41:21 by rvuorenl         ###   ########.fr       */
+/*   Updated: 2022/09/18 13:47:20 by rvuorenl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ void	print_long_list_node(t_node *node)
 	printf("%-*d ", 7, node->l_opt->size);
 	printf("%s ", node->l_opt->date);
 	printf("%s", node->name);
+	// if (node->type == 10 || node->type == 1)			// ???
 	if (node->type == 10)
 		printf(" -> %s", node->l_opt->sym_link);
 	printf("\n");
@@ -76,9 +77,10 @@ void	print_list_files(t_node **head, t_info *info)
 
 	newline = 0;
 	tmp = *head;
+	// print_test(*head);
 	while(tmp)
 	{
-		if (tmp->type != 4 && tmp->type != 0)
+		if (tmp->type != 4 && tmp->type != 0 && tmp->type != 1)
 		{
 			newline = 1;
 			info->options |= DIR_NAME;
@@ -93,159 +95,116 @@ void	print_list_files(t_node **head, t_info *info)
 		printf("\n");
 	// print_test(*head);
 	free_file_nodes(head, info->options);
-	// print_test(*head);
-	// printf("sss\n");
-	// print_test(*head);
-	// printf("\n");
 }
 
-void	print_list_all(t_node *head)
+void	print_list_all(t_node *head, t_info *info)
 {
 	t_node	*tmp;
 
 	tmp = head;
 	while (tmp)
 	{
-		printf("%s\n", tmp->name);
+		if (tmp->type == 1 && info->options & SYM_LINK)
+			print_sym_link(tmp, info->options);
+		else
+			printf("%s\n", tmp->name);
 		tmp = tmp->next;
+		info->options |= DIR_NAME;
 	}
 }
 
-void	print_list(t_node **head, int opts)
+void	print_list(t_node **head, t_info *info)
 {
-	if (opts & LONG)
+	if (info->options & LONG)
 		print_long_list(*head);
 	else
-		print_list_all(*head);
+		print_list_all(*head, info);
 	printf("\n");
-	// free_file_nodes(head, opts);
 }
 
-// void	list_add_dir_path(t_node **head, char *path, int opts, char *full)
-// {
-// 	DIR				*dir;
-// 	struct dirent	*dp;
-
-// 	dir = opendir(path);
-// 	if (!dir)
-// 		error_dir("list_add_directory");		//	proper error code ???
-// 	dp = readdir(dir);
-// 	while (dp != NULL)
-// 	{
-// 		if (dp->d_name[0] != '.' || (dp->d_name[0] == '.' && (opts & HIDDEN)))
-// 			create_node_fullpath(head, dp->d_name, opts, );
-// 		dp = readdir(dir);
-// 	}
-// 	closedir(dir);
-// 	if (opts & SORT_TIME && opts & REVERSE)
-// 		list_sort_time_reverse(head);
-// 	else if (opts & SORT_TIME)
-// 		list_sort_time(head);
-// }
-
-// void	print_dir(t_node *head, int opts)
 void	print_dir(t_node *head, t_info *info)
 {
 	t_node	*tmp;
 	t_node	*newhead;
 
+	// print_test(head);
 	newhead = NULL;
 	tmp = head;
 	while (tmp)
 	{
-		if (info->options & DIR_NAME || find_multiple_dirs(newhead))
-			printf("%s:\n", tmp->name);
-
-		list_add_directory(&newhead, tmp->name, info);
-
-		if (info->options & LONG)
-			printf("total %ld\n", info->total);
-
-		// tmp->name works as a path, UNTESTED
-
-		print_list(&newhead, info->options);
-		tmp = tmp->next;
-		// free_list(&newhead, opts);
-	}
-}
-
-int	find_multiple_dirs(t_node *head)
-{
-	t_node	*tmp;
-	int		dirs;
-
-	dirs = 0;
-	tmp = head;
-	while (tmp)
-	{
 		if (tmp->type == 4)
-			dirs++;
+		{
+			if (info->options & DIR_NAME)
+				printf("%s:\n", tmp->name);
+			list_add_directory(&newhead, tmp->name, info, tmp->name);
+			if (info->options & LONG)
+				printf("total %ld\n", info->total);
+			print_list(&newhead, info);
+			free_list(&newhead, info->options);
+		}
+		else if (tmp->type == 1)
+		{
+			print_sym_link(tmp, info->options);
+		}
 		tmp = tmp->next;
 	}
-	if (dirs > 1)
-		return (1);
-	return (0);
 }
 
-void	print_path(char *str)
+void	print_path(char *str, int opts)
 {
 	if (str[0] == '/' && str[1] == '/')
 		printf("%s:\n", &str[1]);
 	else if (str[0] == '/')
 		printf("%s:\n", str);
+	else if (opts & RECURSIVE)
+		printf("%s:\n", str);
 	else
 		printf("%s:\n", &str[2]);
 }
 
-// void	print_dir_recursive(t_node **head, int opts)
+
+void	check_null_head(t_node **head, t_info *info)
+{
+	if (*head != NULL)
+	{
+		print_list(head, info);
+		free_file_nodes(head, info->options);
+	}
+	else
+		printf("\n");
+}
+
 void	print_dir_recursive(t_node **head, t_info *info)
 {
 	t_node	*tmp;
 	t_node	*newhead;
-	t_node	*rec_head;
 
-	rec_head = NULL;
 	newhead = NULL;
 	tmp = *head;
 	while (tmp)
 	{
 		if (tmp->name[0] != '.')
 		{
-			// tmp->name = get_full_path(tmp->name, tmp->path);
-			// printf("\n---	%s:\n", tmp->name);
-			// printf("---	%s:\n", tmp->path);
-			list_add_directory(&newhead, tmp->path, info);
-
-			// if (info->options & DIR_NAME || find_multiple_dirs(newhead))
 			if (info->options & DIR_NAME)
-				print_path(tmp->path);
-				// printf("%s:\n", &tmp->path[2]);
+				print_path(tmp->path, info->options);
+			list_add_directory(&newhead, tmp->path, info, tmp->name);
 			if (info->options & LONG && newhead != NULL)
 				printf("total %ld\n", info->total);
-
-			// recursive -> save the name of first dir as a "path"
-			// tmp->name / dir_name ...
-			if (newhead != NULL)
-				print_list(&newhead, info->options);
-			else
-				printf("\n");
-			free_file_nodes(&newhead, info->options);
+			check_null_head(&newhead, info);
+			// if (newhead != NULL)
+			// {
+			// 	print_list(&newhead, info);
+			// 	free_file_nodes(&newhead, info->options);
+			// }
+			// else
+			// 	printf("\n");
 			if (newhead)
 			{
-				// print_test(newhead);
-				// if (tmp->path[0] == '/')
-				// 	info->options |= ADD_SLASH;
 				info->options |= DIR_NAME;
 				print_dir_recursive(&newhead, info);
 			}
-
-			// rec_head = print_list_find_dir(newhead, opts);
-			// if (rec_head)
-			// 	print_dir_recursive(&rec_head, opts);
-			// free_list(&newhead, opts);
+			free_list(&newhead, info->options);
 		}
-		// if (info->options & ADD_SLASH)
-		// 	info->options ^= ADD_SLASH;
 		tmp = tmp->next;
 	}
 	free_list(head, info->options);

@@ -6,7 +6,7 @@
 /*   By: rvuorenl <rvuorenl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/19 13:28:37 by rvuorenl          #+#    #+#             */
-/*   Updated: 2022/09/02 13:36:02 by rvuorenl         ###   ########.fr       */
+/*   Updated: 2022/09/18 13:54:43 by rvuorenl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,12 @@
 
 void	free_node(t_node *node, int options)
 {
-	// printf("(%s)->", node->name);
-	if (options & LONG)
+	if (options & LONG && node->type != 0)
 	{
-		ft_memdel((void**)&node->l_opt->owner);
-		ft_memdel((void**)&node->l_opt->group);
 		if (node->type == 10)
 			ft_memdel((void**)&node->l_opt->sym_link);
+		ft_memdel((void**)&node->l_opt->owner);
+		ft_memdel((void**)&node->l_opt->group);
 		ft_memdel((void**)&node->l_opt);
 	}
 	ft_memdel((void**)&node->path);
@@ -30,6 +29,34 @@ void	free_node(t_node *node, int options)
 }
 
 void	free_file_nodes(t_node **head, int options)
+{
+	t_node	*tmp;
+	t_node	*prev;
+	t_node	*next;
+
+	tmp = *head;
+	prev = NULL;
+	while (tmp)
+	{
+		if (tmp->type != 4 && tmp->type != 1)
+		{
+			next = tmp->next;
+			if (!prev)
+				*head = next;
+			free_node(tmp, options);
+			tmp = next;
+			if (prev)
+				prev->next = tmp;
+		}
+		else
+		{
+			prev = tmp;
+			tmp = tmp->next;
+		}
+	}
+}
+
+void	free_non_dir_nodes(t_node **head, int options)
 {
 	t_node	*tmp;
 	t_node	*prev;

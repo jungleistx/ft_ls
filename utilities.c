@@ -6,7 +6,7 @@
 /*   By: rvuorenl <rvuorenl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/17 15:03:32 by rvuorenl          #+#    #+#             */
-/*   Updated: 2022/09/14 12:26:27 by rvuorenl         ###   ########.fr       */
+/*   Updated: 2022/09/18 14:04:38 by rvuorenl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,17 +84,23 @@ void	read_arguments(t_node **head, int argc, char **argv, t_info *info)
 {
 	if (info->args == 0)
 	{
-		list_add_directory(head, ".", info);
-		// if (info->options & SORT_TIME)
-		// 	list_sort_time_dispatch(head, info->options);
-		print_list(head, info->options);
-		// recursion ?
-		free_list(head, info->options);
+		list_add_directory(head, ".", info, "");
+		if (info->options & LONG)
+			printf("total %ld\n", info->total);
+		print_list(head, info);
+				// print_test(*head);
+		if (info->options & RECURSIVE)
+		{
+			free_non_dir_nodes(head, info->options);
+			print_dir_recursive(head, info);
+		}
+		else
+			free_list(head, info->options);
 		exit(0);
-		// exit(info->ret_nr);	// no errors should be around
 	}
 	else
 	{
+		info->options |= SYM_LINK;
 		if (info->args > 1)
 			info->options |= DIR_NAME;
 		while (info->args > 0)

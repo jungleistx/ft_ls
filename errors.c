@@ -6,7 +6,7 @@
 /*   By: rvuorenl <rvuorenl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/17 15:00:31 by rvuorenl          #+#    #+#             */
-/*   Updated: 2022/09/17 15:53:15 by rvuorenl         ###   ########.fr       */
+/*   Updated: 2022/09/18 15:24:54 by rvuorenl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,13 @@ void	exit_illegal(void)
 
 void	exit_malloc_error(char *str)
 {
-	printf("ERROR with malloc in %s\n", str);
+	perror(str);
 	exit(2);
 }
 
 void	exit_dup_error(char *str)
 {
-	printf("ERROR with  dup in %s\n", str);
+	perror(str);
 	exit(3);
 }
 
@@ -40,5 +40,4 @@ void	error_dir(char *str)
 {
 	ft_putstr_fd("ft_ls: ", 2);
 	perror(str);
-	// exit(4);
 }

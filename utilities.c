@@ -6,7 +6,7 @@
 /*   By: rvuorenl <rvuorenl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/17 15:03:32 by rvuorenl          #+#    #+#             */
-/*   Updated: 2022/09/19 17:06:21 by rvuorenl         ###   ########.fr       */
+/*   Updated: 2022/09/19 21:52:48 by rvuorenl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,13 +72,41 @@ void	read_options(int argc, char **argv, t_info *info)
 
 void	print_current_dir(t_node **head, t_info *info)
 {
+	print_list(head, info);
 	if (info->options & RECURSIVE)
 	{
+		info->options |= PRINT_PATH;
 		free_non_dir_nodes(head, info->options);
 		print_dir_recursive(head, info);
 	}
 	else
 		free_list(head, info->options);
+}
+
+void	create_node_dots(t_node **head, char *name, t_info *info)
+{
+	t_node		*node;
+	struct stat	filestat;
+
+	info->options |= DOT_ARG;
+	node = (t_node *)malloc(sizeof(t_node));
+	if (!node)
+		exit_malloc_error(name);
+	node->path = ft_strdup_exit(name);
+	if (lstat(node->path, &filestat) == -1)
+	{
+		node->type = 0;
+		info->options |= ERROR_FILE;
+	}
+	else
+		node->type = node_filetype(filestat, node, info->options);
+	node->name = ft_strdup_exit(name);
+	node->next = NULL;
+	node->sec = filestat.st_mtimespec.tv_sec;
+	node->n_sec = filestat.st_mtimespec.tv_nsec;
+	if (info->options & LONG && node->type != 0)
+		list_add_long(node, filestat, info);
+	list_sort_add(head, node, info->options);
 }
 
 void	read_arguments(t_node **head, int argc, char **argv, t_info *info)
@@ -88,7 +116,6 @@ void	read_arguments(t_node **head, int argc, char **argv, t_info *info)
 		list_add_directory(head, ".", info, "");
 		if (info->options & LONG)
 			printf("total %ld\n", info->total);
-		print_list(head, info);
 		print_current_dir(head, info);
 		exit(0);
 	}
@@ -99,7 +126,9 @@ void	read_arguments(t_node **head, int argc, char **argv, t_info *info)
 			info->options |= DIR_NAME;
 		while (info->args > 0)
 		{
-			if (argv[argc - info->args][0] == '/' ||
+			if (argv[argc - info->args][0] == '.')
+				create_node_dots(head, argv[argc - info->args], info);
+			else if (argv[argc - info->args][0] == '/' ||
 			argv[argc - info->args][0] == '~')
 				create_node(head, argv[argc - info->args], info, "");
 			else

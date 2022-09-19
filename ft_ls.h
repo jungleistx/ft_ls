@@ -6,7 +6,7 @@
 /*   By: rvuorenl <rvuorenl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/25 19:01:47 by rvuorenl          #+#    #+#             */
-/*   Updated: 2022/09/19 19:43:49 by rvuorenl         ###   ########.fr       */
+/*   Updated: 2022/09/19 21:34:37 by rvuorenl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,9 @@ typedef enum e_options
 	DIR_NAME = 1 << 5,
 	SYM_LINK = 1 << 6,
 	ERROR_FILE = 1 << 7,
-	FIRST_LINE = 1 << 8
+	FIRST_LINE = 1 << 8,
+	PRINT_PATH = 1 << 9,
+	DOT_ARG = 1 << 10
 }				t_options;
 
 
@@ -94,7 +96,7 @@ char	*get_full_path(char *name, char *path);
 void	create_node(t_node **head, char *name, t_info *info, char *path);
 
 // print.c
-void	print_long_list(t_node *head);
+void	print_long_list(t_node *head, t_info *info);
 void	print_list_all(t_node *head, t_info *info);
 void	print_list(t_node **head, t_info *info);
 void	print_dir(t_node *head, t_info *info);

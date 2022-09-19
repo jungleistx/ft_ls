@@ -6,13 +6,13 @@
 /*   By: rvuorenl <rvuorenl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 15:04:00 by rvuorenl          #+#    #+#             */
-/*   Updated: 2022/09/19 19:48:58 by rvuorenl         ###   ########.fr       */
+/*   Updated: 2022/09/19 21:59:50 by rvuorenl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-void	print_long_list(t_node *head)
+void	print_long_list(t_node *head, t_info *info)
 {
 	t_node	*tmp;
 
@@ -30,6 +30,8 @@ void	print_long_list(t_node *head)
 			printf(" -> %s", tmp->l_opt->sym_link);
 		printf("\n");
 		tmp = tmp->next;
+		if (info->options & FIRST_LINE)
+			info->options ^= FIRST_LINE;
 	}
 }
 
@@ -54,15 +56,11 @@ void	print_list_all(t_node *head, t_info *info)
 void	print_list(t_node **head, t_info *info)
 {
 	if (info->options & LONG)
-		print_long_list(*head);
+		print_long_list(*head, info);
 	else
 		print_list_all(*head, info);
-	if (*head)
-	{
+	if (!(info->options & FIRST_LINE))
 		info->options |= DIR_NAME;
-		if (info->options & FIRST_LINE)
-			info->options ^= FIRST_LINE;
-	}
 }
 
 void	print_dir(t_node *head, t_info *info)
@@ -96,13 +94,30 @@ void	print_dir(t_node *head, t_info *info)
 
 void	print_path(char *str, t_info *info)
 {
+	// if (!(info->options & FIRST_LINE))
+	// 	printf("\n");
+	// if (str[0] == '/' && str[1] == '/')
+	// 	printf("%s:\n", &str[1]);
+	// else if (str[0] == '/')
+	// 	printf("%s:\n", str);
+
+	// else if (info->options & SYM_LINK)
+	// 	printf("%s:\n", &str[2]);
+
+	// // when no args, print[0]
+
+	// else if (info->options & RECURSIVE)
+	// 	printf("%s:\n", str);
+	// else
+	// 	printf("%s:\n", &str[2]);
+
 	if (!(info->options & FIRST_LINE))
 		printf("\n");
 	if (str[0] == '/' && str[1] == '/')
 		printf("%s:\n", &str[1]);
 	else if (str[0] == '/')
 		printf("%s:\n", str);
-	else if (info->options & RECURSIVE)
+	else if (info->options & PRINT_PATH || info->options & DOT_ARG)
 		printf("%s:\n", str);
 	else
 		printf("%s:\n", &str[2]);

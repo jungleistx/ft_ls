@@ -6,7 +6,7 @@
 /*   By: rvuorenl <rvuorenl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 12:20:35 by rvuorenl          #+#    #+#             */
-/*   Updated: 2022/09/19 19:43:27 by rvuorenl         ###   ########.fr       */
+/*   Updated: 2022/09/19 21:55:41 by rvuorenl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,8 @@ void	print_dir_recursive(t_node **head, t_info *info)
 	tmp = *head;
 	while (tmp)
 	{
-		if (tmp->name[0] != '.')
+		// if (tmp->name[0] != '.')
+		if (tmp->name[0] != '.' || info->options & DOT_ARG)
 		{
 			if (info->options & DIR_NAME)
 				print_path(tmp->path, info);

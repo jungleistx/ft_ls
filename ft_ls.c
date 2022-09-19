@@ -6,7 +6,7 @@
 /*   By: rvuorenl <rvuorenl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/25 18:55:37 by rvuorenl          #+#    #+#             */
-/*   Updated: 2022/09/19 17:53:07 by rvuorenl         ###   ########.fr       */
+/*   Updated: 2022/09/19 21:51:37 by rvuorenl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,12 @@ void	reset_info(t_info *info, t_node **head)
 	info->options |= FIRST_LINE;
 }
 
-void	list_add_directory(t_node **head, char *path, t_info *info, char *name)
+void	list_add_directory(t_node **head, char *path, t_info *i, char *name)
 {
 	DIR				*dir;
 	struct dirent	*dp;
 
-	info->total = 0;
+	i->total = 0;
 	dir = opendir(path);
 	if (!dir)
 		error_dir(name);
@@ -46,16 +46,33 @@ void	list_add_directory(t_node **head, char *path, t_info *info, char *name)
 		while (dp != NULL)
 		{
 			if (dp->d_name[0] != '.'
-				|| (dp->d_name[0] == '.' && (info->options & HIDDEN)))
-				create_node(head, dp->d_name, info, path);
+				|| (dp->d_name[0] == '.' && i->options & HIDDEN))
+			{
+				if (dp->d_name[0] == '.' && i->options & HIDDEN &&
+				i->options & RECURSIVE)
+					break ;
+				create_node(head, dp->d_name, i, path);
+			}
 			dp = readdir(dir);
 		}
 		closedir(dir);
 	}
 }
 
+void print_test(t_node *head)
+{
+	t_node *tmp = head;
+	while (tmp)
+	{
+		printf("(%s) -> (%s)\n", tmp->name, tmp->path);
+		tmp = tmp->next;
+	}
+	printf("(NULL)\n");
+}
+
 void	ft_ls(t_node **head, t_info *info)
 {
+	print_test(*head);
 	if (info->options & ERROR_FILE)
 		print_list_errors(*head, info);
 	print_list_files(head, info);

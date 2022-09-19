@@ -6,20 +6,11 @@
 /*   By: rvuorenl <rvuorenl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/17 15:03:32 by rvuorenl          #+#    #+#             */
-/*   Updated: 2022/09/18 14:04:38 by rvuorenl         ###   ########.fr       */
+/*   Updated: 2022/09/19 12:47:22 by rvuorenl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
-
-void	reset_info(t_info *info, t_node **head)
-{
-	info->options = 0;
-	info->args = 0;
-	*head = NULL;
-	info->ret_nr = 0;
-	// info->path = NULL; 		// needed ?
-}
 
 int	option_validity(char *str)
 {
@@ -34,8 +25,8 @@ int	option_validity(char *str)
 			dash++;
 	}
 	if (dash > 1)
-		return (0);		//	too many '-', exit_illegal
-	return (1);			//	valid option
+		return (0);
+	return (1);
 }
 
 void	shift_options(char *argv, t_info *info)
@@ -47,13 +38,10 @@ void	shift_options(char *argv, t_info *info)
 	while (argv[++i])
 	{
 		j = -1;
-		while (OPTIONS[++j])	//	traverse the valid options
+		while (OPTIONS[++j])
 		{
-			if (OPTIONS[j] == argv[i])	//	compare with the char in argv
-			// {
-				// if (info->options ^ (1 << j))	//	if not on already
-					info->options |= (1 << j);	//	turn the correct option on
-			// }
+			if (OPTIONS[j] == argv[i])
+				info->options |= (1 << j);
 		}
 	}
 }
@@ -73,11 +61,22 @@ void	read_options(int argc, char **argv, t_info *info)
 		else if (!(option_validity(argv[i])))
 			exit_illegal();
 		else
-			shift_options(&argv[i][1], info);	//	start from the next to '-'
+			shift_options(&argv[i][1], info);
 		i++;
 	}
 	if (i < argc)
 		info->args = argc - i;
+}
+
+void	print_current_dir(t_node **head, t_info *info)
+{
+	if (info->options & RECURSIVE)
+	{
+		free_non_dir_nodes(head, info->options);
+		print_dir_recursive(head, info);
+	}
+	else
+		free_list(head, info->options);
 }
 
 void	read_arguments(t_node **head, int argc, char **argv, t_info *info)
@@ -88,14 +87,7 @@ void	read_arguments(t_node **head, int argc, char **argv, t_info *info)
 		if (info->options & LONG)
 			printf("total %ld\n", info->total);
 		print_list(head, info);
-				// print_test(*head);
-		if (info->options & RECURSIVE)
-		{
-			free_non_dir_nodes(head, info->options);
-			print_dir_recursive(head, info);
-		}
-		else
-			free_list(head, info->options);
+		print_current_dir(head, info);
 		exit(0);
 	}
 	else
@@ -107,18 +99,10 @@ void	read_arguments(t_node **head, int argc, char **argv, t_info *info)
 		{
 			if (argv[argc - info->args][0] == '/' ||
 			argv[argc - info->args][0] == '~')
-			{
-				// info->options |= ADD_SLASH;
 				create_node(head, argv[argc - info->args], info, "");
-			}
 			else
 				create_node(head, argv[argc - info->args], info, ".");
 			info->args--;
 		}
-
-		// print_test(*head);
-		// if (info->options & SORT_TIME)
-		// 	list_sort_time_dispatch(head, info->options);
-		// print_test(*head);
 	}
 }

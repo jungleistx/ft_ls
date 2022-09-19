@@ -6,7 +6,7 @@
 /*   By: rvuorenl <rvuorenl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 15:04:00 by rvuorenl          #+#    #+#             */
-/*   Updated: 2022/09/18 15:41:30 by rvuorenl         ###   ########.fr       */
+/*   Updated: 2022/09/19 17:40:23 by rvuorenl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ void	print_list(t_node **head, t_info *info)
 		print_long_list(*head);
 	else
 		print_list_all(*head, info);
-	printf("\n");
 }
 
 void	print_dir(t_node *head, t_info *info)
@@ -70,9 +69,9 @@ void	print_dir(t_node *head, t_info *info)
 		if (tmp->type == 4)
 		{
 			if (info->options & DIR_NAME)
-				printf("%s:\n", tmp->name);
+				printf("\n%s:\n", tmp->name);
 			list_add_directory(&newhead, tmp->name, info, tmp->name);
-			if (info->options & LONG)
+			if (info->options & LONG && newhead)
 				printf("total %ld\n", info->total);
 			print_list(&newhead, info);
 			free_list(&newhead, info->options);

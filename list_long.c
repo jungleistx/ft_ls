@@ -6,7 +6,7 @@
 /*   By: rvuorenl <rvuorenl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/19 13:34:34 by rvuorenl          #+#    #+#             */
-/*   Updated: 2022/09/19 15:24:55 by rvuorenl         ###   ########.fr       */
+/*   Updated: 2022/09/19 17:42:15 by rvuorenl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	print_sym_link(t_node *node, int opts)
 	if (S_ISDIR(filestat.st_mode) && !(opendir(buf)) && !(opts & LONG))
 	{
 		if (opts & DIR_NAME)
-			printf("%s:\n", node->name);
+			printf("\n%s:\n", node->name);
 		ft_putstr_fd("ft_ls: ", 2);
 		perror(node->name);
 	}

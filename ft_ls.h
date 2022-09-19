@@ -6,7 +6,7 @@
 /*   By: rvuorenl <rvuorenl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/25 19:01:47 by rvuorenl          #+#    #+#             */
-/*   Updated: 2022/09/19 17:19:58 by rvuorenl         ###   ########.fr       */
+/*   Updated: 2022/09/19 17:36:59 by rvuorenl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ void	print_list(t_node **head, t_info *info);
 void	print_dir(t_node *head, t_info *info);
 void	print_path(char *str, int opts);
 
-// print2.c	PUSH ??
+// print2.c
 void	print_list_errors(t_node *head, t_info *info);
 void	print_long_list_node(t_node *node);
 void	print_list_files(t_node **head, t_info *info);

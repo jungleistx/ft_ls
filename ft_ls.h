@@ -6,7 +6,7 @@
 /*   By: rvuorenl <rvuorenl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/25 19:01:47 by rvuorenl          #+#    #+#             */
-/*   Updated: 2022/09/19 17:36:59 by rvuorenl         ###   ########.fr       */
+/*   Updated: 2022/09/19 18:05:01 by rvuorenl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,10 @@ typedef enum e_options
 	SORT_TIME = 1 << 4,
 	DIR_NAME = 1 << 5,
 	SYM_LINK = 1 << 6,
-	ERROR_FILE = 1 << 7
+	ERROR_FILE = 1 << 7,
+	FIRST_LINE = 1 << 8
 }				t_options;
+
 
 // errors.c
 void	error_notfound(char *filename);
@@ -102,6 +104,7 @@ void	print_path(char *str, int opts);
 void	print_list_errors(t_node *head, t_info *info);
 void	print_long_list_node(t_node *node);
 void	print_list_files(t_node **head, t_info *info);
+void	print_free_list(t_node **head, t_info *info)
 
 // utilities.c
 int		option_validity(char *str);

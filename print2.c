@@ -6,7 +6,7 @@
 /*   By: rvuorenl <rvuorenl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/18 15:40:33 by rvuorenl          #+#    #+#             */
-/*   Updated: 2022/09/19 17:33:47 by rvuorenl         ###   ########.fr       */
+/*   Updated: 2022/09/19 18:04:49 by rvuorenl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ void	print_list_errors(t_node *head, t_info *info)
 	{
 		if (tmp->type == 0)
 		{
+			if (info->options & FIRST_LINE)
+				info->options ^= FIRST_LINE;
 			info->options |= DIR_NAME;
 			error_notfound(tmp->name);
 			info->ret_nr = 1;
@@ -52,6 +54,8 @@ void	print_list_files(t_node **head, t_info *info)
 	{
 		if (tmp->type == 8 || tmp->type == 10)
 		{
+			if (info->options & FIRST_LINE)
+				info->options ^= FIRST_LINE;
 			info->options |= DIR_NAME;
 			if (info->options & LONG)
 				print_long_list_node(tmp);
@@ -61,4 +65,10 @@ void	print_list_files(t_node **head, t_info *info)
 		tmp = tmp->next;
 	}
 	free_file_nodes(head, info->options);
+}
+
+void	print_free_list(t_node **head, t_info *info)
+{
+	print_list(head, info);
+	free_list(head, info->options);
 }

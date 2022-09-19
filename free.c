@@ -6,7 +6,7 @@
 /*   By: rvuorenl <rvuorenl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/19 13:28:37 by rvuorenl          #+#    #+#             */
-/*   Updated: 2022/09/18 13:54:43 by rvuorenl         ###   ########.fr       */
+/*   Updated: 2022/09/18 15:27:55 by rvuorenl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,15 +17,15 @@ void	free_node(t_node *node, int options)
 	if (options & LONG && node->type != 0)
 	{
 		if (node->type == 10)
-			ft_memdel((void**)&node->l_opt->sym_link);
-		ft_memdel((void**)&node->l_opt->owner);
-		ft_memdel((void**)&node->l_opt->group);
-		ft_memdel((void**)&node->l_opt);
+			ft_memdel((void **)&node->l_opt->sym_link);
+		ft_memdel((void **)&node->l_opt->owner);
+		ft_memdel((void **)&node->l_opt->group);
+		ft_memdel((void **)&node->l_opt);
 	}
-	ft_memdel((void**)&node->path);
-	ft_memdel((void**)&node->name);
+	ft_memdel((void **)&node->path);
+	ft_memdel((void **)&node->name);
 	node->next = NULL;
-	ft_memdel((void**)&node);
+	ft_memdel((void **)&node);
 }
 
 void	free_file_nodes(t_node **head, int options)

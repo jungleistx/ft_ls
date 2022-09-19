@@ -6,7 +6,7 @@
 /*   By: rvuorenl <rvuorenl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/25 19:01:47 by rvuorenl          #+#    #+#             */
-/*   Updated: 2022/09/19 18:05:01 by rvuorenl         ###   ########.fr       */
+/*   Updated: 2022/09/19 18:08:38 by rvuorenl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ void	print_path(char *str, int opts);
 void	print_list_errors(t_node *head, t_info *info);
 void	print_long_list_node(t_node *node);
 void	print_list_files(t_node **head, t_info *info);
-void	print_free_list(t_node **head, t_info *info)
+void	print_free_list(t_node **head, t_info *info);
 
 // utilities.c
 int		option_validity(char *str);

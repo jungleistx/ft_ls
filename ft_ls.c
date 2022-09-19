@@ -6,7 +6,7 @@
 /*   By: rvuorenl <rvuorenl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/25 18:55:37 by rvuorenl          #+#    #+#             */
-/*   Updated: 2022/09/19 15:30:08 by rvuorenl         ###   ########.fr       */
+/*   Updated: 2022/09/19 17:33:41 by rvuorenl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,8 @@ void	list_add_directory(t_node **head, char *path, t_info *info, char *name)
 
 void	ft_ls(t_node **head, t_info *info)
 {
-	print_list_errors(*head, info);
+	if (info->options & ERROR_FILE)
+		print_list_errors(*head, info);
 	print_list_files(head, info);
 	if (info->options & RECURSIVE)
 		print_dir_recursive(head, info);

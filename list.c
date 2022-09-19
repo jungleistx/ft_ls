@@ -6,7 +6,7 @@
 /*   By: rvuorenl <rvuorenl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/19 13:40:55 by rvuorenl          #+#    #+#             */
-/*   Updated: 2022/09/18 15:34:16 by rvuorenl         ###   ########.fr       */
+/*   Updated: 2022/09/19 17:20:21 by rvuorenl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,10 @@ void	create_node(t_node **head, char *name, t_info *info, char *path)
 		exit_malloc_error(name);
 	node->path = get_full_path(name, path);
 	if (lstat(node->path, &filestat) == -1)
+	{
 		node->type = 0;
+		info->options |= ERROR_FILE;
+	}
 	else
 		node->type = node_filetype(filestat, node, info->options);
 	node->name = ft_strdup_exit(name);

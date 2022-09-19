@@ -6,7 +6,7 @@
 /*   By: rvuorenl <rvuorenl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/25 19:01:47 by rvuorenl          #+#    #+#             */
-/*   Updated: 2022/09/19 17:07:48 by rvuorenl         ###   ########.fr       */
+/*   Updated: 2022/09/19 17:19:58 by rvuorenl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,8 @@ typedef enum e_options
 	REVERSE = 1 << 3,
 	SORT_TIME = 1 << 4,
 	DIR_NAME = 1 << 5,
-	SYM_LINK = 1 << 6
+	SYM_LINK = 1 << 6,
+	ERROR_FILE = 1 << 7
 }				t_options;
 
 // errors.c

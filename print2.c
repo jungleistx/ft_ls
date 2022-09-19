@@ -6,7 +6,7 @@
 /*   By: rvuorenl <rvuorenl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/18 15:40:33 by rvuorenl          #+#    #+#             */
-/*   Updated: 2022/09/18 15:43:16 by rvuorenl         ###   ########.fr       */
+/*   Updated: 2022/09/19 17:33:47 by rvuorenl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,23 +15,18 @@
 void	print_list_errors(t_node *head, t_info *info)
 {
 	t_node	*tmp;
-	int		newline;
 
-	newline = 0;
 	tmp = head;
 	while (tmp)
 	{
 		if (tmp->type == 0)
 		{
-			newline = 1;
 			info->options |= DIR_NAME;
 			error_notfound(tmp->name);
 			info->ret_nr = 1;
 		}
 		tmp = tmp->next;
 	}
-	if (newline)
-		printf("\n");
 }
 
 void	print_long_list_node(t_node *node)
@@ -51,15 +46,12 @@ void	print_long_list_node(t_node *node)
 void	print_list_files(t_node **head, t_info *info)
 {
 	t_node	*tmp;
-	int		newline;
 
-	newline = 0;
 	tmp = *head;
 	while (tmp)
 	{
-		if (tmp->type != 4 && tmp->type != 0 && tmp->type != 1)
+		if (tmp->type == 8 || tmp->type == 10)
 		{
-			newline = 1;
 			info->options |= DIR_NAME;
 			if (info->options & LONG)
 				print_long_list_node(tmp);
@@ -68,7 +60,5 @@ void	print_list_files(t_node **head, t_info *info)
 		}
 		tmp = tmp->next;
 	}
-	if (newline)
-		printf("\n");
 	free_file_nodes(head, info->options);
 }

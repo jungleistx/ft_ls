@@ -6,7 +6,7 @@
 /*   By: rvuorenl <rvuorenl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/25 18:55:37 by rvuorenl          #+#    #+#             */
-/*   Updated: 2022/09/19 17:33:41 by rvuorenl         ###   ########.fr       */
+/*   Updated: 2022/09/19 17:53:07 by rvuorenl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ void	reset_info(t_info *info, t_node **head)
 	info->args = 0;
 	*head = NULL;
 	info->ret_nr = 0;
+	info->options |= FIRST_LINE;
 }
 
 void	list_add_directory(t_node **head, char *path, t_info *info, char *name)

@@ -6,7 +6,7 @@
 /*   By: rvuorenl <rvuorenl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/19 13:34:34 by rvuorenl          #+#    #+#             */
-/*   Updated: 2022/09/16 20:48:38 by rvuorenl         ###   ########.fr       */
+/*   Updated: 2022/09/19 15:24:55 by rvuorenl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,20 +42,6 @@ void	exit_readlink_error(char *str)
 	exit (5);
 }
 
-void	ft_bzero(void *s, size_t n)
-{
-	size_t	i;
-	char	*ptr;
-
-	ptr = (char *) s;
-	i = 0;
-	while (i < n)
-	{
-		ptr[i] = '\0';
-		i++;
-	}
-}
-
 void	print_sym_link(t_node *node, int opts)
 {
 	struct stat	filestat;
@@ -65,11 +51,10 @@ void	print_sym_link(t_node *node, int opts)
 	if (readlink(node->path, buf, 256) == -1)
 		exit_readlink_error(buf);
 	lstat(buf, &filestat);
-	// printf("	sym --%s-- %d\n", buf, filestat.st_mode);
 	if (S_ISDIR(filestat.st_mode) && !(opendir(buf)) && !(opts & LONG))
 	{
 		if (opts & DIR_NAME)
-			printf("%s:\n", node->name);	// check whats needed, name || path ??
+			printf("%s:\n", node->name);
 		ft_putstr_fd("ft_ls: ", 2);
 		perror(node->name);
 	}
@@ -115,5 +100,3 @@ void	list_add_long(t_node *node, struct stat filestat, t_info *info)
 		add_symbolic_link(node);
 	info->total += (long)filestat.st_blocks;
 }
-
-//	4 dir, 8 file, 10 link, 0 error, 1 perm

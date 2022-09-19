@@ -6,7 +6,7 @@
 /*   By: rvuorenl <rvuorenl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/19 13:50:21 by rvuorenl          #+#    #+#             */
-/*   Updated: 2022/09/15 14:04:24 by rvuorenl         ###   ########.fr       */
+/*   Updated: 2022/09/19 15:23:02 by rvuorenl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,5 +80,59 @@ void	list_sort_time(t_node **head)
 		if (sorted == 0)
 			return ;
 		sorted = 0;
+	}
+}
+
+void	list_find_spot_r(t_node **head, t_node *prev, t_node *node, t_node *tmp)
+{
+	while (tmp)
+	{
+		if (ft_strcmp((const char *)node->name, (const char *)tmp->name) > 0)
+		{
+			if (*head == tmp)
+				*head = node;
+			if (prev)
+				prev->next = node;
+			node->next = tmp;
+			return ;
+		}
+		else
+		{
+			prev = tmp;
+			if (tmp->next)
+				tmp = tmp->next;
+			else
+			{
+				tmp->next = node;
+				return ;
+			}
+		}
+	}
+}
+
+void	list_find_spot(t_node **head, t_node *prev, t_node *node, t_node *tmp)
+{
+	while (tmp)
+	{
+		if (ft_strcmp((const char *)node->name, (const char *)tmp->name) < 0)
+		{
+			if (*head == tmp)
+				*head = node;
+			if (prev)
+				prev->next = node;
+			node->next = tmp;
+			return ;
+		}
+		else
+		{
+			prev = tmp;
+			if (tmp->next)
+				tmp = tmp->next;
+			else
+			{
+				tmp->next = node;
+				return ;
+			}
+		}
 	}
 }

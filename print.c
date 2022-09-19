@@ -6,7 +6,7 @@
 /*   By: rvuorenl <rvuorenl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 15:04:00 by rvuorenl          #+#    #+#             */
-/*   Updated: 2022/09/19 18:04:55 by rvuorenl         ###   ########.fr       */
+/*   Updated: 2022/09/19 19:48:58 by rvuorenl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ void	print_list_all(t_node *head, t_info *info)
 			printf("%s\n", tmp->name);
 		tmp = tmp->next;
 		info->options |= DIR_NAME;
+		if (info->options & FIRST_LINE)
+			info->options ^= FIRST_LINE;
 	}
 }
 
@@ -55,6 +57,12 @@ void	print_list(t_node **head, t_info *info)
 		print_long_list(*head);
 	else
 		print_list_all(*head, info);
+	if (*head)
+	{
+		info->options |= DIR_NAME;
+		if (info->options & FIRST_LINE)
+			info->options ^= FIRST_LINE;
+	}
 }
 
 void	print_dir(t_node *head, t_info *info)
@@ -86,14 +94,18 @@ void	print_dir(t_node *head, t_info *info)
 	}
 }
 
-void	print_path(char *str, int opts)
+void	print_path(char *str, t_info *info)
 {
+	if (!(info->options & FIRST_LINE))
+		printf("\n");
 	if (str[0] == '/' && str[1] == '/')
 		printf("%s:\n", &str[1]);
 	else if (str[0] == '/')
 		printf("%s:\n", str);
-	else if (opts & RECURSIVE)
+	else if (info->options & RECURSIVE)
 		printf("%s:\n", str);
 	else
 		printf("%s:\n", &str[2]);
+	if (info->options & FIRST_LINE)
+		info->options ^= FIRST_LINE;
 }

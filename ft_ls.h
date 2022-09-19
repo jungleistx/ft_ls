@@ -6,7 +6,7 @@
 /*   By: rvuorenl <rvuorenl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/25 19:01:47 by rvuorenl          #+#    #+#             */
-/*   Updated: 2022/09/19 15:35:32 by rvuorenl         ###   ########.fr       */
+/*   Updated: 2022/09/19 17:07:48 by rvuorenl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,6 +141,7 @@ void	ft_memdel(void **ap);
 void	*ft_memset(void *b, int c, size_t len);
 void	ft_putstr_fd(char const *s, int fd);
 char	*ft_strcat(char *s1, const char *s2);
+char	*ft_strchr(const char *s, int c);
 char	*ft_strdup(const char *s1);
 int		ft_strcmp(const char *s1, const char *s2);
 char	*ft_strcpy(char *dst, const char *src);

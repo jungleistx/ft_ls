@@ -6,7 +6,7 @@
 /*   By: rvuorenl <rvuorenl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/17 15:03:32 by rvuorenl          #+#    #+#             */
-/*   Updated: 2022/09/19 12:47:22 by rvuorenl         ###   ########.fr       */
+/*   Updated: 2022/09/19 17:06:21 by rvuorenl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ int	option_validity(char *str)
 	{
 		if (str[i] == '-')
 			dash++;
+		if (str[i] != '-' && !(ft_strchr(OPTIONS, str[i])))
+			return (0);
 	}
 	if (dash > 1)
 		return (0);

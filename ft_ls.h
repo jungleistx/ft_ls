@@ -6,7 +6,7 @@
 /*   By: rvuorenl <rvuorenl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/25 19:01:47 by rvuorenl          #+#    #+#             */
-/*   Updated: 2022/09/19 21:34:37 by rvuorenl         ###   ########.fr       */
+/*   Updated: 2022/09/20 14:09:56 by rvuorenl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,6 @@ typedef enum e_options
 	DOT_ARG = 1 << 10
 }				t_options;
 
-
 // errors.c
 void	error_notfound(char *filename);
 void	exit_illegal(void);
@@ -116,8 +115,9 @@ void	read_options(int argc, char **argv, t_info *info);
 void	shift_options(char *argv, t_info *info);
 
 // recursion.c
-void	print_dir_recursive(t_node **head, t_info *info);
 void	check_null_head(t_node **head, t_info *info);
+int		traverse_hidden_files(char *name);
+void	print_dir_recursive(t_node **head, t_info *info);
 
 // list_sort.c
 void	update_list_time(t_node **prev, t_node *node, t_node **head, int *sort);

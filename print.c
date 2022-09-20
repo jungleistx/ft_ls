@@ -6,7 +6,7 @@
 /*   By: rvuorenl <rvuorenl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 15:04:00 by rvuorenl          #+#    #+#             */
-/*   Updated: 2022/09/19 21:59:50 by rvuorenl         ###   ########.fr       */
+/*   Updated: 2022/09/20 15:15:59 by rvuorenl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,23 +94,6 @@ void	print_dir(t_node *head, t_info *info)
 
 void	print_path(char *str, t_info *info)
 {
-	// if (!(info->options & FIRST_LINE))
-	// 	printf("\n");
-	// if (str[0] == '/' && str[1] == '/')
-	// 	printf("%s:\n", &str[1]);
-	// else if (str[0] == '/')
-	// 	printf("%s:\n", str);
-
-	// else if (info->options & SYM_LINK)
-	// 	printf("%s:\n", &str[2]);
-
-	// // when no args, print[0]
-
-	// else if (info->options & RECURSIVE)
-	// 	printf("%s:\n", str);
-	// else
-	// 	printf("%s:\n", &str[2]);
-
 	if (!(info->options & FIRST_LINE))
 		printf("\n");
 	if (str[0] == '/' && str[1] == '/')

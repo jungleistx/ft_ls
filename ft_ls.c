@@ -6,7 +6,7 @@
 /*   By: rvuorenl <rvuorenl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/25 18:55:37 by rvuorenl          #+#    #+#             */
-/*   Updated: 2022/09/20 14:06:36 by rvuorenl         ###   ########.fr       */
+/*   Updated: 2022/09/20 15:16:23 by rvuorenl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,6 @@ void	reset_info(t_info *info, t_node **head)
 	info->options |= FIRST_LINE;
 }
 
-
-
 void	list_add_directory(t_node **head, char *path, t_info *i, char *name)
 {
 	DIR				*dir;
@@ -54,28 +52,6 @@ void	list_add_directory(t_node **head, char *path, t_info *i, char *name)
 		}
 		closedir(dir);
 	}
-}
-
-// void print_test(t_node *head)
-// {
-// 	t_node *tmp = head;
-// 	while (tmp)
-// 	{
-// 		printf("(%s) -> (%s)\n", tmp->name, tmp->path);
-// 		tmp = tmp->next;
-// 	}
-// 	printf("(NULL)\n");
-// }
-
-void print_test(t_node *head)
-{
-	t_node *tmp = head;
-	while (tmp)
-	{
-		printf("(%s) -> ", tmp->name);
-		tmp = tmp->next;
-	}
-	printf("(NULL)\n");
 }
 
 void	ft_ls(t_node **head, t_info *info)

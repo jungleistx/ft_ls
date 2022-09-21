@@ -6,15 +6,15 @@
 /*   By: rvuorenl <rvuorenl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/10 15:18:13 by rvuorenl          #+#    #+#             */
-/*   Updated: 2022/05/18 11:35:56 by rvuorenl         ###   ########.fr       */
+/*   Updated: 2022/09/20 15:53:24 by rvuorenl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_PRINTF_H
 # define FT_PRINTF_H
 # include <stdarg.h>
-# include <unistd.h>
-# include <stdlib.h>
+// # include <unistd.h>
+// # include <stdlib.h>
 # include "../libft/libft.h"
 
 # define SPECS "%dicoxXuUspnfFbBD"

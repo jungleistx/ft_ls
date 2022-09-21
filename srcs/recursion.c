@@ -6,13 +6,13 @@
 /*   By: rvuorenl <rvuorenl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 12:20:35 by rvuorenl          #+#    #+#             */
-/*   Updated: 2022/09/20 15:47:49 by rvuorenl         ###   ########.fr       */
+/*   Updated: 2022/09/21 21:47:22 by rvuorenl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../ft_ls.h"
 
-void	check_null_head(t_node **head, t_info *info)
+void	check_null_head(t_node **head, t_inf *info)
 {
 	if (*head != NULL)
 	{
@@ -31,7 +31,7 @@ int	traverse_hidden_files(char *name)
 	return (1);
 }
 
-void	print_dir_recursive(t_node **head, t_info *info)
+void	print_dir_recursive(t_node **head, t_inf *info, int dot_dir)
 {
 	t_node	*tmp;
 	t_node	*newhead;
@@ -40,18 +40,18 @@ void	print_dir_recursive(t_node **head, t_info *info)
 	tmp = *head;
 	while (tmp)
 	{
-		if (traverse_hidden_files(tmp->name))
+		if (traverse_hidden_files(tmp->name) || dot_dir)
 		{
 			if (info->options & DIR_NAME)
 				print_path(tmp->path, info);
 			list_add_directory(&newhead, tmp->path, info, tmp->name);
-			if (info->options & LONG && newhead != NULL)
+			if (info->options & LON && newhead != NULL)
 				ft_printf("total %ld\n", info->total);
 			check_null_head(&newhead, info);
 			if (newhead)
 			{
 				info->options |= DIR_NAME;
-				print_dir_recursive(&newhead, info);
+				print_dir_recursive(&newhead, info, 0);
 			}
 			free_list(&newhead, info->options);
 		}

@@ -6,7 +6,7 @@
 /*   By: rvuorenl <rvuorenl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/17 15:03:32 by rvuorenl          #+#    #+#             */
-/*   Updated: 2022/09/21 20:24:06 by rvuorenl         ###   ########.fr       */
+/*   Updated: 2022/09/21 21:51:13 by rvuorenl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,19 +68,6 @@ void	read_options(int argc, char **argv, t_inf *info)
 	}
 	if (i < argc)
 		info->args = argc - i;
-}
-
-void	print_current_dir(t_node **head, t_inf *info)
-{
-	print_list(head, info);
-	if (info->options & RECURSIVE)
-	{
-		info->options |= PRINT_PATH;
-		free_non_dir_nodes(head, info->options);
-		print_dir_recursive(head, info, 0);
-	}
-	else
-		free_list(head, info->options);
 }
 
 void	create_node_dots(t_node **head, char *name, t_inf *info)

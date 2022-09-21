@@ -6,7 +6,7 @@
 /*   By: rvuorenl <rvuorenl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/25 19:01:47 by rvuorenl          #+#    #+#             */
-/*   Updated: 2022/09/21 20:23:42 by rvuorenl         ###   ########.fr       */
+/*   Updated: 2022/09/21 21:52:03 by rvuorenl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@
 # include <sys/ioctl.h>
 # include <stdio.h>
 # include "printf/includes/ft_printf.h"
-// # include "libft/libft.h"
 // # include <string.h>
 // # include <unistd.h>
 // # include <stdlib.h>
@@ -107,13 +106,14 @@ void	print_list_errors(t_node *head, t_inf *info);
 void	print_long_list_node(t_node *node);
 void	print_list_files(t_node **head, t_inf *info);
 void	print_free_list(t_node **head, t_inf *info);
+void	print_current_dir(t_node **head, t_inf *info);
 
 // utilities.c
 int		option_validity(char *str);
-void	print_current_dir(t_node **head, t_inf *info);
 void	read_arguments(t_node **head, int argc, char **argv, t_inf *info);
 void	read_options(int argc, char **argv, t_inf *info);
 void	shift_options(char *argv, t_inf *info);
+void	create_node_dots(t_node **head, char *name, t_inf *info);
 
 // recursion.c
 void	check_null_head(t_node **head, t_inf *info);
@@ -139,29 +139,5 @@ char	*ft_strdup_exit(char *src);
 void	reset_info_ls(t_inf *info, t_node **head);
 void	list_add_directory(t_node **head, char *path, t_inf *info, char *name);
 void	ft_ls(t_node **head, t_inf *info);
-// int	main
-
-// libft
-// int		ft_atoi(const char *str);
-// void	ft_bzero(void *s, size_t n);
-// void	ft_memdel(void **ap);
-// void	*ft_memset(void *b, int c, size_t len);
-// int		ft_printf(const char *str, ...);
-// void	ft_putstr_fd(char const *s, int fd);
-// char	*ft_strcat(char *s1, const char *s2);
-// char	*ft_strchr(const char *s, int c);
-// char	*ft_strdup(const char *s1);
-// int		ft_strcmp(const char *s1, const char *s2);
-// char	*ft_strcpy(char *dst, const char *src);
-// char	*ft_strncpy(char *dst, const char *src, size_t len);
-// size_t	ft_strlen(const char *s);
-
-// void	print_list_node(t_node *node, int opts);
-// void	list_sort_time_dispatch(t_node **head, int opts);
-// int		find_multiple_dirs(t_node *head);
-// void 	print_test(t_node *head);
-// void	print_test2(t_node *head);
-// void	exit_usage(void);
-// t_node	*print_list_find_dir(t_node *head, int opts);	//?
 
 #endif

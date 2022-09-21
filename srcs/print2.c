@@ -6,7 +6,7 @@
 /*   By: rvuorenl <rvuorenl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/18 15:40:33 by rvuorenl          #+#    #+#             */
-/*   Updated: 2022/09/20 17:28:26 by rvuorenl         ###   ########.fr       */
+/*   Updated: 2022/09/21 21:51:10 by rvuorenl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,4 +71,17 @@ void	print_free_list(t_node **head, t_inf *info)
 {
 	print_list(head, info);
 	free_list(head, info->options);
+}
+
+void	print_current_dir(t_node **head, t_inf *info)
+{
+	print_list(head, info);
+	if (info->options & RECURSIVE)
+	{
+		info->options |= PRINT_PATH;
+		free_non_dir_nodes(head, info->options);
+		print_dir_recursive(head, info, 0);
+	}
+	else
+		free_list(head, info->options);
 }

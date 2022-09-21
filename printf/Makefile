@@ -16,15 +16,15 @@ LIB_NAME=libftprintf.a
 all : $(LIB_NAME)
 
 $(LIB_NAME) :
-	@gcc ${FLAGS} -c $(addprefix $(SRC_DIR), $(SRC)) \
+	gcc ${FLAGS} -c $(addprefix $(SRC_DIR), $(SRC)) \
 	$(addprefix $(LIBFT_DIR), $(LIBFT_SRC))	-I ./includes/ -I ./libft/
-	@ar rc ${LIB_NAME} $(SRC:.c=.o) $(LIBFT_SRC:.c=.o)
+	ar rc ${LIB_NAME} $(SRC:.c=.o) $(LIBFT_SRC:.c=.o)
 
 clean:
-	@rm -f $(SRC:.c=.o) $(LIBFT_SRC:.c=.o)
+	rm -f $(SRC:.c=.o) $(LIBFT_SRC:.c=.o)
 
 fclean:	clean
-	@rm -f ${LIB_NAME}
+	rm -f ${LIB_NAME}
 
 re: fclean all
 

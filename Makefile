@@ -1,44 +1,31 @@
-FLAGS=-Wall -Wextra -Werror -O3 #allowed?
+FLAGS=-Wall -Wextra -Werror -O3
 
-SRC=ft_ls.c errors.c utilities.c list_long.c list.c list_sort.c free.c \
-	print.c recursion.c
+SRC=errors.c free.c ft_ls.c list_long.c list_sort.c list.c print.c print2.c \
+	recursion.c utilities.c
+
+LS_DIR=srcs/
 
 BIN_NAME=ft_ls
 
-all : bin
+PRINTF_LIB=printf/libftprintf.a
 
-bin :
-	gcc ${FLAGS} ${SRC} -I ft_ls.h -o ${BIN_NAME}
+all : objects
+	gcc $(FLAGS) -o $(BIN_NAME) $(SRC:.c=.o) $(PRINTF_LIB)
+
+objects : $(PRINTF_LIB)
+	gcc $(FLAGS) -c $(addprefix $(LS_DIR), $(SRC))
+
+$(PRINTF_LIB) :
+	$(MAKE) -C printf/
 
 clean :
-	rm -rf *.o
+	$(MAKE) -C printf/ clean
+	rm -f $(SRC:.c=.o)
 
 fclean : clean
-	rm -rf ${BIN_NAME}
+	$(MAKE) -C printf/ fclean
+	rm -f $(BIN_NAME)
 
 re : fclean all
 
 .PHONY: all clean fclean re
-
-# FLAGS=-Wall -Wextra -Werror -O3
-# SRC=srcs/address.c srcs/assign.c srcs/bonus.c srcs/char.c srcs/flags.c srcs/flags2.c srcs/float.c \
-# 	srcs/ft_printf.c srcs/helpers.c srcs/hex_flags.c srcs/hex.c srcs/int_flags.c srcs/int.c \
-# 	srcs/octal_flags.c srcs/octal.c srcs/percent.c srcs/string.c srcs/unsigned.c
-# SRCLIB=libft/ft_atoi.c libft/ft_isdigit.c libft/ft_putchar.c libft/ft_strlen.c
-# NAME=libftprintf.a
-
-# all : $(NAME)
-
-# $(NAME) :
-# 	gcc ${FLAGS} -c ${SRC} ${SRCLIB} -I ./includes/ -I ./libft/
-# 	ar rc ${NAME} *.o
-
-# clean:
-# 	rm -f *.o
-
-# fclean:	clean
-# 	rm -f ${NAME}
-
-# re: fclean all
-
-# .PHONY: all clean fclean re

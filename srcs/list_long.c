@@ -6,7 +6,7 @@
 /*   By: rvuorenl <rvuorenl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/19 13:34:34 by rvuorenl          #+#    #+#             */
-/*   Updated: 2022/09/20 15:46:29 by rvuorenl         ###   ########.fr       */
+/*   Updated: 2022/09/20 17:27:39 by rvuorenl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	print_sym_link(t_node *node, int opts)
 	if (readlink(node->path, buf, 256) == -1)
 		exit_readlink_error(buf);
 	lstat(buf, &filestat);
-	if (S_ISDIR(filestat.st_mode) && !(opendir(buf)) && !(opts & LONG))
+	if (S_ISDIR(filestat.st_mode) && !(opendir(buf)) && !(opts & LON))
 	{
 		if (opts & DIR_NAME)
 			ft_printf("\n%s:\n", node->name);
@@ -60,7 +60,7 @@ void	print_sym_link(t_node *node, int opts)
 	}
 	else
 	{
-		if (opts & LONG)
+		if (opts & LON)
 			print_long_list_node(node);
 		else
 			ft_printf("%s\n", node->name);
@@ -76,7 +76,7 @@ void	add_symbolic_link(t_node *node)
 		exit_readlink_error(node->l_opt->sym_link);
 }
 
-void	list_add_long(t_node *node, struct stat filestat, t_info *info)
+void	list_add_long(t_node *node, struct stat filestat, t_inf *info)
 {
 	struct passwd	*user;
 	struct group	*g_id;

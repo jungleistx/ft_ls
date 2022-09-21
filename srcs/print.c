@@ -6,13 +6,13 @@
 /*   By: rvuorenl <rvuorenl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 15:04:00 by rvuorenl          #+#    #+#             */
-/*   Updated: 2022/09/20 15:47:23 by rvuorenl         ###   ########.fr       */
+/*   Updated: 2022/09/21 21:37:37 by rvuorenl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../ft_ls.h"
 
-void	print_long_list(t_node *head, t_info *info)
+void	print_long_list(t_node *head, t_inf *info)
 {
 	t_node	*tmp;
 
@@ -35,7 +35,7 @@ void	print_long_list(t_node *head, t_info *info)
 	}
 }
 
-void	print_list_all(t_node *head, t_info *info)
+void	print_list_all(t_node *head, t_inf *info)
 {
 	t_node	*tmp;
 
@@ -53,9 +53,9 @@ void	print_list_all(t_node *head, t_info *info)
 	}
 }
 
-void	print_list(t_node **head, t_info *info)
+void	print_list(t_node **head, t_inf *info)
 {
-	if (info->options & LONG)
+	if (info->options & LON)
 		print_long_list(*head, info);
 	else
 		print_list_all(*head, info);
@@ -63,7 +63,7 @@ void	print_list(t_node **head, t_info *info)
 		info->options |= DIR_NAME;
 }
 
-void	print_dir(t_node *head, t_info *info)
+void	print_dir(t_node *head, t_inf *info)
 {
 	t_node	*tmp;
 	t_node	*newhead;
@@ -74,15 +74,11 @@ void	print_dir(t_node *head, t_info *info)
 	{
 		if (tmp->type == 4)
 		{
-			if (info->options & FIRST_LINE && info->options & DIR_NAME)
-			{
-				ft_printf("%s:\n", tmp->name);
-				info->options ^= FIRST_LINE;
-			}
-			else if (info->options & DIR_NAME)
-				ft_printf("\n%s:\n", tmp->name);
+			info->options |= PRINT_PATH;
+			if (info->options & DIR_NAME)
+				print_path(tmp->name, info);
 			list_add_directory(&newhead, tmp->name, info, tmp->name);
-			if (info->options & LONG && newhead)
+			if (info->options & LON && newhead)
 				ft_printf("total %ld\n", info->total);
 			print_free_list(&newhead, info);
 		}
@@ -92,7 +88,7 @@ void	print_dir(t_node *head, t_info *info)
 	}
 }
 
-void	print_path(char *str, t_info *info)
+void	print_path(char *str, t_inf *info)
 {
 	if (!(info->options & FIRST_LINE))
 		ft_printf("\n");

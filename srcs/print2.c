@@ -6,13 +6,13 @@
 /*   By: rvuorenl <rvuorenl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/18 15:40:33 by rvuorenl          #+#    #+#             */
-/*   Updated: 2022/09/20 15:47:41 by rvuorenl         ###   ########.fr       */
+/*   Updated: 2022/09/20 17:28:26 by rvuorenl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../ft_ls.h"
 
-void	print_list_errors(t_node *head, t_info *info)
+void	print_list_errors(t_node *head, t_inf *info)
 {
 	t_node	*tmp;
 
@@ -45,7 +45,7 @@ void	print_long_list_node(t_node *node)
 	ft_printf("\n");
 }
 
-void	print_list_files(t_node **head, t_info *info)
+void	print_list_files(t_node **head, t_inf *info)
 {
 	t_node	*tmp;
 
@@ -57,7 +57,7 @@ void	print_list_files(t_node **head, t_info *info)
 			if (info->options & FIRST_LINE)
 				info->options ^= FIRST_LINE;
 			info->options |= DIR_NAME;
-			if (info->options & LONG)
+			if (info->options & LON)
 				print_long_list_node(tmp);
 			else
 				ft_printf("%s\n", tmp->name);
@@ -67,7 +67,7 @@ void	print_list_files(t_node **head, t_info *info)
 	free_file_nodes(head, info->options);
 }
 
-void	print_free_list(t_node **head, t_info *info)
+void	print_free_list(t_node **head, t_inf *info)
 {
 	print_list(head, info);
 	free_list(head, info->options);

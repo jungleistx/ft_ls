@@ -6,7 +6,7 @@
 /*   By: rvuorenl <rvuorenl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/17 15:03:32 by rvuorenl          #+#    #+#             */
-/*   Updated: 2022/09/20 15:48:02 by rvuorenl         ###   ########.fr       */
+/*   Updated: 2022/09/21 20:24:06 by rvuorenl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	option_validity(char *str)
 	return (1);
 }
 
-void	shift_options(char *argv, t_info *info)
+void	shift_options(char *argv, t_inf *info)
 {
 	int	i;
 	int	j;
@@ -48,7 +48,7 @@ void	shift_options(char *argv, t_info *info)
 	}
 }
 
-void	read_options(int argc, char **argv, t_info *info)
+void	read_options(int argc, char **argv, t_inf *info)
 {
 	int	i;
 
@@ -70,20 +70,20 @@ void	read_options(int argc, char **argv, t_info *info)
 		info->args = argc - i;
 }
 
-void	print_current_dir(t_node **head, t_info *info)
+void	print_current_dir(t_node **head, t_inf *info)
 {
 	print_list(head, info);
 	if (info->options & RECURSIVE)
 	{
 		info->options |= PRINT_PATH;
 		free_non_dir_nodes(head, info->options);
-		print_dir_recursive(head, info);
+		print_dir_recursive(head, info, 0);
 	}
 	else
 		free_list(head, info->options);
 }
 
-void	create_node_dots(t_node **head, char *name, t_info *info)
+void	create_node_dots(t_node **head, char *name, t_inf *info)
 {
 	t_node		*node;
 	struct stat	filestat;
@@ -104,17 +104,17 @@ void	create_node_dots(t_node **head, char *name, t_info *info)
 	node->next = NULL;
 	node->sec = filestat.st_mtimespec.tv_sec;
 	node->n_sec = filestat.st_mtimespec.tv_nsec;
-	if (info->options & LONG && node->type != 0)
+	if (info->options & LON && node->type != 0)
 		list_add_long(node, filestat, info);
 	list_sort_add(head, node, info->options);
 }
 
-void	read_arguments(t_node **head, int argc, char **argv, t_info *info)
+void	read_arguments(t_node **head, int argc, char **argv, t_inf *info)
 {
 	if (info->args == 0)
 	{
 		list_add_directory(head, ".", info, "");
-		if (info->options & LONG)
+		if (info->options & LON)
 			ft_printf("total %ld\n", info->total);
 		print_current_dir(head, info);
 		exit(0);

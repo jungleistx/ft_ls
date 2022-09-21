@@ -6,7 +6,7 @@
 /*   By: rvuorenl <rvuorenl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/19 13:40:55 by rvuorenl          #+#    #+#             */
-/*   Updated: 2022/09/20 15:22:46 by rvuorenl         ###   ########.fr       */
+/*   Updated: 2022/09/20 17:27:59 by rvuorenl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	check_link_validity(t_node *node, int opts)
 	if (readlink(node->path, buf, 256) == -1)
 		exit_readlink_error(buf);
 	lstat(buf, &filestat);
-	if (S_ISDIR(filestat.st_mode) && !(opendir(buf)) && !(opts & LONG))
+	if (S_ISDIR(filestat.st_mode) && !(opendir(buf)) && !(opts & LON))
 		return (1);
 	return (10);
 }
@@ -73,7 +73,7 @@ char	*get_full_path(char *name, char *path)
 	return (full_path);
 }
 
-void	create_node(t_node **head, char *name, t_info *info, char *path)
+void	create_node(t_node **head, char *name, t_inf *info, char *path)
 {
 	t_node		*node;
 	struct stat	filestat;
@@ -93,7 +93,7 @@ void	create_node(t_node **head, char *name, t_info *info, char *path)
 	node->next = NULL;
 	node->sec = filestat.st_mtimespec.tv_sec;
 	node->n_sec = filestat.st_mtimespec.tv_nsec;
-	if (info->options & LONG && node->type != 0)
+	if (info->options & LON && node->type != 0)
 		list_add_long(node, filestat, info);
 	list_sort_add(head, node, info->options);
 }

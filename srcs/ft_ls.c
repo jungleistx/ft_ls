@@ -6,7 +6,7 @@
 /*   By: rvuorenl <rvuorenl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/25 18:55:37 by rvuorenl          #+#    #+#             */
-/*   Updated: 2022/09/20 15:44:40 by rvuorenl         ###   ########.fr       */
+/*   Updated: 2022/09/21 21:45:06 by rvuorenl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ char	*ft_strdup_exit(char *src)
 	return (ret);
 }
 
-void	reset_info_ls(t_info *info, t_node **head)
+void	reset_info_ls(t_inf *info, t_node **head)
 {
 	info->options = 0;
 	info->args = 0;
@@ -31,7 +31,7 @@ void	reset_info_ls(t_info *info, t_node **head)
 	info->options |= FIRST_LINE;
 }
 
-void	list_add_directory(t_node **head, char *path, t_info *i, char *name)
+void	list_add_directory(t_node **head, char *path, t_inf *i, char *name)
 {
 	DIR				*dir;
 	struct dirent	*dp;
@@ -54,13 +54,13 @@ void	list_add_directory(t_node **head, char *path, t_info *i, char *name)
 	}
 }
 
-void	ft_ls(t_node **head, t_info *info)
+void	ft_ls(t_node **head, t_inf *info)
 {
 	if (info->options & ERROR_FILE)
 		print_list_errors(*head, info);
 	print_list_files(head, info);
 	if (info->options & RECURSIVE)
-		print_dir_recursive(head, info);
+		print_dir_recursive(head, info, 1);
 	else
 		print_dir(*head, info);
 	if (head)
@@ -69,7 +69,7 @@ void	ft_ls(t_node **head, t_info *info)
 
 int	main(int argc, char **argv)
 {
-	t_info	info;
+	t_inf	info;
 	t_node	*head;
 
 	reset_info_ls(&info, &head);

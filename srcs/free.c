@@ -6,7 +6,7 @@
 /*   By: rvuorenl <rvuorenl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/19 13:28:37 by rvuorenl          #+#    #+#             */
-/*   Updated: 2022/09/20 15:40:11 by rvuorenl         ###   ########.fr       */
+/*   Updated: 2022/09/20 17:27:05 by rvuorenl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	free_node(t_node *node, int options)
 {
-	if (options & LONG && node->type != 0)
+	if (options & LON && node->type != 0)
 	{
 		if (node->type == 10)
 			ft_memdel((void **)&node->l_opt->sym_link);

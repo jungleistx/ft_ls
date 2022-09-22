@@ -1,7 +1,7 @@
 FLAGS=-Wall -Wextra -Werror -O3
 
 SRC=errors.c free.c ft_ls.c list_long.c list_sort.c list.c print.c print2.c \
-	recursion.c utilities.c
+	recursion.c utilities.c utilities2.c
 
 LS_DIR=srcs/
 

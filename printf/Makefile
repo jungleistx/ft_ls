@@ -8,7 +8,7 @@ SRC_DIR=srcs/
 
 LIBFT_SRC=ft_atoi.c ft_bzero.c ft_isdigit.c ft_memdel.c ft_memset.c \
 	ft_putchar.c ft_putstr_fd.c ft_strcat.c ft_strchr.c ft_strcmp.c \
-	ft_strcpy.c ft_strdup.c ft_strlen.c ft_strncpy.c
+	ft_strcpy.c ft_strdup.c ft_strlen.c ft_strncpy.c ft_itoa.c
 LIBFT_DIR=libft/
 
 LIB_NAME=libftprintf.a

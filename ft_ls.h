@@ -6,7 +6,7 @@
 /*   By: rvuorenl <rvuorenl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/25 19:01:47 by rvuorenl          #+#    #+#             */
-/*   Updated: 2022/09/21 21:52:03 by rvuorenl         ###   ########.fr       */
+/*   Updated: 2022/09/22 14:42:32 by rvuorenl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,11 @@ typedef enum e_options
 	PRINT_PATH = 1 << 9,
 	DOT_ARG = 1 << 10
 }				t_options;
+
+// utilities2.c
+void	free_error_nodes(t_node **head, int options);
+void	print_year(t_node *node);
+void	get_owner_group(t_node *node, struct stat filestat);
 
 // errors.c
 void	error_notfound(char *filename);

@@ -6,7 +6,7 @@
 /*   By: rvuorenl <rvuorenl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/18 15:40:33 by rvuorenl          #+#    #+#             */
-/*   Updated: 2022/09/21 21:51:10 by rvuorenl         ###   ########.fr       */
+/*   Updated: 2022/09/22 14:42:35 by rvuorenl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	print_long_list_node(t_node *node)
 	ft_printf("%-*s", 12, node->l_opt->owner);
 	ft_printf("%-*s", 8, node->l_opt->group);
 	ft_printf("%-*d ", 7, node->l_opt->size);
-	ft_printf("%s ", node->l_opt->date);
+	print_year(node);
 	ft_printf("%s", node->name);
 	if (node->type == 10)
 		ft_printf(" -> %s", node->l_opt->sym_link);
@@ -69,6 +69,8 @@ void	print_list_files(t_node **head, t_inf *info)
 
 void	print_free_list(t_node **head, t_inf *info)
 {
+	print_list_errors(*head, info);
+	free_error_nodes(head, info->options);
 	print_list(head, info);
 	free_list(head, info->options);
 }

@@ -6,7 +6,7 @@
 /*   By: rvuorenl <rvuorenl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/19 13:34:34 by rvuorenl          #+#    #+#             */
-/*   Updated: 2022/09/20 17:27:39 by rvuorenl         ###   ########.fr       */
+/*   Updated: 2022/09/22 14:43:12 by rvuorenl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,10 @@ void	list_add_long_filetype(t_node *node, struct stat filestat, int a)
 		node->l_opt->permissions[0] = 'd';
 	else if (node->type == 10)
 		node->l_opt->permissions[0] = 'l';
+	else if (node->type == 2)
+		node->l_opt->permissions[0] = 'c';
+	else if (node->type == 3)
+		node->l_opt->permissions[0] = 'b';
 	else
 		node->l_opt->permissions[0] = '-';
 	while (--a >= 0)
@@ -71,27 +75,22 @@ void	add_symbolic_link(t_node *node)
 {
 	node->l_opt->sym_link = (char *)malloc(sizeof(char) * 256);
 	if (!node->l_opt->sym_link)
-		exit_malloc_error("add_symbolic_link");
+		exit_malloc_error(node->name);
 	if (readlink(node->path, node->l_opt->sym_link, 256) == -1)
 		exit_readlink_error(node->l_opt->sym_link);
 }
 
 void	list_add_long(t_node *node, struct stat filestat, t_inf *info)
 {
-	struct passwd	*user;
-	struct group	*g_id;
 	char			*date;
 
 	node->l_opt = (t_long *)malloc(sizeof(t_long));
 	if (!node->l_opt)
-		error_dir("list_add_long malloc");
+		error_dir(node->name);
 	list_add_long_filetype(node, filestat, 9);
 	node->l_opt->size = (int)filestat.st_size;
 	node->l_opt->links = (int)filestat.st_nlink;
-	user = getpwuid(filestat.st_uid);
-	g_id = getgrgid(user->pw_gid);
-	node->l_opt->owner = ft_strdup_exit(user->pw_name);
-	node->l_opt->group = ft_strdup_exit(g_id->gr_name);
+	get_owner_group(node, filestat);
 	date = ctime(&filestat.st_ctimespec.tv_sec);
 	node->l_opt->year = ft_atoi((const char *)&date[20]);
 	ft_strncpy(node->l_opt->date, (const char *)&date[4], (size_t)12);

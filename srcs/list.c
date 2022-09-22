@@ -6,7 +6,7 @@
 /*   By: rvuorenl <rvuorenl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/19 13:40:55 by rvuorenl          #+#    #+#             */
-/*   Updated: 2022/09/20 17:27:59 by rvuorenl         ###   ########.fr       */
+/*   Updated: 2022/09/22 14:36:41 by rvuorenl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,10 @@ int	node_filetype(struct stat filestat, t_node *node, int opts)
 		return (4);
 	else if (S_ISREG(filestat.st_mode))
 		return (8);
+	else if (S_ISCHR(filestat.st_mode))
+		return (2);
+	else if (S_ISBLK(filestat.st_mode))
+		return (3);
 	else if (S_ISLNK(filestat.st_mode))
 		return (check_link_validity(node, opts));
 	else

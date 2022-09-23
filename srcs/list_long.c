@@ -6,7 +6,7 @@
 /*   By: rvuorenl <rvuorenl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/19 13:34:34 by rvuorenl          #+#    #+#             */
-/*   Updated: 2022/09/22 14:43:12 by rvuorenl         ###   ########.fr       */
+/*   Updated: 2022/09/23 12:43:37 by rvuorenl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,5 +97,6 @@ void	list_add_long(t_node *node, struct stat filestat, t_inf *info)
 	node->l_opt->date[12] = '\0';
 	if (node->type == 10)
 		add_symbolic_link(node);
+	node->l_opt->majorminor = (unsigned int)filestat.st_rdev;
 	info->total += (long)filestat.st_blocks;
 }

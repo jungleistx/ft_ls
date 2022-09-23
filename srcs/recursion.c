@@ -6,7 +6,7 @@
 /*   By: rvuorenl <rvuorenl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 12:20:35 by rvuorenl          #+#    #+#             */
-/*   Updated: 2022/09/22 14:55:33 by rvuorenl         ###   ########.fr       */
+/*   Updated: 2022/09/23 13:02:42 by rvuorenl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,6 @@ void	check_null_head(t_node **head, t_inf *info)
 {
 	if (*head != NULL)
 	{
-		// print_list_errors(*head, info);
-		// free_error_nodes(head, info->options);
 		print_list(head, info);
 		free_file_nodes(head, info->options);
 	}

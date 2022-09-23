@@ -6,7 +6,7 @@
 /*   By: rvuorenl <rvuorenl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/22 14:42:04 by rvuorenl          #+#    #+#             */
-/*   Updated: 2022/09/22 14:43:24 by rvuorenl         ###   ########.fr       */
+/*   Updated: 2022/09/23 13:00:57 by rvuorenl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,11 +62,7 @@ void	print_year(t_node *node)
 	time_t		cur_time;
 	struct stat	filestat;
 
-	if (lstat(node->path, &filestat) == -1)
-	{
-		perror(node->name);
-		exit(6);
-	}
+	lstat(node->path, &filestat);
 	if (time(&cur_time) == -1)
 	{
 		perror("time");
@@ -80,4 +76,20 @@ void	print_year(t_node *node)
 	}
 	else
 		ft_printf("%s ", node->l_opt->date);
+}
+
+void	print_major_minor(t_node *node)
+{
+	unsigned int	minor;
+	unsigned int	major;
+
+	if (node->type == 2 || node->type == 3)
+	{
+		minor = (node->l_opt->majorminor & 0xffffff);
+		major = (node->l_opt->majorminor & (0xff << 24));
+		major = major >> 24;
+		ft_printf("%u, %u ", major, minor);
+	}
+	else
+		ft_printf("%-*d ", 7, node->l_opt->size);
 }

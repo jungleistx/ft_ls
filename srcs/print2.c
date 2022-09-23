@@ -6,7 +6,7 @@
 /*   By: rvuorenl <rvuorenl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/18 15:40:33 by rvuorenl          #+#    #+#             */
-/*   Updated: 2022/09/22 14:42:35 by rvuorenl         ###   ########.fr       */
+/*   Updated: 2022/09/23 13:00:09 by rvuorenl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,9 @@ void	print_long_list_node(t_node *node)
 {
 	ft_printf("%s ", node->l_opt->permissions);
 	ft_printf("%*d ", 3, node->l_opt->links);
-	ft_printf("%-*s", 12, node->l_opt->owner);
-	ft_printf("%-*s", 8, node->l_opt->group);
-	ft_printf("%-*d ", 7, node->l_opt->size);
+	ft_printf("%-*s ", 12, node->l_opt->owner);
+	ft_printf("%-*s ", 8, node->l_opt->group);
+	print_major_minor(node);
 	print_year(node);
 	ft_printf("%s", node->name);
 	if (node->type == 10)
@@ -52,7 +52,7 @@ void	print_list_files(t_node **head, t_inf *info)
 	tmp = *head;
 	while (tmp)
 	{
-		if (tmp->type == 8 || tmp->type == 10)
+		if (tmp->type != 4 && tmp->type != 0)
 		{
 			if (info->options & FIRST_LINE)
 				info->options ^= FIRST_LINE;

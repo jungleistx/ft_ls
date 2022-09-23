@@ -6,7 +6,7 @@
 /*   By: rvuorenl <rvuorenl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 15:04:00 by rvuorenl          #+#    #+#             */
-/*   Updated: 2022/09/22 14:56:29 by rvuorenl         ###   ########.fr       */
+/*   Updated: 2022/09/23 13:02:36 by rvuorenl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,17 +24,17 @@ void	print_long_list(t_node *head, t_inf *info)
 			ft_printf("%s ", tmp->l_opt->permissions);
 			ft_printf("%*d ", 3, tmp->l_opt->links);
 			ft_printf("%-*s ", 12, tmp->l_opt->owner);
-			ft_printf("%-*s", 8, tmp->l_opt->group);
-			ft_printf("%*d ", 7, tmp->l_opt->size);
+			ft_printf("%-*s ", 8, tmp->l_opt->group);
+			print_major_minor(tmp);
 			print_year(tmp);
 			ft_printf("%s", tmp->name);
 			if (tmp->type == 10)
 				ft_printf(" -> %s", tmp->l_opt->sym_link);
 			ft_printf("\n");
-			tmp = tmp->next;
 		}
 		else
 			error_notfound(tmp->name);
+		tmp = tmp->next;
 		if (info->options & FIRST_LINE)
 			info->options ^= FIRST_LINE;
 	}

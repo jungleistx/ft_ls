@@ -6,7 +6,7 @@
 /*   By: rvuorenl <rvuorenl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/25 19:01:47 by rvuorenl          #+#    #+#             */
-/*   Updated: 2022/09/22 14:42:32 by rvuorenl         ###   ########.fr       */
+/*   Updated: 2022/09/23 12:58:12 by rvuorenl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,9 @@
 # include <dirent.h>
 # include <sys/stat.h>
 # include <pwd.h>
-# include <sys/types.h>
 # include <grp.h>
-# include <sys/ioctl.h>
 # include <stdio.h>
 # include "printf/includes/ft_printf.h"
-// # include <string.h>
-// # include <unistd.h>
-// # include <stdlib.h>
 
 # define OPTIONS "lRart"
 
@@ -35,6 +30,7 @@ typedef struct s_long
 	int				year;
 	int				links;
 	int				size;
+	unsigned int	majorminor;
 	char			*sym_link;
 	char			*owner;
 	char			*group;
@@ -78,6 +74,7 @@ typedef enum e_options
 void	free_error_nodes(t_node **head, int options);
 void	print_year(t_node *node);
 void	get_owner_group(t_node *node, struct stat filestat);
+void	print_major_minor(t_node *node);
 
 // errors.c
 void	error_notfound(char *filename);

@@ -6,7 +6,7 @@
 /*   By: rvuorenl <rvuorenl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/19 13:40:55 by rvuorenl          #+#    #+#             */
-/*   Updated: 2022/09/23 20:16:42 by rvuorenl         ###   ########.fr       */
+/*   Updated: 2022/09/26 15:49:07 by rvuorenl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	check_link_validity(t_node *node, int opts)
 
 	ft_bzero((void *)buf, (size_t)257);
 	if (readlink(node->path, buf, 256) == -1)
-		exit_readlink_error(buf);
+		readlink_error(node->name);
 	lstat(buf, &filestat);
 	if (S_ISDIR(filestat.st_mode) && !(opts & LON))
 	{

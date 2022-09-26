@@ -6,7 +6,7 @@
 /*   By: rvuorenl <rvuorenl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/19 13:34:34 by rvuorenl          #+#    #+#             */
-/*   Updated: 2022/09/23 12:43:37 by rvuorenl         ###   ########.fr       */
+/*   Updated: 2022/09/26 15:48:28 by rvuorenl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,9 @@ void	list_add_long_filetype(t_node *node, struct stat filestat, int a)
 	node->l_opt->permissions[10] = '\0';
 }
 
-void	exit_readlink_error(char *str)
+void	readlink_error(char *str)
 {
 	perror(str);
-	exit (5);
 }
 
 void	print_sym_link(t_node *node, int opts)
@@ -51,9 +50,10 @@ void	print_sym_link(t_node *node, int opts)
 	struct stat	filestat;
 	char		buf[257];
 
+	ft_printf("	---path '%s', name '%s'\n", node->path, node->name);
 	ft_bzero((void *)buf, (size_t)257);
 	if (readlink(node->path, buf, 256) == -1)
-		exit_readlink_error(buf);
+		readlink_error(node->name);
 	lstat(buf, &filestat);
 	if (S_ISDIR(filestat.st_mode) && !(opendir(buf)) && !(opts & LON))
 	{

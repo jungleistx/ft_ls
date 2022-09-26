@@ -6,7 +6,7 @@
 /*   By: rvuorenl <rvuorenl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/25 19:01:47 by rvuorenl          #+#    #+#             */
-/*   Updated: 2022/09/23 20:13:48 by rvuorenl         ###   ########.fr       */
+/*   Updated: 2022/09/26 15:48:41 by rvuorenl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +131,7 @@ void	list_find_spot_r(t_node **head, t_node *pre, t_node *node, t_node *tmp);
 
 // list_long.c
 void	list_add_long_filetype(t_node *node, struct stat filestat, int a);
-void	exit_readlink_error(char *str);
+void	readlink_error(char *str);
 void	print_sym_link(t_node *node, int opts);
 void	add_symbolic_link(t_node *node);
 void	list_add_long(t_node *node, struct stat filestat, t_inf *info);

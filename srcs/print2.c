@@ -6,7 +6,7 @@
 /*   By: rvuorenl <rvuorenl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/18 15:40:33 by rvuorenl          #+#    #+#             */
-/*   Updated: 2022/09/26 15:43:56 by rvuorenl         ###   ########.fr       */
+/*   Updated: 2022/09/26 20:52:48 by rvuorenl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	print_list_files(t_node **head, t_inf *info)
 	tmp = *head;
 	while (tmp)
 	{
-		if (tmp->type == 8 || tmp->type == 10)
+		if (tmp->type != 4 && tmp->type != 1)
 		{
 			if (info->options & FIRST_LINE)
 				info->options ^= FIRST_LINE;

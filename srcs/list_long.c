@@ -6,7 +6,7 @@
 /*   By: rvuorenl <rvuorenl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/19 13:34:34 by rvuorenl          #+#    #+#             */
-/*   Updated: 2022/09/26 15:48:28 by rvuorenl         ###   ########.fr       */
+/*   Updated: 2022/09/26 15:53:56 by rvuorenl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ void	add_symbolic_link(t_node *node)
 	if (!node->l_opt->sym_link)
 		exit_malloc_error(node->name);
 	if (readlink(node->path, node->l_opt->sym_link, 256) == -1)
-		exit_readlink_error(node->l_opt->sym_link);
+		readlink_error(node->l_opt->sym_link);
 }
 
 void	list_add_long(t_node *node, struct stat filestat, t_inf *info)

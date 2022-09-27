@@ -50,7 +50,6 @@ void	print_sym_link(t_node *node, int opts)
 	struct stat	filestat;
 	char		buf[257];
 
-	ft_printf("	---path '%s', name '%s'\n", node->path, node->name);
 	ft_bzero((void *)buf, (size_t)257);
 	if (readlink(node->path, buf, 256) == -1)
 		readlink_error(node->name);
